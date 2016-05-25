@@ -1,0 +1,13 @@
+---
+
+- name: install prerequisites
+  yum: name={{ item }} state=present
+  with_items:
+    - python-pycurl
+    - python-psycopg2
+
+- name: install postgresql package
+  yum: name="postgresql-server" state=present
+
+- name: install contrib package
+  yum: name="postgresql-contrib" state=present

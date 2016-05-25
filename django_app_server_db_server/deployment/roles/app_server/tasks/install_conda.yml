@@ -1,0 +1,25 @@
+---
+# necessary steps to deploy the role.
+
+- name: check if already installed
+  stat: path=/opt/miniconda2/bin/conda
+  register: bin_conda
+  changed_when: bin_conda.stat.exists == False
+
+- name: download miniconda installer
+  # sudo: no
+  get_url:
+    url=https://repo.continuum.io/miniconda/Miniconda-latest-Linux-x86_64.sh
+    dest=/tmp/miniconda.sh
+    mode=0755
+  register: miniconda_downloaded
+  when: bin_conda.stat.exists == False
+
+- name: install miniconda
+  # sudo: no
+  shell: "/tmp/miniconda.sh -b -p /opt/miniconda2 creates=/opt/miniconda2 executable=/bin/bash"
+  register: miniconda_installed
+  when: miniconda_downloaded | success
+  notify:
+    - remove miniconda setup script
+    - update conda to latest version
