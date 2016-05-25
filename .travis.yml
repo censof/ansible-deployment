@@ -15,7 +15,8 @@ before_install:
   - conda update --yes conda
 
 install:
-  - conda install --yes -c anaconda-cluster python-apt  && conda install --yes -c bioconda ansible
+  - conda install --yes -c bioconda ansible
+  - pip install -i https://pypi.anaconda.org/pypi/simple yum    
 
 script:
   - echo localhost > hosts
