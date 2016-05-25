@@ -14,7 +14,7 @@ env:
 
 before_install:
   - sudo docker pull hasedon/centos${OS_VERSION}
-  - sudo docker run --detach --volume="${PWD}":/root/django_deployment:ro --name hasedon/centos${OS_VERSION} centos-${OS_VERSION} sleep 300
+  - sudo docker run --detach --volume="${PWD}":/root/django_deployment:ro --name centos-${OS_VERSION} hasedon/centos${OS_VERSION} sleep 300
   - sudo docker exec centos-${OS_VERSION} wget http://repo.continuum.io/miniconda/Miniconda-latest-Linux-x86_64.sh -O /tmp/miniconda.sh
   - sudo docker exec centos-${OS_VERSION} chmod +x /tmp/miniconda.sh
   - sudo docker exec centos-${OS_VERSION} ./tmp/miniconda.sh -b
