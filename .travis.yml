@@ -10,20 +10,19 @@ services:
   - docker
 
 env:
-  - OS_VERSION=7
-  - OS_VERSION=6
+  - OS_VERSION=6.5
 
 before_install:
-  - sudo docker pull centos:${OS_VERSION}
-  - sudo docker exec centos-${OS_VERSION} wget http://repo.continuum.io/miniconda/Miniconda-latest-Linux-x86_64.sh -O /tmp/miniconda.sh
-  - sudo docker exec centos-${OS_VERSION} chmod +x /tmp/miniconda.sh
-  - sudo docker exec centos-${OS_VERSION} ./tmp/miniconda.sh -b
-  - sudo docker exec centos-${OS_VERSION} export PATH=/home/travis/miniconda2/bin:$PATH
+  - sudo docker pull hasedon/centos${OS_VERSION}
+  - sudo docker exec hasedon/centos${OS_VERSION} wget http://repo.continuum.io/miniconda/Miniconda-latest-Linux-x86_64.sh -O /tmp/miniconda.sh
+  - sudo docker exec hasedon/centos${OS_VERSION} chmod +x /tmp/miniconda.sh
+  - sudo docker exec hasedon/centos${OS_VERSION} ./tmp/miniconda.sh -b
+  - sudo docker exec hasedon/centos${OS_VERSION} export PATH=/home/travis/miniconda2/bin:$PATH
   # - echo $PATH
-  - sudo docker exec centos-${OS_VERSION} /root/miniconda2/bin/conda update --yes conda
+  - sudo docker exec hasedon/centos${OS_VERSION} /root/miniconda2/bin/conda update --yes conda
 
 install:
-  - sudo docker run --detach --volume="${PWD}":/root/django_deployment:ro --name centos-${OS_VERSION} centos:${OS_VERSION} sleep 300
+  - sudo docker run --detach --volume="${PWD}":/root/django_deployment:ro --name hasedon/centos${OS_VERSION} centos:${OS_VERSION} sleep 300
   - sudo docker exec centos-${OS_VERSION} yum -y install epel-release
   - sudo docker exec centos-${OS_VERSION} /root/miniconda2/bin/conda install --yes -c bioconda ansible
     # - pip install -i https://pypi.anaconda.org/pypi/simple yum    
