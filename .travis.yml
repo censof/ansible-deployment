@@ -1,0 +1,23 @@
+---
+
+sudo: required
+
+language: python
+
+python: 2.7
+
+before_install:
+  - wget http://repo.continuum.io/miniconda/Miniconda-latest-Linux-x86_64.sh -O miniconda.sh
+  - chmod +x miniconda.sh
+  - ./miniconda.sh -b
+  - export PATH=/home/travis/miniconda2/bin:$PATH
+  - echo $PATH
+  - conda update --yes conda
+
+install:
+  - conda install --yes -c anaconda-cluster python-apt  && conda install --yes -c bioconda ansible
+
+script:
+  - echo localhost > hosts
+  - ansible-playbook -i hosts -vvv django_app_server_db_server/deployment/main.yml --connection=local --check
+
