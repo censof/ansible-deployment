@@ -18,7 +18,7 @@ before_install:
   - sudo docker exec centos-${OS_VERSION} yum -y install tar bzip2 unzip gcc 
   - sudo docker exec centos-${OS_VERSION} wget http://repo.continuum.io/miniconda/Miniconda-latest-Linux-x86_64.sh -O /tmp/miniconda.sh
   - sudo docker exec centos-${OS_VERSION} chmod +x /tmp/miniconda.sh
-  - sudo docker exec centos-${OS_VERSION} ./tmp/miniconda.sh -b
+  - sudo docker exec centos-${OS_VERSION} ./tmp/miniconda.sh -b -p /home/travis/miniconda2
   - sudo docker exec centos-${OS_VERSION} export PATH=/home/travis/miniconda2/bin:$PATH
   # - echo $PATH
   - sudo docker exec centos-${OS_VERSION} /root/miniconda2/bin/conda update --yes conda
