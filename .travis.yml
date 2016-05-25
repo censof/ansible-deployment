@@ -15,7 +15,6 @@ env:
 
 before_install:
   - sudo docker pull centos:${OS_VERSION}
-  - sudo apt-get install yum
   - sudo docker exec centos-${OS_VERSION} wget http://repo.continuum.io/miniconda/Miniconda-latest-Linux-x86_64.sh -O /tmp/miniconda.sh
   - sudo docker exec centos-${OS_VERSION} chmod +x /tmp/miniconda.sh
   - sudo docker exec centos-${OS_VERSION} ./tmp/miniconda.sh -b
