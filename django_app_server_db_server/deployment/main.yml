@@ -1,0 +1,5 @@
+---
+- hosts: all
+  roles:
+    - db_server
+    - app_server

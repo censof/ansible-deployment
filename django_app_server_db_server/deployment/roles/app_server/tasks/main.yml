@@ -1,0 +1,38 @@
+---
+
+- name: Install OS Dependencies
+  yum: name={{ item }} state=present
+  with_items:
+    - git
+    - unzip
+    - tar
+    - bzip2
+    - postgresql-devel
+    - gcc
+    - nginx
+
+- name: Uncompress eclaims
+  unarchive: src=master.zip dest=/opt
+
+- name: Rub out old eclaim_revamp folder
+  file: path=/opt/eclaim_revamp state=absent
+
+- include: install_conda.yml
+
+- name: Setup miniconda path
+  #   shell: grep -q miniconda2 ~/.bashrc || echo 'PATH=/opt/miniconda2/bin:$PATH' >> ~/.bashrc
+  lineinfile: dest=~/.bashrc regexp="miniconda2" line="PATH=/opt/miniconda2/bin:$PATH"
+
+- name: Make sure pillow installed
+  conda: name=pillow state=present
+
+- name: Rename eclaim folder
+  shell: mv /opt/eclaim_revamp_team* /opt/eclaim_revamp
+
+- name: Setup pip requirements
+  pip: requirements=/opt/eclaim_revamp/{{ item }}.txt
+  with_items:
+     - requirements
+     - req_test 
+  # - name: Setup pip requirements
+  # pip: requirements=/opt/eclaim_revamp/req_test.txt
