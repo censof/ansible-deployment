@@ -21,7 +21,7 @@ before_install:
   - sudo docker exec centos-${OS_VERSION} ./tmp/miniconda.sh -b -p /home/travis/miniconda2
   # - sudo docker exec centos-${OS_VERSION} export PATH=/home/travis/miniconda2/bin:$PATH
   # - echo $PATH
-  - sudo docker exec centos-${OS_VERSION} /root/miniconda2/bin/conda update --yes conda
+  - sudo docker exec centos-${OS_VERSION} /home/travis/miniconda2/bin/conda update --yes conda
 
 install:
   - sudo docker exec centos-${OS_VERSION} yum -y install epel-release
