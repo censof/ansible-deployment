@@ -25,7 +25,7 @@
   lineinfile: dest=/root/.bashrc regexp="miniconda2" line="PATH=/opt/miniconda2/bin:$PATH"
 
 - name: Upgrade conda
-  conda: name= conda state=latest executable=/opt/miniconda2/bin/conda
+  conda: name=conda state=latest executable=/opt/miniconda2/bin/conda
 
 - name: Make sure pillow installed
   conda: name=pillow state=latest executable=/opt/miniconda2/bin/conda
