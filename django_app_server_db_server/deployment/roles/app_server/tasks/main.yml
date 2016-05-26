@@ -24,8 +24,11 @@
   #   shell: grep -q miniconda2 ~/.bashrc || echo 'PATH=/opt/miniconda2/bin:$PATH' >> ~/.bashrc
   lineinfile: dest=/root/.bashrc regexp="miniconda2" line="PATH=/opt/miniconda2/bin:$PATH"
 
+- name: Upgrade conda
+  conda: name= conda state=latest executable=/opt/miniconda2/bin/conda
+
 - name: Make sure pillow installed
-  conda: name=pillow state=present executable=/opt/miniconda2/bin/conda
+  conda: name=pillow state=latest executable=/opt/miniconda2/bin/conda
 
 - name: Git checkout sources
   git: repo=https://lowkster@bitbucket.org/eclaim_revamp_team/eclaim_revamp.git dest=/opt/eclaim_revamp
