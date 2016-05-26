@@ -24,7 +24,7 @@
   lineinfile: dest=/root/.bashrc regexp="miniconda2" line="PATH=/opt/miniconda2/bin:$PATH"
 
 - name: Make sure pillow installed
-  conda: name=pillow state=present
+  conda: name=pillow state=present executable=/opt/miniconda2/bin/conda
 
 - name: Git checkout sources
   git: repo=https://lowkster@bitbucket.org/eclaim_revamp_team/eclaim_revamp.git dest=/opt/eclaim_revamp
