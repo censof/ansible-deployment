@@ -11,8 +11,8 @@
     - gcc
     - nginx
 
-- name: Uncompress eclaims
-  unarchive: src=master.zip dest=/opt
+  # - name: Uncompress eclaims
+  # unarchive: src=master.zip dest=/opt
 
 - name: Rub out old eclaim_revamp folder
   file: path=/opt/eclaim_revamp state=absent
@@ -26,8 +26,11 @@
 - name: Make sure pillow installed
   conda: name=pillow state=present
 
-- name: Rename eclaim folder
-  shell: mv /opt/eclaim_revamp_team* /opt/eclaim_revamp
+- name: Git checkout sources
+  git: repo=https://lowkster@bitbucket.org/eclaim_revamp_team/eclaim_revamp.git dest=/opt/eclaim_revamp
+
+  # - name: Rename eclaim folder
+  # shell: mv /opt/eclaim_revamp_team* /opt/eclaim_revamp
 
 - name: Setup pip requirements
   pip: requirements=/opt/eclaim_revamp/{{ item }}.txt
