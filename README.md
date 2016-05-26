@@ -1,2 +1,2 @@
 # ansible-deployment
-Ansible Deployment Scripts
+Ansible Deployment Scripts for Django

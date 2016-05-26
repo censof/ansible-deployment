@@ -9,10 +9,11 @@
     - bzip2
     - postgresql-devel
     - gcc
+    - glibc-common
     - nginx
 
-- name: Uncompress eclaims
-  unarchive: src=master.zip dest=/opt
+  # - name: Uncompress eclaims
+  # unarchive: src=master.zip dest=/opt
 
 - name: Rub out old eclaim_revamp folder
   file: path=/opt/eclaim_revamp state=absent
@@ -21,13 +22,26 @@
 
 - name: Setup miniconda path
   #   shell: grep -q miniconda2 ~/.bashrc || echo 'PATH=/opt/miniconda2/bin:$PATH' >> ~/.bashrc
-  lineinfile: dest=~/.bashrc regexp="miniconda2" line="PATH=/opt/miniconda2/bin:$PATH"
+  lineinfile: dest=/root/.bashrc regexp="miniconda2" line="PATH=/opt/miniconda2/bin:$PATH"
+
+  # - name: Setup miniconda path
+  #   shell: grep -q miniconda2 ~/.bashrc || echo 'PATH=/opt/miniconda2/bin:$PATH' >> ~/.bashrc
+  # lineinfile: dest=/etc/sysconfig/i18n regexp="LC_CTYPE" line='LC_CTYPE="en_US.UTF-8"'
+
+  # - name: Upgrade conda
+  # conda: name=conda state=latest executable=/opt/miniconda2/bin/conda
 
 - name: Make sure pillow installed
-  conda: name=pillow state=present
+  conda: name=pillow state=latest executable=/opt/miniconda2/bin/conda
+  # shell: /opt/miniconda2/bin/conda list | grep -q -i pillow || /opt/miniconda2/bin/conda install --yes -c conda-forge pillow
+  # args:
+  # creates: /opt/miniconda2/bin/pillow
 
-- name: Rename eclaim folder
-  shell: mv /opt/eclaim_revamp_team* /opt/eclaim_revamp
+- name: Git checkout sources
+  git: repo=https://lowkster:{{ deployment_password }}@bitbucket.org/eclaim_revamp_team/eclaim_revamp.git dest=/opt/eclaim_revamp accept_hostkey=yes force=yes
+
+  # - name: Rename eclaim folder
+  # shell: mv /opt/eclaim_revamp_team* /opt/eclaim_revamp
 
 - name: Setup pip requirements
   pip: requirements=/opt/eclaim_revamp/{{ item }}.txt
