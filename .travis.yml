@@ -30,6 +30,6 @@ install:
 
 script:
   - sudo docker exec centos-${OS_VERSION} echo localhost > /tmp/hosts
-  - sudo docker exec centos-${OS_VERSION} cat /tmp/hosts
+    # - sudo docker exec centos-${OS_VERSION} cat /tmp/hosts
   - sudo docker exec centos-${OS_VERSION} /home/travis/miniconda2/bin/ansible-playbook -i /root/django_deployment/django_app_server_db_server/deployment/tests/hosts -vvv /root/django_deployment/django_app_server_db_server/deployment/main.yml --connection=local --check
 
