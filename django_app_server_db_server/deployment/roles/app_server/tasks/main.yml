@@ -10,6 +10,7 @@
     - postgresql-devel
     - gcc
     - nginx
+    - git
 
   # - name: Uncompress eclaims
   # unarchive: src=master.zip dest=/opt
