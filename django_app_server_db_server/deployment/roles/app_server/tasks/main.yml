@@ -21,7 +21,7 @@
 
 - name: Setup miniconda path
   #   shell: grep -q miniconda2 ~/.bashrc || echo 'PATH=/opt/miniconda2/bin:$PATH' >> ~/.bashrc
-  lineinfile: dest=~/.bashrc regexp="miniconda2" line="PATH=/opt/miniconda2/bin:$PATH"
+  lineinfile: dest=/root/.bashrc regexp="miniconda2" line="PATH=/opt/miniconda2/bin:$PATH"
 
 - name: Make sure pillow installed
   conda: name=pillow state=present
