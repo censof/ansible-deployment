@@ -1,0 +1,2 @@
+---
+deployment_url: {{ lookup('env', 'DEPLOYMENT_URL') }}
