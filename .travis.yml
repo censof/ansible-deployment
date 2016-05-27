@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 sudo: required
 TRAVIS_SECURE_ENV_VARS: true
 language: python
