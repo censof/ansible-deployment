@@ -27,8 +27,8 @@ RUN wget http://repo.continuum.io/miniconda/Miniconda-latest-Linux-x86_64.sh -O 
 RUN chmod +x /tmp/miniconda.sh
 RUN ./tmp/miniconda.sh -b -p /opt/miniconda2
 RUN echo 'PATH=/opt/miniconda2/bin:$PATH' >> /root/.bashrc
-RUN conda update --yes conda
-RUN conda install --yes -c bioconda ansible
+RUN /opt/miniconda2/bin/conda update --yes conda
+RUN /opt/miniconda2/bin/conda install --yes -c bioconda ansible
 
 # Install sshd and generate ssh keys
 RUN yum -y install openssh-server
