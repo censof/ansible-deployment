@@ -1,18 +1,22 @@
 sudo: required
+
 TRAVIS_SECURE_ENV_VARS: true
+
 language: python
+
 python: 2.7
+
 services:
 - docker
+
 env:
-  matrix:
-  - OS_VERSION=6.5
   global:
     secure: F6/uMwWmQqTzZCfBZe7eoFh+HkY2lbhchVr7ubxgx2IhWTBU5llCq0kv+XYNtrfHoRMma0TgnGfdPQXynOkkDAhtGU5cvekMhDtB2wnodXIjI57ixPIiJ3WFvzjN5OZMRfywJcSSYIAmsUr1IiAbc16Z3g7THQBg0nLPrQHV9hBEqerjiS7d9AsHO9ia0b5cjHuXvGIsXaDfmaarPhmIp8CZfp0EXdYjpQUcNcpYw72RXZSv0NuABOkH+dyAAvsDI5y+nMhziPYzQkt3VtDmf+kTyQ7AG/qO+/5o/zBM1w2PhFdNYcYljI2n2VcypE+gOr8Yon7d3ptCAIouezAIhXO+mgEydgMa2xjDZ9BJdg1vqSCqE0cKYYu2dINuiXWZmXslYlHjfqNInjJKUZHDbP6vTXpI4V/AI/bqja7ArW9hNX784vIryofto2NGplI4i0om4qCBBHnj3/pJAcF+ZAJ5xyUSKea5f33Gwc37RXkqANS6C0/N5AxCHtJOVR1dbXWS9zVIMh05ki+G26S1MYPC5M5aiELnNUAsLZ8vYo2UOId+UiFJ0asvR25GwyIXl7f/mJZgDl5nRZLciBIEkKABq7uc7GzXx8oxhAlvbbOHRcCAZzgShCDApcE/GXI70zkUM1UwghW127WpOK6TpAq42Tka+rLIjK0zFMRVWM8=
+
 before_install:
 - docker build -t test_centos -f test_image/Dockerfile.centos6 .
-  # - sudo docker run --detach -p 0.0.0.0:22:22 --volume="${PWD}":/root/django_deployment:ro --name test_centos test_centos sleep 300
 - sudo docker run --detach --volume="${PWD}":/root/django_deployment:ro --name test_centos test_centos sleep 300
  
 script:
 - sudo docker exec -it test_centos /bin/bash -c "export DEPLOYMENT_URL=$DEPLOYMENT_URL && /opt/miniconda2/bin/ansible-playbook -i /root/django_deployment/django_app_server_db_server/deployment/tests/hosts -vvv /root/django_deployment/django_app_server_db_server/deployment/main.yml --connection=local --check"
+- sudo docker exec -it test_centos /bin/bash -c "export DEPLOYMENT_URL=$DEPLOYMENT_URL && /opt/miniconda2/bin/ansible-playbook -i /root/django_deployment/django_app_server_db_server/deployment/tests/hosts /root/django_deployment/django_app_server_db_server/deployment/main.yml --connection=local"
