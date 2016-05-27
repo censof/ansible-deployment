@@ -44,7 +44,7 @@
   git: repo={{ deployment_url }} dest=/opt/eclaim_revamp force=yes  
 
 - name: Setup pip requirements
-  pip: requirements=/opt/eclaim_revamp/{{ item }}.txt
+  pip: requirements=/opt/eclaim_revamp/{{ item }}.txt virtualenv=/opt/miniconda2
   with_items:
      - requirements
      - req_test 
