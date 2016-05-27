@@ -15,4 +15,4 @@ before_install:
 - sudo docker run --detach --volume="${PWD}":/root/django_deployment:ro --name test_centos test_centos sleep 300
  
 script:
-- sudo docker exec -it test_centos /bin/bash -c "export DEPLOYMENT_URL=$DEPLOYMENT_URL && /opt/miniconda2/bin/ansible-playbook -i /root/django_deployment/django_app_server_db_server/deployment/tests/hosts -vvv /root/django_deployment/django_app_server_db_server/deployment/main.yml --connection=local --check"
+- sudo docker exec -it test_centos /bin/bash -c "export DEPLOYMENT_URL=$DEPLOYMENT_URL && /home/travis/miniconda2/bin/ansible-playbook -i /root/django_deployment/django_app_server_db_server/deployment/tests/hosts -vvv /root/django_deployment/django_app_server_db_server/deployment/main.yml --connection=local --check"
