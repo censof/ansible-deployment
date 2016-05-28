@@ -4,7 +4,7 @@ FROM centos:6
 MAINTAINER Christophe Robin <crobin@nekoo.com>
 
 # Updating container (recommended by image provider)
-RUN yum -y update && yum install -y which tar wget tar bzip2
+RUN yum -y update && yum install -y which tar wget tar bzip2 epel-release gcc git
 
 # Change root password to ansible
 RUN usermod --password XT7/q1XkHlXSs root 
@@ -26,7 +26,9 @@ RUN echo 'ansible	ALL=(ALL)	NOPASSWD: ALL' >> /etc/sudoers
 RUN wget http://repo.continuum.io/miniconda/Miniconda-latest-Linux-x86_64.sh -O /tmp/miniconda.sh
 RUN chmod +x /tmp/miniconda.sh
 RUN ./tmp/miniconda.sh -b -p /opt/miniconda2
-RUN echo 'PATH=/home/travis/miniconda2/bin:$PATH' >> /root/.bashrc
+RUN echo 'PATH=/opt/miniconda2/bin:$PATH' >> /root/.bashrc
+RUN /opt/miniconda2/bin/conda update --yes conda
+RUN /opt/miniconda2/bin/conda install --yes -c bioconda ansible
 
 # Install sshd and generate ssh keys
 RUN yum -y install openssh-server
@@ -39,4 +41,3 @@ RUN yum clean all
 # Expose SSH
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
-
