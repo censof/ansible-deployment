@@ -20,4 +20,13 @@
   sysctl: name={{ item.name }} value={{ item.value }} ignoreerrors=yes
   with_items:
     - { name: "kernel.shmmax", value: "2500000" }
-      # - { name: "kernel.shmall", value: "1400000" }
+    - { name: "kernel.shmall", value: "1400000" }
+
+- name: Initdb 
+  command: /usr/bin/initdb -D /var/lib/pgsql/data creates=/var/lib/pgsql/data/pg_hba.conf 
+  become: yes
+  become_user: postgres
+
+- name: Install pg_hba.conf
+  copy: src=files/pg_hba.conf dest=/var/lib/pgsql/data/pg_hba.conf
+  notify: restart postgresql
