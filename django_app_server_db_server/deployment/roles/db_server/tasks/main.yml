@@ -26,7 +26,7 @@
   command: /usr/bin/initdb -D /var/lib/pgsql/data creates=/var/lib/pgsql/data/pg_hba.conf 
   become: yes
   become_user: postgres
-  notify: restart postgres
+  notify: restart postgresql
 
 # Copy over pg_hba.conf file
 
