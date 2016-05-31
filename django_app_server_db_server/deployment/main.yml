@@ -3,3 +3,7 @@
   roles:
     - { role: db_server, tags: db_server }
     - { role: app_server, tags: app_server }
+
+  handlers:
+    - name: restart postgresql
+      service: name=postgresql state=restarted
