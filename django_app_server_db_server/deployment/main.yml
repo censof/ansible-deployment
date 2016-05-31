@@ -1,5 +1,5 @@
 ---
 - hosts: all
   roles:
-    - db_server
-    - app_server
+    - { role: db_server, tags: db_server }
+    - { role: app_server, tags: app_server }

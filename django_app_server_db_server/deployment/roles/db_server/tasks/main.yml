@@ -11,3 +11,13 @@
 
 - name: install contrib package
   yum: name="postgresql-contrib" state=present
+
+- name: Run sysctl -p
+  command: sysctl -p
+  ignore_errors: yes
+
+- name: Add memory-related sysctl parameter
+  sysctl: name={{ item.name }} value={{ item.value }} ignoreerrors=yes
+  with_items:
+    - { name: "kernel.shmmax", value: "2500000" }
+      # - { name: "kernel.shmall", value: "1400000" }
