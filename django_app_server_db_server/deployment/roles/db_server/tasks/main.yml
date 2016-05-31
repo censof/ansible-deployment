@@ -30,3 +30,7 @@
 - name: Install pg_hba.conf
   copy: src=files/pg_hba.conf dest=/var/lib/pgsql/data/pg_hba.conf
   notify: restart postgresql
+
+  handlers:
+    - name: restart postgresql
+      service: name=postgresql state=restarted
