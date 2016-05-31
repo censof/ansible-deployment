@@ -11,3 +11,66 @@
 
 - name: install contrib package
   yum: name="postgresql-contrib" state=present
+
+- name: Run sysctl -p
+  command: sysctl -p
+  ignore_errors: yes
+
+- name: Add memory-related sysctl parameter
+  sysctl: name={{ item.name }} value={{ item.value }} ignoreerrors=yes
+  with_items:
+    - { name: "kernel.shmmax", value: "2500000" }
+    - { name: "kernel.shmall", value: "1400000" }
+
+- name: Initdb 
+  command: /usr/bin/initdb -D /var/lib/pgsql/data creates=/var/lib/pgsql/data/pg_hba.conf 
+  become: yes
+  become_user: postgres
+  notify: restart postgresql
+
+# Copy over pg_hba.conf file
+
+- name: Install pg_hba.conf
+  copy: src=files/pg_hba.conf dest=/var/lib/pgsql/data/pg_hba.conf
+
+- name: Ensure postgresql service is started
+  service: name=postgresql state=started
+
+# Create db
+- name: Create eclaim db
+  become_method: sudo
+  become: yes
+  become_user: postgres 
+  postgresql_db: name=eclaim
+          
+# Create postgresql user and database
+
+- name: Create postgresql user and database 
+  become_method: sudo
+  become: yes
+  become_user: postgres 
+  postgresql_user: db=eclaim name=eclaim password=eclaim
+
+# Change schema privileges for user
+
+- name: Grant pivileges for postgres user on schema
+  become_method: sudo
+  become: yes
+  become_user: postgres 
+  postgresql_privs: db=eclaim privs=ALL type=schema roles=eclaim objs=public state=present
+
+# Change schema privileges for user
+
+- name: Grant pivileges for postgres user on schema
+  become_method: sudo
+  become: yes
+  become_user: postgres 
+  postgresql_privs: db=eclaim privs=ALL type=sequence roles=eclaim objs=ALL_IN_SCHEMA state=present
+
+# Change table privileges for user
+
+- name: Grant privileges for eclaim user on tables
+  become_method: sudo
+  become: yes
+  become_user: postgres 
+  postgresql_privs: db=eclaim privs=ALL type=table roles=eclaim objs=ALL_IN_SCHEMA state=present
