@@ -21,6 +21,8 @@ before_install:
 
 install:
 - sudo docker exec -it test_centos /bin/bash -c "yum install -y sudo" 
+- sudo docker exec -it test_centos /bin/bash -c 'gem install net-ssh --version "=2.9.2" --quiet'
+- sudo docker exec -it test_centos /bin/bash -c 'gem install serverspec --quiet'
  
 script:
 - sudo docker exec -it test_centos /bin/bash -c "export DEPLOYMENT_URL=$DEPLOYMENT_URL && /opt/miniconda2/bin/ansible-playbook -i /root/django_deployment/django_app_server_db_server/deployment/tests/hosts /root/django_deployment/django_app_server_db_server/deployment/main.yml --connection=local"
