@@ -19,8 +19,10 @@ RUN useradd --password  XT7/q1XkHlXSs --create-home --groups users,wheel ansible
 #RUN chmod 0600 /home/ansible/.ssh/authorized_keys
 
 # Setup sudo
-RUN yum -y install sudo glibc-common
+RUN yum -y install sudo glibc-common rubygems
 RUN echo 'ansible	ALL=(ALL)	NOPASSWD: ALL' >> /etc/sudoers
+RUN gem install net-ssh --version "=2.9.2" --quiet
+RUN gem install serverspec --quiet
 
 # Setup conda
 RUN wget http://repo.continuum.io/miniconda/Miniconda-latest-Linux-x86_64.sh -O /tmp/miniconda.sh

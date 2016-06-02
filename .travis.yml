@@ -15,7 +15,12 @@ env:
 
 before_install:
 - docker build -t test_centos -f test_image/Dockerfile.centos6 .
+# - sudo docker pull censofdockers/centos6-miniconda
 - sudo docker run --privileged --detach --volume="${PWD}":/root/django_deployment:ro --name test_centos test_centos sleep 300
+# - sudo docker run --privileged --detach --volume="${PWD}":/root/django_deployment:ro --name test_centos censofdockers/centos6-miniconda sleep 300
+
+install:
+- sudo docker exec -it test_centos /bin/bash -c "yum install -y sudo" 
  
 script:
 - sudo docker exec -it test_centos /bin/bash -c "export DEPLOYMENT_URL=$DEPLOYMENT_URL && /opt/miniconda2/bin/ansible-playbook -i /root/django_deployment/django_app_server_db_server/deployment/tests/hosts /root/django_deployment/django_app_server_db_server/deployment/main.yml --connection=local"
