@@ -19,4 +19,13 @@ describe "path should exist" do
 	    it { should exist }
 	    it { should be_executable }
 	end
+
+	describe file("/etc/nginx/sites-enabled") do
+	    it { should exist }
+	end
+
+	describe file("/etc/nginx/sites-available") do
+	    it { should exist }
+	end
+
 end
