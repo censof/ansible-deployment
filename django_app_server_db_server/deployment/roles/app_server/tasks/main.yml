@@ -27,14 +27,26 @@
 - name: Install nginx template
   template: src=templates/eclaim_nginx.conf dest=/etc/nginx/sites-available/eclaim_nginx.conf mode=0644
 
+- name: Install nginx template
+  template: src=templates/nginx.conf dest=/etc/nginx/nginx.conf
+
+- name: Install wsgi.ini template
+  template: src=templates/uwsgi.ini dest={{ django_app_home }}/uwsgi.ini mode=0644
+
 - name: Symlink to enable site
   file: src=/etc/nginx/sites-available/eclaim_nginx.conf dest=/etc/nginx/sites-enabled/eclaim_nginx.conf state=link
 
-- name: Enabled sites-enabled / sites-available from nginx.conf
-  lineinfile: dest=/etc/nginx/nginx.conf
-              line='include /etc/nginx/sites-enabled/*;'
-              insertafter=EOF
-              state=present
+- name: Copy over uwsgi_params file
+  file: src=files/uwsgi_params dest={{ django_app_home }}/uwsgi_params state=file
+
+- name: Copy over wsgi.py file
+  file: src=files/wsgi.py dest={{ django_app_home }}/wsgi.py state=file
+
+# - name: Enabled sites-enabled / sites-available from nginx.conf
+#   lineinfile: dest=/etc/nginx/nginx.conf
+#               line='include /etc/nginx/sites-enabled/*;'
+#               insertafter=EOF
+#               state=present
 
 - name: Rub out old eclaim_revamp folder
   file: path=/opt/eclaim_revamp state=absent
