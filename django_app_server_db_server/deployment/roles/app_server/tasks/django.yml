@@ -2,7 +2,7 @@
   file: path={{ django_app_home }}/manage.py state=file mode=0775
 
 - name: Run eclaim migrate
-  django_manage: command="migrate auth" app_path={{ django_app_home }} virtualenv=/opt/miniconda2/bin
+  django_manage: command="migrate auth" app_path={{ django_app_home }} virtualenv=/opt/miniconda2
 
 - name: Run eclaim migrate
-  django_manage: command=migrate app_path={{ django_app_home }} virtualenv=/opt/miniconda2/bin
+  django_manage: command=migrate app_path={{ django_app_home }} virtualenv=/opt/miniconda2
