@@ -24,6 +24,12 @@
     - sites-available
     - sites-enabled
 
+- name: Install nginx configuration file
+  copy: src=files/eclaim_nginx.conf dest=/etc/nginx/sites-available
+
+- name: Symlink to enable site
+  file: src=/etc/nginx/sites-available/eclaim_nginx.conf dest=/etc/nginx/sites-enabled/eclaim_nginx.conf state=link
+
 - name: Install nginx template
   template: src=templates/eclaim_nginx.conf dest=/etc/nginx/sites-available/eclaim_nginx.conf mode=0644
 

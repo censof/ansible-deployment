@@ -28,4 +28,9 @@ describe "path should exist" do
 	    it { should exist }
 	end
 
+	describe file("/etc/nginx/sites-enabled/eclaim_nginx.conf") do
+	    it { should exist }
+        it { should be_symlink }
+	end
+
 end
