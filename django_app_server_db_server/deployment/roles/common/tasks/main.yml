@@ -1,5 +1,5 @@
 - name: Enable services for automatic start
-  action: command /sbin/chkconfig {{ item }} on
+  service: name={{ item }} enabled=yes
   with_items:
     - nginx
     - postgresql

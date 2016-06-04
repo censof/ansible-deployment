@@ -58,8 +58,8 @@
 - name: Make sure pillow installed
   # conda: name=pillow state=latest executable=/opt/miniconda2/bin/conda
   shell: /opt/miniconda2/bin/conda list | grep -q -i pillow || /opt/miniconda2/bin/conda install --yes -c conda-forge pillow
-  # args:
-          # creates: /opt/miniconda2/bin/pillow
+  args:
+    creates: /opt/miniconda2/lib/python2.7/site-packages/PIL 
 
   # - name: Git checkout sources
   # git: repo=https://lowkster:{{ deployment_password }}@bitbucket.org/eclaim_revamp_team/eclaim_revamp.git dest=/opt/eclaim_revamp accept_hostkey=yes force=yes
