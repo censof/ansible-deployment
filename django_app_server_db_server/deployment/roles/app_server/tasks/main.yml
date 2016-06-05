@@ -24,20 +24,17 @@
     - sites-available
     - sites-enabled
 
-- name: Install nginx configuration file
-  copy: src=files/eclaim_nginx.conf dest=/etc/nginx/sites-available
-
-- name: Symlink to enable site
-  file: src=/etc/nginx/sites-available/eclaim_nginx.conf dest=/etc/nginx/sites-enabled/eclaim_nginx.conf state=link
-
 - name: Install nginx template
   template: src=templates/eclaim_nginx.conf dest=/etc/nginx/sites-available/eclaim_nginx.conf mode=0644
 
-- name: Enabled sites-enabled / sites-available from nginx.conf
-  lineinfile: dest=/etc/nginx/nginx.conf
-              line='include /etc/nginx/sites-enabled/*;'
-              insertafter=EOF
-              state=present
+- name: Install nginx template
+  template: src=templates/nginx.conf dest=/etc/nginx/nginx.conf
+
+# - name: Enabled sites-enabled / sites-available from nginx.conf
+#   lineinfile: dest=/etc/nginx/nginx.conf
+#               line='include /etc/nginx/sites-enabled/*;'
+#               insertafter=EOF
+#               state=present
 
 - name: Rub out old eclaim_revamp folder
   file: path=/opt/eclaim_revamp state=absent
@@ -45,7 +42,6 @@
 - include: install_conda.yml
 
 - name: Setup miniconda path
-  #   shell: grep -q miniconda2 ~/.bashrc || echo 'PATH=/opt/miniconda2/bin:$PATH' >> ~/.bashrc
   lineinfile: dest=/root/.bashrc regexp="miniconda2" line="PATH=/opt/miniconda2/bin:$PATH"
 
   # - name: Setup miniconda path
@@ -58,14 +54,8 @@
 - name: Make sure pillow installed
   # conda: name=pillow state=latest executable=/opt/miniconda2/bin/conda
   shell: /opt/miniconda2/bin/conda list | grep -q -i pillow || /opt/miniconda2/bin/conda install --yes -c conda-forge pillow
-  # args:
-          # creates: /opt/miniconda2/bin/pillow
-
-  # - name: Git checkout sources
-  # git: repo=https://lowkster:{{ deployment_password }}@bitbucket.org/eclaim_revamp_team/eclaim_revamp.git dest=/opt/eclaim_revamp accept_hostkey=yes force=yes
-
-  # - name: Rename eclaim folder
-  # shell: mv /opt/eclaim_revamp_team* /opt/eclaim_revamp
+  args:
+    creates: /opt/miniconda2/lib/python2.7/site-packages/PIL 
 
 - name: Checkout eclaim source code
   git: repo={{ deployment_url }} dest=/opt/eclaim_revamp force=yes version=master
@@ -90,9 +80,9 @@
   # - name: Upgrade conda
   # conda: name=conda state=latest executable=/opt/miniconda2/bin/conda
 
-- name: Make sure pillow installed
+  # - name: Make sure pillow installed
   # conda: name=pillow state=latest executable=/opt/miniconda2/bin/conda
-  shell: /opt/miniconda2/bin/conda list | grep -q -i pillow || /opt/miniconda2/bin/conda install --yes -c conda-forge pillow
+  # shell: /opt/miniconda2/bin/conda list | grep -q -i pillow || /opt/miniconda2/bin/conda install --yes -c conda-forge pillow
   # args:
           # creates: /opt/miniconda2/bin/pillow
 
@@ -102,8 +92,8 @@
   # - name: Rename eclaim folder
   # shell: mv /opt/eclaim_revamp_team* /opt/eclaim_revamp
 
-- name: Checkout eclaim source code
-  git: repo={{ deployment_url }} dest=/opt/eclaim_revamp force=yes  
+  # - name: Checkout eclaim source code
+  # git: repo={{ deployment_url }} dest=/opt/eclaim_revamp force=yes  
 
 - name: Setup pip requirements
   pip: requirements=/opt/eclaim_revamp/{{ item }}.txt virtualenv=/opt/miniconda2
@@ -113,4 +103,24 @@
   # - name: Setup pip requirements
   # pip: requirements=/opt/eclaim_revamp/req_test.txt
   #
+- name: Install wsgi.ini template
+  template: src=templates/uwsgi.ini dest={{ django_app_home }}/uwsgi.ini mode=0644
+
+- name: Symlink to enable site
+  file: src=/etc/nginx/sites-available/eclaim_nginx.conf dest=/etc/nginx/sites-enabled/eclaim_nginx.conf state=link
+
+- name: Copy over uwsgi_params file
+  #copy: src=/etc/nginx/uwsgi_params dest={{ django_app_home }}/uwsgi_params force=no
+  shell: cp /etc/nginx/uwsgi_params {{ django_app_home }} 
+  args:
+    creates: /opt/eclaims_revamp/eclaim/uwsgi_params
+
+  # args:
+  #   creates: /opt/eclaim_revamp/eclaim/uwsgi_params
+
+- name: Copy over wsgi.py file
+  copy: src=files/wsgi.py dest={{ django_app_home }}/wsgi.py force=no
+  # args:
+  #         creates: /opt/eclaim_revamp/eclaim/wsgi.py
+
 - include: django.yml
