@@ -30,7 +30,15 @@ describe "path should exist" do
 
 	describe file("/etc/nginx/sites-enabled/eclaim_nginx.conf") do
 	    it { should exist }
-        it { should be_symlink }
+            it { should be_symlink }
 	end
 
+	describe file("/etc/environment") do
+	    it { should exist }
+	end
+
+	describe file("/opt/miniconda2/bin/uwsgi") do
+	    it { should exist }
+	    it { should be_executable }
+	end
 end
