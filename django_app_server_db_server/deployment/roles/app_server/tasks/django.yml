@@ -6,3 +6,6 @@
 
 - name: Run eclaim migrate
   django_manage: command="migrate --noinput" app_path={{ django_app_home }} virtualenv=/opt/miniconda2
+
+- name: Run eclaim collectstatic
+  django_manage: command=collectstatic app_path={{ django_app_home }} virtualenv=/opt/miniconda2
