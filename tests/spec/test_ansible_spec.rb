@@ -1,11 +1,11 @@
 require 'serverspec'
 
-set :backend, :exec 
+set :backend, :exec
 
-packages = ["git", "unzip", "epel-release"] 
+packages = ["git", "unzip", "epel-release", "nginx"]
 
 describe "Make sure base packages installed" do
-	
+
 	packages.each do |base|
 	   describe package(base) do
 	      it { should be_installed }
@@ -31,6 +31,14 @@ describe "path should exist" do
 	describe file("/etc/nginx/sites-enabled/eclaim_nginx.conf") do
 	    it { should exist }
             it { should be_symlink }
+	end
+
+	describe file("/etc/nginx/conf.d/eclaim.conf") do
+			it { should exist }
+	end
+
+	describe file("/etc/uwsgi.ini") do
+			it { should exist }
 	end
 
 	describe file("/etc/environment") do
