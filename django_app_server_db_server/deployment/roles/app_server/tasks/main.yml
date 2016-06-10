@@ -18,14 +18,14 @@
     - nginx
     - logrotate
 
-- name: Create nginx requisite directories
-  file: path=/etc/nginx/{{ item }} state=directory
-  with_items:
-    - sites-available
-    - sites-enabled
+# - name: Create nginx requisite directories
+#   file: path=/etc/nginx/{{ item }} state=directory
+#   with_items:
+#     - sites-available
+#     - sites-enabled
 
-- name: Install nginx template
-  template: src=templates/eclaim_nginx.conf dest=/etc/nginx/sites-available/eclaim_nginx.conf mode=0644
+# - name: Install nginx template
+#   template: src=templates/eclaim_nginx.conf dest=/etc/nginx/sites-available/eclaim_nginx.conf mode=0644
 
 - name: Install environment to avoid problems with environment
   template: src=templates/environment dest=/etc/environment
@@ -33,7 +33,7 @@
 - name: Install nginx template
   template: src=templates/eclaim.conf dest=/etc/nginx/conf.d/eclaim.conf
 
-- name: Install uwsgi init file 
+- name: Install uwsgi init file
   template: src=templates/uwsgi dest=/etc/rc.d/init.d/uwsgi mode=0755
 
 - name: Install uwsgi.ini file
@@ -78,7 +78,7 @@
   pip: requirements=/opt/eclaim_revamp/{{ item }}.txt virtualenv=/opt/miniconda2
   with_items:
      - requirements
-     - req_test 
+     - req_test
   # - name: Setup pip requirements
   # pip: requirements=/opt/eclaim_revamp/req_test.txt
   #
@@ -107,30 +107,26 @@
   # shell: mv /opt/eclaim_revamp_team* /opt/eclaim_revamp
 
   # - name: Checkout eclaim source code
-  # git: repo={{ deployment_url }} dest=/opt/eclaim_revamp force=yes  
+  # git: repo={{ deployment_url }} dest=/opt/eclaim_revamp force=yes
 
 - name: Setup pip requirements
   pip: requirements=/opt/eclaim_revamp/{{ item }}.txt virtualenv=/opt/miniconda2
   with_items:
      - requirements
-     - req_test 
+     - req_test
   # - name: Setup pip requirements
   # pip: requirements=/opt/eclaim_revamp/req_test.txt
   #
 - name: Install wsgi.ini template
   template: src=templates/uwsgi.ini dest={{ django_app_home }}/uwsgi.ini mode=0644
 
-- name: Symlink to enable site
-  file: src=/etc/nginx/sites-available/eclaim_nginx.conf dest=/etc/nginx/sites-enabled/eclaim_nginx.conf state=link
+# - name: Symlink to enable site
+#   file: src=/etc/nginx/sites-available/eclaim_nginx.conf dest=/etc/nginx/sites-enabled/eclaim_nginx.conf state=link
 
 - name: Copy over uwsgi_params file
-  #copy: src=/etc/nginx/uwsgi_params dest={{ django_app_home }}/uwsgi_params force=no
-  shell: cp /etc/nginx/uwsgi_params {{ django_app_home }} 
+  shell: cp /etc/nginx/uwsgi_params {{ django_app_home }}
   args:
-    creates: /opt/eclaims_revamp/eclaim/uwsgi_params
-
-  # args:
-  #   creates: /opt/eclaim_revamp/eclaim/uwsgi_params
+    creates: {{ django_app_home }}/uwsgi_params
 
 - name: Copy over wsgi.py file
   copy: src=files/wsgi.py dest={{ django_app_home }}/wsgi.py force=no
