@@ -32,6 +32,16 @@ describe "path should exist" do
   #           it { should be_symlink }
 	# end
 
+	describe file("/root/.bashrc") do
+		it { should exist }
+		it { should contain("PATH=/opt/miniconda2/bin:$PATH")}
+	end
+
+	describe file("/root/.bash_profile") do
+		it { should exist }
+		it { should contain("PATH=/opt/miniconda2/bin:$PATH")}
+	end
+
 	describe file("/etc/nginx/conf.d/eclaim.conf") do
 			it { should exist }
 	end
