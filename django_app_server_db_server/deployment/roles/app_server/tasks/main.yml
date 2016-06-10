@@ -75,7 +75,7 @@
     creates: /opt/miniconda2/bin/uwsgi
 
 - name: Checkout eclaim source code
-  git: repo={{ deployment_url }} dest=/opt/eclaim_revamp force=yes version=master
+  git: repo={{ deployment_url }} dest=/opt/eclaim_revamp force=yes version={{ eclaim_branch }}
 
 - name: Setup pip requirements
   pip: requirements=/opt/eclaim_revamp/{{ item }}.txt virtualenv=/opt/miniconda2
