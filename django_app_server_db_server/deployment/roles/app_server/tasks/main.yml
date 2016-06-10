@@ -31,7 +31,7 @@
   template: src=templates/environment dest=/etc/environment
 
 - name: Install nginx template
-  template: src=templates/nginx.conf dest=/etc/nginx/conf.d/nginx.conf
+  template: src=templates/eclaim.conf dest=/etc/nginx/conf.d/eclaim.conf
 
 - name: Install uwsgi init file 
   template: src=templates/uwsgi dest=/etc/rc.d/init.d/uwsgi mode=0755
