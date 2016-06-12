@@ -34,3 +34,18 @@ describe "path should exist" do
 	end
 
 end
+
+bash_files = ["/root/.bash_rc", "/root/.bash_profile"]
+
+describe "miniconda path should be in .bashrc and .bash_profile" do
+	bash_files.each do |bash_file|
+	   describe file(bash_file) do
+	      it { should contain('/opt/miniconda2/bin/conda') }
+	   end
+	end
+end
+
+
+   
+
+
