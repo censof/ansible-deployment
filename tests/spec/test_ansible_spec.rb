@@ -35,7 +35,7 @@ describe "path should exist" do
 
 end
 
-bash_files = ["/root/.bash_rc", "/root/.bash_profile"]
+bash_files = ["/root/.bashrc", "/root/.bash_profile"]
 
 describe "miniconda path should be in .bashrc and .bash_profile" do
 	bash_files.each do |bash_file|
