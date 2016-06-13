@@ -84,9 +84,3 @@ describe "Main services that should be enabled" do
 	    end
 	end
 end
-	
-	   describe service(
-
-   
-
-
