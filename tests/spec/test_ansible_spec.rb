@@ -75,6 +75,17 @@ describe "miniconda path should be in .bashrc and .bash_profile" do
 	end
 end
 
+services = ["nginx", "postgresql", "uwsgi"]
+
+describe "Main services that should be enabled" do	
+	services.each do |core_service|
+	    describe service(core_service) do
+	       it { should be_enabled.with_level(3) }
+	    end
+	end
+end
+	
+	   describe service(
 
    
 
