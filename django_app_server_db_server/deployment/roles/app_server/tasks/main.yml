@@ -85,11 +85,16 @@
 - name: Install uwsgi.ini file
   template: src=templates/common.py dest={{ django_app_home }}/config/modules/common.py mode=0644
 
+- name: Retrieve list of pip requirement files
+  find: paths="/opt/eclaim*" patterns="*.txt"
+  register: req_txt
+
 - name: Setup pip requirements
-  pip: requirements=/opt/eclaim_revamp/{{ item }}.txt virtualenv=/opt/miniconda2
-  with_items:
-     - requirements
-     - req_test
+  pip: requirements={{ item }} virtualenv=/opt/miniconda2
+  with_items: "{{ req_txt.stdout_lines }}"
+  #with_items:
+  #   - requirements
+  #   - req_test
   # - name: Setup pip requirements
   # pip: requirements=/opt/eclaim_revamp/req_test.txt
   #
