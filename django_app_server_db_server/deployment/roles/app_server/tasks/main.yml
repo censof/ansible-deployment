@@ -34,10 +34,11 @@
 
 - name: Install nginx template
   template: src=templates/eclaim.conf dest=/etc/nginx/conf.d/eclaim.conf
+  notify: start nginx
 
 - name: Install uwsgi init file
   template: src=templates/uwsgi dest=/etc/rc.d/init.d/uwsgi mode=0755
-  notify: restart uwsgi
+  notify: start uwsgi
 
 - name: Install uwsgi.ini file
   template: src=templates/uwsgi.ini dest=/etc/uwsgi.ini mode=0644
