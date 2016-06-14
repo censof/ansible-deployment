@@ -73,18 +73,18 @@
   # - name: Upgrade conda
   # conda: name=conda state=latest executable=/opt/miniconda2/bin/conda
 
+- name: Make sure that uwsgi is installed
+  pip: name=uwsgi virtualenv=/opt/miniconda2 version=2.0.13
+  #shell: /opt/miniconda2/bin/conda list | grep -q -i uwsgi || /opt/miniconda2/bin/conda install --yes -c travis uwsgi
+  #args:
+  #  creates: /opt/miniconda2/bin/uwsgi
+
 - name: Make sure pillow installed for eclaim_revamp
   # conda: name=pillow state=latest executable=/opt/miniconda2/bin/conda
   shell: /opt/miniconda2/bin/conda list | grep -q -i pillow || /opt/miniconda2/bin/conda install --yes -c conda-forge pillow
   args:
     creates: /opt/miniconda2/lib/python2.7/site-packages/PIL
   when: app_version == "eclaim_revamp"
-
-- name: Make sure that uwsgi is installed
-  pip: name=uwsgi virtualenv=/opt/miniconda2 version=2.0.13
-  #shell: /opt/miniconda2/bin/conda list | grep -q -i uwsgi || /opt/miniconda2/bin/conda install --yes -c travis uwsgi
-  #args:
-  #  creates: /opt/miniconda2/bin/uwsgi
 
 - name: Make sure pillow installed for eclaim
   # conda: name=pillow state=latest executable=/opt/miniconda2/bin/conda
@@ -97,16 +97,13 @@
   git: repo={{ deployment_url }} dest=/opt/eclaim_revamp force=yes version={{ eclaim_branch }}
   when: app_version == "eclaim_revamp"
 
-- name: Install uwsgi.ini file
-  template: src=templates/common.py dest={{ django_app_home }}/config/modules/common.py mode=0644
-
-  # - name: Setup pip requirements
-  # pip: requirements=/opt/eclaim_revamp/req_test.txt
-  #
-
 - name: Checkout eclaim source code
   hg: repo={{ deployment_url }} dest=/opt/eclaim force=yes version=default
   when: app_version == "eclaim"
+
+- name: Install uwsgi.ini file
+  template: src=templates/common.py dest={{ django_app_home }}/config/modules/common.py mode=0644
+  when: app_version == "eclaim_revamp"
 
   # - name: Setup miniconda path
   #   shell: grep -q miniconda2 ~/.bashrc || echo 'PATH=/opt/miniconda2/bin:$PATH' >> ~/.bashrc
