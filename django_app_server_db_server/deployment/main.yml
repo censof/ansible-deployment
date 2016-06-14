@@ -8,3 +8,9 @@
   handlers:
     - name: restart postgresql
       service: name=postgresql state=restarted
+
+    - name: start uwsgi
+      service: name=uwsgi state=started
+
+    - name: start nginx
+      service: name=nginx state=started
