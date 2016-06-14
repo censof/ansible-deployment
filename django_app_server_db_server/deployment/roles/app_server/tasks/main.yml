@@ -4,6 +4,7 @@
   yum: name={{ item }} state=present
   with_items:
     - git
+    - mercurial
     - unzip
     - tar
     - bzip2
@@ -19,6 +20,8 @@
     - nginx
     - uwsgi
     - logrotate
+    - vim
+    - gettext
 
 # - name: Create nginx requisite directories
 #   file: path=/etc/nginx/{{ item }} state=directory
@@ -49,6 +52,11 @@
 
 - name: Rub out old eclaim_revamp folder
   file: path=/opt/eclaim_revamp state=absent
+  when: app_version == "eclaim_revamp"
+
+- name: Rub out old eclaim folder
+  file: path=/opt/eclaim state=absent
+  when: app_version == "eclaim"
 
 - include: install_conda.yml
 
@@ -65,11 +73,12 @@
   # - name: Upgrade conda
   # conda: name=conda state=latest executable=/opt/miniconda2/bin/conda
 
-- name: Make sure pillow installed
+- name: Make sure pillow installed for eclaim_revamp
   # conda: name=pillow state=latest executable=/opt/miniconda2/bin/conda
   shell: /opt/miniconda2/bin/conda list | grep -q -i pillow || /opt/miniconda2/bin/conda install --yes -c conda-forge pillow
   args:
     creates: /opt/miniconda2/lib/python2.7/site-packages/PIL
+  when: app_version == "eclaim_revamp"
 
 - name: Make sure that uwsgi is installed
   pip: name=uwsgi virtualenv=/opt/miniconda2 version=2.0.13
@@ -77,20 +86,27 @@
   #args:
   #  creates: /opt/miniconda2/bin/uwsgi
 
-- name: Checkout eclaim source code
+- name: Make sure pillow installed for eclaim
+  # conda: name=pillow state=latest executable=/opt/miniconda2/bin/conda
+  shell: /opt/miniconda2/bin/conda list | grep -q -i pillow || /opt/miniconda2/bin/conda install --yes -c ryan pillow
+  args:
+    creates: /opt/miniconda2/lib/python2.7/site-packages/PIL
+  when: app_version == "eclaim"
+
+- name: Checkout eclaim_revamp source code
   git: repo={{ deployment_url }} dest=/opt/eclaim_revamp force=yes version={{ eclaim_branch }}
+  when: app_version == "eclaim_revamp"
 
 - name: Install uwsgi.ini file
   template: src=templates/common.py dest={{ django_app_home }}/config/modules/common.py mode=0644
 
-- name: Setup pip requirements
-  pip: requirements=/opt/eclaim_revamp/{{ item }}.txt virtualenv=/opt/miniconda2
-  with_items:
-     - requirements
-     - req_test
   # - name: Setup pip requirements
   # pip: requirements=/opt/eclaim_revamp/req_test.txt
   #
+
+- name: Checkout eclaim source code
+  hg: repo={{ deployment_url }} dest=/opt/eclaim force=yes version=default
+  when: app_version == "eclaim"
 
   # - name: Setup miniconda path
   #   shell: grep -q miniconda2 ~/.bashrc || echo 'PATH=/opt/miniconda2/bin:$PATH' >> ~/.bashrc
@@ -114,14 +130,21 @@
   # - name: Checkout eclaim source code
   # git: repo={{ deployment_url }} dest=/opt/eclaim_revamp force=yes
 
-- name: Setup pip requirements
+- name: Downgrade pip to 6.1.1
+  shell: pip install pip==6.1.1
+  when: app_version == "eclaim"
+
+- name: Setup pip requirements for eclaim_revamp
   pip: requirements=/opt/eclaim_revamp/{{ item }}.txt virtualenv=/opt/miniconda2
   with_items:
      - requirements
      - req_test
-  # - name: Setup pip requirements
-  # pip: requirements=/opt/eclaim_revamp/req_test.txt
-  #
+  when: app_version == "eclaim_revamp"
+
+- name: Setup pip requirements for eclaim
+  pip: requirements=/opt/eclaim/eclaim/requirements.txt virtualenv=/opt/miniconda2
+  when: app_version == "eclaim"
+
 - name: Install wsgi.ini template
   template: src=templates/uwsgi.ini dest={{ django_app_home }}/uwsgi.ini mode=0644
 
@@ -139,3 +162,4 @@
   #         creates: /opt/eclaim_revamp/eclaim/wsgi.py
 
 - include: django.yml
+  when: app_version == "eclaim_revamp"

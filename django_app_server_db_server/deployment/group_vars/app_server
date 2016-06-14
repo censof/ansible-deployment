@@ -1,3 +1,4 @@
 app_server_ip: 192.168.2.54
 db_server_ip: 192.168.3.34
-django_app_home: /opt/eclaim_revamp/eclaim
+django_app_home: /opt/eclaim/eclaim
+app_version: "eclaim"
