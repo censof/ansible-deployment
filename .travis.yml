@@ -11,10 +11,12 @@ services:
 
 env:
   global:
-    secure: F6/uMwWmQqTzZCfBZe7eoFh+HkY2lbhchVr7ubxgx2IhWTBU5llCq0kv+XYNtrfHoRMma0TgnGfdPQXynOkkDAhtGU5cvekMhDtB2wnodXIjI57ixPIiJ3WFvzjN5OZMRfywJcSSYIAmsUr1IiAbc16Z3g7THQBg0nLPrQHV9hBEqerjiS7d9AsHO9ia0b5cjHuXvGIsXaDfmaarPhmIp8CZfp0EXdYjpQUcNcpYw72RXZSv0NuABOkH+dyAAvsDI5y+nMhziPYzQkt3VtDmf+kTyQ7AG/qO+/5o/zBM1w2PhFdNYcYljI2n2VcypE+gOr8Yon7d3ptCAIouezAIhXO+mgEydgMa2xjDZ9BJdg1vqSCqE0cKYYu2dINuiXWZmXslYlHjfqNInjJKUZHDbP6vTXpI4V/AI/bqja7ArW9hNX784vIryofto2NGplI4i0om4qCBBHnj3/pJAcF+ZAJ5xyUSKea5f33Gwc37RXkqANS6C0/N5AxCHtJOVR1dbXWS9zVIMh05ki+G26S1MYPC5M5aiELnNUAsLZ8vYo2UOId+UiFJ0asvR25GwyIXl7f/mJZgDl5nRZLciBIEkKABq7uc7GzXx8oxhAlvbbOHRcCAZzgShCDApcE/GXI70zkUM1UwghW127WpOK6TpAq42Tka+rLIjK0zFMRVWM8=
+          # secure: F6/uMwWmQqTzZCfBZe7eoFh+HkY2lbhchVr7ubxgx2IhWTBU5llCq0kv+XYNtrfHoRMma0TgnGfdPQXynOkkDAhtGU5cvekMhDtB2wnodXIjI57ixPIiJ3WFvzjN5OZMRfywJcSSYIAmsUr1IiAbc16Z3g7THQBg0nLPrQHV9hBEqerjiS7d9AsHO9ia0b5cjHuXvGIsXaDfmaarPhmIp8CZfp0EXdYjpQUcNcpYw72RXZSv0NuABOkH+dyAAvsDI5y+nMhziPYzQkt3VtDmf+kTyQ7AG/qO+/5o/zBM1w2PhFdNYcYljI2n2VcypE+gOr8Yon7d3ptCAIouezAIhXO+mgEydgMa2xjDZ9BJdg1vqSCqE0cKYYu2dINuiXWZmXslYlHjfqNInjJKUZHDbP6vTXpI4V/AI/bqja7ArW9hNX784vIryofto2NGplI4i0om4qCBBHnj3/pJAcF+ZAJ5xyUSKea5f33Gwc37RXkqANS6C0/N5AxCHtJOVR1dbXWS9zVIMh05ki+G26S1MYPC5M5aiELnNUAsLZ8vYo2UOId+UiFJ0asvR25GwyIXl7f/mJZgDl5nRZLciBIEkKABq7uc7GzXx8oxhAlvbbOHRcCAZzgShCDApcE/GXI70zkUM1UwghW127WpOK6TpAq42Tka+rLIjK0zFMRVWM8=
+    secure: "BI6cUmDsExjZdmw2+xrDfyTS2+x5xk1c9kvVOinY57upNcoOsolFT6XPEsBUH6e2GzFyHWQJ96yco7wUlGGFrTfxqpRN48uIjvsepr1XaWeYFczl7yOaAJWvCFPuX51Swdsbw6EN3Djw3V2oYvANM96t+FYHW+OK1wsiGu2A9yvLbFxidiqZFP0MIyRTwxB8mnCm1ZUT1Cnu23fIVkUlzXkTpC06EymxWbdAWAFkmyjzoV0q5oosMrEJXelnC6ezOIV4PwrB5vHfe9q0CcssTGi6d3onDXeBL8x1I/ZYDp+J7xk/tfhDBNdcn3J2i2VJtcIuagbzv9NN/3x4yLNPEZ1N8so/yueVpsJdgqng+ef5opifm0btLfdaX5ZaammBnfrd8mSS+witzKqLllQges3Do1pcozPB534rxEQLYzvVjmoVtrdSM2xUP80biTpQ81q5Vt9/HROI2QPA1F/e2zIudKXxQSWrEsU89bSFTgYDzmkStEGcfom7GvyYEfbTaEZE6Hh2ofHo2EAEuNStAVazasozPDSrWBzT1g7T8no3UCv0bQQdrJ1ZGQ37MsaGoX/NfZS5qMhlNoZnNcAUrFz/A81OykUjJcnCxG8SSHgG6jNFFw1M+UyqjqI1Mv3abCdT8CbfcZvYDdNKPPobLxf+75KUr235/NlXetgiWnw="
 
 before_install:
         # - docker build -t test_centos -f test_image/Dockerfile.centos6 .
+- openssl aes-256-cbc -K $encrypted_4e087206a019_key -iv $encrypted_4e087206a019_iv -in id_travis.enc -out id_travis -d
 - sudo docker pull censofdockers/centos6-miniconda
   # - sudo docker run --privileged --detach --volume="${PWD}":/root/django_deployment:ro --name test_centos test_centos sleep 300
 - sudo docker run --privileged --detach --volume="${PWD}":/root/django_deployment:ro --name test_centos censofdockers/centos6-miniconda sleep 300
@@ -22,8 +24,12 @@ before_install:
 install:
 - sudo docker exec -it test_centos /bin/bash -c "yum install -y sudo ruby-devel" 
 - sudo docker exec -it test_centos /bin/bash -c 'gem install net-ssh --version "=2.9.2" --quiet'
-- sudo docker exec -it test_centos /bin/bash -c 'gem install json --quiet'
-- sudo docker exec -it test_centos /bin/bash -c 'gem install serverspec --quiet'
+- sudo docker exec -it test_centos /bin/bash -c 'gem install json serverspec --quiet'
+- sudo docker exec -it test_centos /bin/bash -c "mkdir ~/.ssh && echo -e 'Host *\n\tStrictHostKeyChecking no\n' >> ~/.ssh/config"
+- sudo docker exec -it test_centos /bin/bash -c "echo -e 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDF1XPR2tXoWMpywpenL6EyOn9tpGveZegVXZS7QUfUwsYowc+JdHDJv/k4sjaHzPNpFEm9SHI3nPLUcQ5cs+/uEh75AqMocqi/ov87o8+vDhLEcpmoWfA+W4HZ6KS1vzjxGw9XIw7ZvwCuPIXHorJZZCsFzanzl71Z+OHrvvU1fxVlp0bwEV42gAn5CtM7S33ZCuk2YuG5wQwrjcsdwE6a0ATgG84buXL11Vj1XRrZ+ybj679GOd/uhUJImrXFapHeob/arsCiQnPGCwCvVohd2anm1DdAm/SPQjUJFt81VAOKG2kBw8hfJgg9p1l3ZvFS0EP6v8wyAuU9Tje6xRrD lowks@lowkster-laptop' >> ~/.ssh/id_rsa.pub"
+- sudo docker exec -it test_centos /bin/bash -c 'cp /root/django_deployment/id_travis ~/.ssh/id_rsa'
+- sudo docker exec -it test_centos /bin/bash -c 'chmod 400 ~/.ssh/id_rsa'
+- sudo docker exec -it test_centos /bin/bash -c '/opt/miniconda2/bin/conda install --yes -c kbroughton ansible'
  
 script:
 - sudo docker exec -it test_centos /bin/bash -c "export ECLAIM_BRANCH=${SHIPPABLE_ECLAIM_BRANCH:-master} && export DEPLOYMENT_URL=$DEPLOYMENT_URL && /opt/miniconda2/bin/ansible-playbook -e 'django_app_home=/opt/eclaim_revamp/eclaim app_version=eclaim_revamp' -i /root/django_deployment/django_app_server_db_server/deployment/tests/hosts /root/django_deployment/django_app_server_db_server/deployment/main.yml --connection=local"

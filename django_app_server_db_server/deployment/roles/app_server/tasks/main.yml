@@ -116,7 +116,7 @@
   when: app_version == "eclaim"
 
 - name: Checkout eclaim_revamp source code
-  git: repo={{ deployment_url }} dest=/opt/eclaim_revamp force=yes version={{ eclaim_branch }}
+  git: repo={{ deployment_url }} dest=/opt/eclaim_revamp force=yes version={{ eclaim_branch }} accept_hostkey=yes
   when: app_version == "eclaim_revamp"
 
 - name: Checkout eclaim source code
