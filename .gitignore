@@ -60,3 +60,12 @@ tags
 ### Ansible ###
 *.retry
 
+
+### Pycharm ####
+.idea/ansible-deployment.iml
+.idea/*.xml
+.idea/workspace.xml
+.idea/tasks.xml
+.idea/dictionaries
+.idea/vcs.xml
+.idea/jsLibraryMappings.xml
