@@ -154,7 +154,7 @@
   when: app_version == "eclaim"
 
 - name: Retrieve list of pip requirement files
-  find: paths="/opt/eclaim_revamp/" patterns="req*.txt"
+  find: paths="/opt/eclaim_revamp/eclaim" patterns="req*.txt"
   when: app_version == "eclaim_revamp"
   find: paths="/opt/eclaim/eclaim" patterns="req*.txt"
   when: app_version == "eclaim"
