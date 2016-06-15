@@ -46,6 +46,26 @@
 - name: Install uwsgi.ini file
   template: src=templates/uwsgi.ini dest=/etc/uwsgi.ini mode=0644
 
+- name: Edit uwsgi.ini file for eclaim
+  lineinfile: dest=/etc/uwsgi.ini
+              regexp='^wsgi-file=/opt/eclaim/eclaim/wsgi.py'
+              line='wsgi-file=/opt/eclaim/eclaim/eclaim.wsgi'
+              backrefs=yes
+              state=present
+  when: app_version == "eclaim"
+
+- name: Edit uwsgi file for eclaim
+  lineinfile:
+    dest: /etc/rc.d/init.d/uwsgi
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+    backrefs: yes
+    state: present
+  with_items:
+    - { regexp: '^PATH=/sbin:/bin:/usr/sbin:/usr/bin', line: 'PATH=/opt/miniconda2/bin:/sbin:/bin:/usr/sbin:/usr/bin' }
+    - { regexp: '^PROG=/usr/sbin/uwsgi', line: 'PROG=uwsgi' }
+  when: app_version == "eclaim"
+
 # - name: Enabled sites-enabled / sites-available from nginx.conf
 #   lineinfile: dest=/etc/nginx/nginx.conf
 #               line='include /etc/nginx/sites-enabled/*;'
