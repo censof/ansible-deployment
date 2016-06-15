@@ -25,6 +25,7 @@ install:
 - sudo docker exec -it test_centos /bin/bash -c 'gem install net-ssh --version "=2.9.2" --quiet'
 - sudo docker exec -it test_centos /bin/bash -c 'gem install json --quiet'
 - sudo docker exec -it test_centos /bin/bash -c 'gem install serverspec --quiet'
+- sudo docker exec -it test_centos /bin/bash -c 'echo -e "Host *\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config'
 - sudo docker exec -it test_centos /bin/bash -c '/opt/miniconda2/bin/conda install --yes -c kbroughton ansible'
  
 script:
