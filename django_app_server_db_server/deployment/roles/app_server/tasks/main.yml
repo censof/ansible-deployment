@@ -153,16 +153,27 @@
   shell: pip install pip==6.1.1
   when: app_version == "eclaim"
 
-- name: Setup pip requirements for eclaim_revamp
-  pip: requirements=/opt/eclaim_revamp/{{ item }}.txt virtualenv=/opt/miniconda2
-  with_items:
-     - requirements
-     - req_test
+- name: Retrieve list of pip requirement files
+  find: paths="/opt/eclaim_revamp/" patterns="req*.txt"
   when: app_version == "eclaim_revamp"
-
-- name: Setup pip requirements for eclaim
-  pip: requirements=/opt/eclaim/eclaim/requirements.txt virtualenv=/opt/miniconda2
+  find: paths="/opt/eclaim/eclaim" patterns="req*.txt"
   when: app_version == "eclaim"
+  register: req_txt
+
+- name: Setup pip requirements
+  pip: requirements={{ item }} virtualenv=/opt/miniconda2
+  with_items: "{{ req_txt.stdout_lines }}"
+
+  # - name: Setup pip requirements for eclaim_revamp
+  # pip: requirements=/opt/eclaim_revamp/{{ item }}.txt virtualenv=/opt/miniconda2
+  # with_items:
+  #    - requirements
+  #    - req_test
+  # when: app_version == "eclaim_revamp"
+
+  # - name: Setup pip requirements for eclaim
+  # pip: requirements=/opt/eclaim/eclaim/requirements.txt virtualenv=/opt/miniconda2
+  # when: app_version == "eclaim"
 
 - name: Install wsgi.ini template
   template: src=templates/uwsgi.ini dest={{ django_app_home }}/uwsgi.ini mode=0644
