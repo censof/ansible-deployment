@@ -82,5 +82,5 @@
   become: yes
   become_user: postgres 
   command: psql -U postgres eclaim < /opt/eclaim_revamp/sql_scripts/initial_sql_script.sql
-  when: app_version == "eclaim_revampt"
+  when: app_version == "eclaim_revamp"
 
