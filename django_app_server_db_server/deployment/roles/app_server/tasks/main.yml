@@ -155,10 +155,13 @@
 
 - name: Retrieve list of pip requirement files
   find: paths="/opt/eclaim_revamp/eclaim" patterns="req*.txt"
-  when: app_version == "eclaim_revamp"
-  find: paths="/opt/eclaim/eclaim" patterns="req*.txt"
-  when: app_version == "eclaim"
   register: req_txt
+  when: app_version == "eclaim_revamp"
+
+- name: Retrieve list of pip requirement files
+  find: paths="/opt/eclaim/eclaim" patterns="req*.txt"
+  register: req_txt
+  when: app_version == "eclaim"
 
 - name: Setup pip requirements
   pip: requirements={{ item }} virtualenv=/opt/miniconda2
