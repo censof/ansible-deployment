@@ -80,7 +80,7 @@
   #  creates: /opt/miniconda2/bin/uwsgi
 
 - name: Checkout eclaim source code
-  git: repo={{ deployment_url }} dest=/opt/eclaim_revamp force=yes version={{ eclaim_branch }}
+  git: repo={{ deployment_url }} dest=/opt/eclaim_revamp force=yes version={{ eclaim_branch }} accept_hostkey=yes
 
 - name: Install uwsgi.ini file
   template: src=templates/common.py dest={{ django_app_home }}/config/modules/common.py mode=0644
