@@ -38,7 +38,7 @@ script:
 - sudo docker exec -it test_centos /bin/bash -c "export ECLAIM_BRANCH=${SHIPPABLE_ECLAIM_BRANCH:-master} && export DEPLOYMENT_URL=$DEPLOYMENT_URL && /opt/miniconda2/bin/ansible-playbook -e 'django_app_home=/opt/eclaim_revamp/eclaim app_version=eclaim_revamp' -i /root/django_deployment/django_app_server_db_server/deployment/tests/hosts -vvv /root/django_deployment/django_app_server_db_server/deployment/main.yml --check --connection=local"
 
 after_script:
-- sudo docker exec -it test_centos /bin/bash -c "sudo /etc/init.d/nginx restart"
-  # - sudo docker exec -it test_centos /bin/bash -c "rspec /root/django_deployment/tests/spec/test_ansible_spec.rb"
-- sudo docker run -it test_centos /bin/bash -c "rspec /root/django_deployment/tests/spec/test_ansible_spec.rb"
+        # - sudo docker exec -it test_centos /bin/bash -c "sudo /etc/init.d/nginx restart"
+- sudo docker exec -it test_centos /bin/bash -c "rspec /root/django_deployment/tests/spec/test_ansible_spec.rb"
+  # - sudo docker run -it test_centos /bin/bash -c "rspec /root/django_deployment/tests/spec/test_ansible_spec.rb"
 - python login.py 
