@@ -206,3 +206,6 @@
   shell: psql eclaim < /opt/eclaim_revamp/sql_scripts/initial_sql_script.sql
   when: app_version == "eclaim_revamp"
 
+- name: Restart uwsgi
+  shell: /etc/rc.d/init.d/uwsgi restart
+  when: app_version == "eclaim_revamp"
