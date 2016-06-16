@@ -39,6 +39,6 @@ script:
 
 after_script:
         # - sudo docker exec -it test_centos /bin/bash -c "sudo /etc/init.d/nginx restart"
-- sudo docker exec -it test_centos /bin/bash -c "rspec /root/django_deployment/tests/spec/test_ansible_spec.rb"
+- sudo docker exec -it test_centos /bin/bash -c "rspec /root/django_deployment/tests/spec/test_ansible_spec.rb" 
   # - sudo docker run -it test_centos /bin/bash -c "rspec /root/django_deployment/tests/spec/test_ansible_spec.rb"
 - python login.py 
