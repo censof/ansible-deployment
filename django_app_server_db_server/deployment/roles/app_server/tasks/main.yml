@@ -207,5 +207,5 @@
   when: app_version == "eclaim_revamp"
 
 - name: Restart uwsgi
-  shell: /etc/rc.d/init.d/uwsgi restart
+  service: name=uwsgi state=started 
   when: app_version == "eclaim_revamp"
