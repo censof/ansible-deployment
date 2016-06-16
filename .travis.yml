@@ -31,7 +31,7 @@ install:
 - sudo docker exec -it test_centos /bin/bash -c 'cp /root/django_deployment/id_travis ~/.ssh/id_rsa'
 - sudo docker exec -it test_centos /bin/bash -c 'chmod 400 ~/.ssh/id_rsa'
 - sudo docker exec -it test_centos /bin/bash -c '/opt/miniconda2/bin/conda install --yes -c kbroughton ansible'
-- sudo pip install selenium
+- pip install -y selenium
 - sudo apt-get install phantomjs
  
 script:
