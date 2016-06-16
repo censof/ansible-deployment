@@ -1,11 +1,15 @@
 - name: Chmod manage.py
-  file: path={{ django_app_home }}/manage.py state=file mode=0775
+  file: path=/opt/eclaim_revamp/eclaim/manage.py state=file mode=0775
+  when: app_version == "eclaim_revamp"
 
 - name: Run eclaim migrate
-  django_manage: command="migrate auth --noinput" app_path={{ django_app_home }} virtualenv=/opt/miniconda2
+  django_manage: command="migrate auth --noinput" app_path=/opt/eclaim_revamp/eclaim virtualenv=/opt/miniconda2
+  when: app_version == "eclaim_revamp"
 
 - name: Run eclaim migrate
-  django_manage: command="migrate --noinput" app_path={{ django_app_home }} virtualenv=/opt/miniconda2
+  django_manage: command="migrate --noinput" app_path=/opt/eclaim_revamp/eclaim virtualenv=/opt/miniconda2
+  when: app_version == "eclaim_revamp"
 
 - name: Run eclaim collectstatic
-  django_manage: command=collectstatic app_path={{ django_app_home }} virtualenv=/opt/miniconda2
+  django_manage: command=collectstatic app_path=/opt/eclaim_revamp/eclaim virtualenv=/opt/miniconda2
+  when: app_version == "eclaim_revamp"
