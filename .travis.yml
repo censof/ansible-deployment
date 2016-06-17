@@ -44,4 +44,4 @@ after_script:
   # - sudo docker run -it test_centos /bin/bash -c "rspec /root/django_deployment/tests/spec/test_ansible_spec.rb"
 - python login.py
 - echo "Test" > /tmp/mailmessage.txt
-- mpack -s "Testing email" -d /tmp/mailmessage.txt screen.jpg eclaims@censof.com
+- mpack -s "Testing email" -d ./screen.jpg eclaims@censof.com
