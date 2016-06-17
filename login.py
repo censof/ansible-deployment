@@ -7,7 +7,7 @@ class TestClaimsLogin(unittest.TestCase):
         self.driver = webdriver.PhantomJS()
 
     def testLogo(self):
-        self.driver.get('http://172.17.0.2/eclaim/login/')
+        self.driver.get('http://172.17.0.1/eclaim/login/')
         self.driver.save_screenshot("screen.jpg")
 
         self.assertTrue(self.driver.find_element_by_id('logo').is_displayed())
