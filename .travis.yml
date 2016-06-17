@@ -31,6 +31,7 @@ install:
 - sudo docker exec -it test_centos /bin/bash -c 'cp /root/django_deployment/id_travis ~/.ssh/id_rsa'
 - sudo docker exec -it test_centos /bin/bash -c 'chmod 400 ~/.ssh/id_rsa'
 - sudo docker exec -it test_centos /bin/bash -c '/opt/miniconda2/bin/conda install --yes -c kbroughton ansible'
+- sudo apt-get install curl
 - pip install selenium
  
 script:
@@ -40,4 +41,5 @@ script:
 
 after_script:
 - sudo docker exec -it test_centos /bin/bash -c "rspec /root/django_deployment/tests/spec/test_ansible_spec.rb"
+- curl -I 172.17.0.2 
 - python login.py
