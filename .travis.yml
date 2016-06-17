@@ -23,7 +23,7 @@ before_install:
 - sudo docker run --privileged --detach --volume="${PWD}":/root/django_deployment:ro --name test_centos censofdockers/centos6-miniconda sleep 300
 
 install:
-- sudo docker exec -it test_centos /bin/bash -c "yum install -y sudo ruby-devel" 
+- sudo docker exec -it test_centos /bin/bash -c "yum install -y sudo ruby-devel sshpass" 
 - sudo docker exec -it test_centos /bin/bash -c 'gem install net-ssh --version "=2.9.2" --quiet'
 - sudo docker exec -it test_centos /bin/bash -c 'gem install json serverspec --quiet'
 - sudo docker exec -it test_centos /bin/bash -c "mkdir ~/.ssh && echo -e 'Host *\n\tStrictHostKeyChecking no\n' >> ~/.ssh/config"
@@ -34,7 +34,7 @@ install:
 - pip install selenium
  
 script:
-- sudo docker exec -it test_centos /bin/bash -c "export ECLAIM_BRANCH=${SHIPPABLE_ECLAIM_BRANCH:-master} && export DEPLOYMENT_URL=$DEPLOYMENT_URL && /opt/miniconda2/bin/ansible-playbook -e 'django_app_home=/opt/eclaim_revamp/eclaim app_version=eclaim_revamp' -i /root/django_deployment/django_app_server_db_server/deployment/tests/hosts -vvv /root/django_deployment/django_app_server_db_server/deployment/main.yml --check --connection=local"
+- sudo docker exec -it test_centos /bin/bash -c "export ECLAIM_BRANCH=${SHIPPABLE_ECLAIM_BRANCH:-master} && export DEPLOYMENT_URL=$DEPLOYMENT_URL && /opt/miniconda2/bin/ansible-playbook -e 'django_app_home=/opt/eclaim_revamp/eclaim app_version=eclaim_revamp' -i /root/django_deployment/django_app_server_db_server/deployment/tests/hosts -vv /root/django_deployment/django_app_server_db_server/deployment/main.yml --check --connection=local"
 - sudo docker exec -it test_centos /bin/bash -c "export ECLAIM_BRANCH=${SHIPPABLE_ECLAIM_BRANCH:-master} && export DEPLOYMENT_URL=$DEPLOYMENT_URL && /opt/miniconda2/bin/ansible-playbook -e 'django_app_home=/opt/eclaim_revamp/eclaim app_version=eclaim_revamp' -i /root/django_deployment/django_app_server_db_server/deployment/tests/hosts -vvvv /root/django_deployment/django_app_server_db_server/deployment/main.yml"
 
 after_script:
