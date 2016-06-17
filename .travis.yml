@@ -42,9 +42,9 @@ script:
 after_script:
 - sudo docker exec -it test_centos /bin/bash -c "rspec /root/django_deployment/tests/spec/test_ansible_spec.rb"
 - sudo docker exec -it test_centos /bin/bash -c "/etc/init.d/nginx status"
-- sudo docker exec -it test_centos /bin/bash -c "curl -L 172.17.0.2/eclaim/login"
+- sudo docker exec -it test_centos /bin/bash -c "curl -L 172.17.0.1/eclaim/login"
 - sudo docker exec -it test_centos /bin/bash -c "ls -alh /etc/nginx/conf.d/*.conf" 
 - sudo docker exec -it test_centos /bin/bash -c "/etc/init.d/nginx restart"
 - sudo docker exec -it test_centos /bin/bash -c "ifconfig"
-- sudo docker exec -it test_centos /bin/bash -c "curl -L 172.17.0.2"
+- sudo docker exec -it test_centos /bin/bash -c "curl -L 172.17.0.1"
 - python login.py
