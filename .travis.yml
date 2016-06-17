@@ -41,5 +41,6 @@ script:
 
 after_script:
 - sudo docker exec -it test_centos /bin/bash -c "rspec /root/django_deployment/tests/spec/test_ansible_spec.rb"
+- sudo docker exec -it test_centos /bin/bash -c "/etc/init.d/nginx status"
 - curl -I 172.17.0.2 
 - python login.py
