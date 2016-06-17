@@ -2,7 +2,7 @@
   file: path=/opt/eclaim_revamp/eclaim/manage.py state=file mode=0775
   when: app_version == "eclaim_revamp"
 
-- name: Run eclaim migrate
+- name: Run eclaim migrate auth
   django_manage: command="migrate auth --noinput" app_path=/opt/eclaim_revamp/eclaim virtualenv=/opt/miniconda2
   when: app_version == "eclaim_revamp"
 
