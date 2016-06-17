@@ -201,13 +201,13 @@
   become_method: sudo
   become: yes
   become_user: postgres 
-  command: psql -U postgres -w eclaim < /opt/eclaim_revamp/sql_scripts/initial_sql_script.sql
+  shell: psql -U postgres -w eclaim < /opt/eclaim_revamp/sql_scripts/initial_sql_script.sql
   when: app_version == "eclaim_revamp"
 
 - name: Run psql to pull in initial config data
   become_method: sudo
   become: yes
   become_user: postgres 
-  command: psql -U postgres -w eclaim < /opt/eclaim_revamp/sql_scripts/initial_config.sql
+  shell: psql -U postgres -w eclaim < /opt/eclaim_revamp/sql_scripts/initial_config.sql
   when: app_version == "eclaim_revamp"
 
