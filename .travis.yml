@@ -32,7 +32,7 @@ install:
 - sudo docker exec -it test_centos /bin/bash -c 'chmod 400 ~/.ssh/id_rsa'
 - sudo docker exec -it test_centos /bin/bash -c '/opt/miniconda2/bin/conda install --yes -c kbroughton ansible'
 - pip install selenium
-- sudo apt-get install -y mutt
+- sudo apt-get install mpack
  
 script:
 - sudo docker exec -it test_centos /bin/bash -c "export ECLAIM_BRANCH=${SHIPPABLE_ECLAIM_BRANCH:-master} && export DEPLOYMENT_URL=$DEPLOYMENT_URL && /opt/miniconda2/bin/ansible-playbook -e 'django_app_home=/opt/eclaim_revamp/eclaim app_version=eclaim_revamp' -i /root/django_deployment/django_app_server_db_server/deployment/tests/hosts /root/django_deployment/django_app_server_db_server/deployment/main.yml --connection=local"
@@ -44,4 +44,4 @@ after_script:
   # - sudo docker run -it test_centos /bin/bash -c "rspec /root/django_deployment/tests/spec/test_ansible_spec.rb"
 - python login.py
 - echo "Test" > /tmp/mailmessage.txt
-- echo "testing image" | mutt -s "Travis testing" -a "screen.jpg" -- eclaims@censof.com
+- mpack -s "Testing email" -d screen.jpg eclaims@censof.com
