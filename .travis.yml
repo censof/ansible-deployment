@@ -45,5 +45,5 @@ after_script:
 - sudo docker exec -it test_centos /bin/bash -c "curl -L localhost/eclaim/login"
 - sudo docker exec -it test_centos /bin/bash -c "ls -alh /etc/nginx/conf.d/*.conf" 
 - sudo docker exec -it test_centos /bin/bash -c "/etc/init.d/nginx restart"
-- sudo docker exec -it test_centos /bin/bash -c "curl -L localhost/eclaim/login"
+- sudo docker exec -it test_centos /bin/bash -c "curl -L localhost"
 - python login.py
