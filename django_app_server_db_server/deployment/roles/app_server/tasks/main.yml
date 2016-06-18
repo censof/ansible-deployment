@@ -211,3 +211,6 @@
   shell: psql -U postgres -w eclaim < /opt/eclaim_revamp/sql_scripts/initial_config.sql
   when: app_version == "eclaim_revamp"
 
+- name: Restart nginx
+  service: name=nginx state=restarted 
+
