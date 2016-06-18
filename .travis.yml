@@ -43,4 +43,5 @@ after_script:
 - sudo docker exec -it test_centos /bin/bash -c "rspec /root/django_deployment/tests/spec/test_ansible_spec.rb"
   # - sudo docker exec -it test_centos /bin/bash -c "/etc/init.d/nginx restart"
   #- sudo docker exec -it test_centos /bin/bash -c "ifconfig"
+- echo $CID
 - python tests/python/verify_image.py
