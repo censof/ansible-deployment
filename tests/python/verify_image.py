@@ -6,7 +6,7 @@ class TestClaimsLogin(unittest.TestCase):
 
     def setUp(self):
         self.driver = webdriver.PhantomJS()
-        self.ip = os.environ.get('CID', '172.17.0.1')
+        self.ip = os.environ.get('DOCKER_IP', '172.17.0.1')
 
     def test_verify_main_screen_loaded(self):
         self.driver.get('http://%s/eclaim/login/' % self.ip)

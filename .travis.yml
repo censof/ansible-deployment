@@ -21,6 +21,7 @@ before_install:
 - sudo docker pull censofdockers/centos6-miniconda
   # - sudo docker run --privileged --detach --volume="${PWD}":/root/django_deployment:ro --name test_centos test_centos sleep 300
 - CID=$(sudo docker run --privileged --detach --volume="${PWD}":/root/django_deployment:ro -p 80 --name test_centos censofdockers/centos6-miniconda sleep 300) 
+- DOCKER_IP=`docker inspect --format '{{ .NetworkSettings.IPAddress }}' ${CID}`
 
 install:
 - sudo docker exec -it test_centos /bin/bash -c "yum install -y sudo ruby-devel sshpass curl" 
@@ -43,5 +44,5 @@ after_script:
 - sudo docker exec -it test_centos /bin/bash -c "rspec /root/django_deployment/tests/spec/test_ansible_spec.rb"
   # - sudo docker exec -it test_centos /bin/bash -c "/etc/init.d/nginx restart"
   #- sudo docker exec -it test_centos /bin/bash -c "ifconfig"
-- echo $CID
-- python tests/python/verify_image.py
+- echo $DOCKER_IP
+- DOCKER_IP=${DOCKER_IP} python tests/python/verify_image.py
