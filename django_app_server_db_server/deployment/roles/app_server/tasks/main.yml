@@ -33,7 +33,7 @@
 #   template: src=templates/eclaim_nginx.conf dest=/etc/nginx/sites-available/eclaim_nginx.conf mode=0644
 
 - name: Install environment to avoid problems with environment
-  template: src=templates/environment dest=/etc/environment
+  template: src=templates/environment dest=/etc/environment force=yes
 
 - name: Install nginx template
   template: src=templates/eclaim.conf dest=/etc/nginx/conf.d/eclaim.conf
