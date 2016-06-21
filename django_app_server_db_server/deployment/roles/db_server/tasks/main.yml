@@ -19,8 +19,13 @@
 - name: Add memory-related sysctl parameter
   sysctl: name={{ item.name }} value={{ item.value }} ignoreerrors=yes
   with_items:
-    - { name: "kernel.shmmax", value: "2500000" }
-    - { name: "kernel.shmall", value: "1400000" }
+          # - { name: "kernel.shmmax", value: "134217728" }
+          #- { name: "kernel.shmmin", value: "1400000" }
+    - { name: "kernel.shmmax", value: "{{ (0.5 * ansible_memory_mb.real.total * (1024 * 1024)|round)|int }}" }
+      #- { name: "kernel.shmmax", value: ansible_memory_mb['real'] }
+    - { name: "kernel.shmall", value: "{{ (0.8 * ansible_memory_mb.real.total)|int }}" }
+    - { name: "kernel.shmmin", value: 1 }
+      # - { name: "kernel.shmall", value: ansible_memory_mb }
 
 - name: Initdb 
   command: /usr/bin/initdb -D /var/lib/pgsql/data creates=/var/lib/pgsql/data/pg_hba.conf 
@@ -32,6 +37,10 @@
 
 - name: Install pg_hba.conf
   copy: src=files/pg_hba.conf dest=/var/lib/pgsql/data/pg_hba.conf
+
+- name: Configure postgresql.conf
+  template: src=templates/postgresql.conf dest=/var/lib/pgsql/postgresql.conf force=yes
+  notify: restart postgresql
 
 - name: Ensure postgresql service is started
   service: name=postgresql state=started
