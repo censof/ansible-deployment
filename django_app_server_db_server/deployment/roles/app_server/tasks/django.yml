@@ -1,15 +1,28 @@
 - name: Chmod manage.py
   file: path=/opt/eclaim_revamp/eclaim/manage.py state=file mode=0775
-  when: app_version == "eclaim_revamp"
 
 - name: Run eclaim migrate auth
-  django_manage: command="migrate auth --noinput" app_path=/opt/eclaim_revamp/eclaim virtualenv=/opt/miniconda2
-  when: app_version == "eclaim_revamp"
+  django_manage: command="{{ item }} --noinput" app_path=/opt/eclaim_revamp/eclaim virtualenv=/opt/miniconda2
+  with_items:
+    - 'migrate auth'
+    - 'migrate'
+    - 'collectstatic'
 
-- name: Run eclaim migrate
-  django_manage: command="migrate --noinput" app_path=/opt/eclaim_revamp/eclaim virtualenv=/opt/miniconda2
-  when: app_version == "eclaim_revamp"
+  # - name: Run eclaim migrate
+  # django_manage: command="migrate --noinput" app_path=/opt/eclaim_revamp/eclaim virtualenv=/opt/miniconda2
 
-- name: Run eclaim collectstatic
-  django_manage: command=collectstatic app_path=/opt/eclaim_revamp/eclaim virtualenv=/opt/miniconda2
-  when: app_version == "eclaim_revamp"
+  # - name: Run eclaim collectstatic
+  # django_manage: command=collectstatic app_path=/opt/eclaim_revamp/eclaim virtualenv=/opt/miniconda2
+
+- name: Run psql to pull in initial config data
+  become_method: sudo
+  become: yes
+  become_user: postgres 
+  shell: psql -U postgres -w eclaim < /opt/eclaim_revamp/sql_scripts/{{ item }}.sql
+  with_items:
+    - initial_config
+    - initial_sql_script
+    - tmp_hrms 
+
+- name: Run syncall
+  django_manage: command=syncall app_path=/opt/eclaim_revamp/eclaim virtualenv=/opt/miniconda2
