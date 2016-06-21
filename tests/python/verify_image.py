@@ -10,12 +10,12 @@ class TestClaimsLogin(unittest.TestCase):
 
     def test_verify_main_screen_loaded(self):
         self.driver.get('http://%s/eclaim/login/' % self.ip)
-        self.assertTrue(self.driver.find_element_by_id('logo').is_displayed())
+
         self.driver.find_element_by_id('id_user_name').send_keys("implementer")
         self.driver.find_element_by_id('id_password').send_keys("eclaim_implementer")
         self.driver.find_element_by_css_selector('button.btn.btn-primary').click()
-        self.assertEqual(self.driver.find_element_by_class_name("page-title").text,
-                         u'Login To Your Account')
+        self.driver.implicitly_wait(30)
+        self.assertTrue(self.driver.find_element_by_id("user-greeting").is_displayed())
 
     def tearDown(self):
         self.driver.quit()
