@@ -23,15 +23,6 @@
     - vim
     - gettext
 
-# - name: Create nginx requisite directories
-#   file: path=/etc/nginx/{{ item }} state=directory
-#   with_items:
-#     - sites-available
-#     - sites-enabled
-
-# - name: Install nginx template
-#   template: src=templates/eclaim_nginx.conf dest=/etc/nginx/sites-available/eclaim_nginx.conf mode=0644
-
 - name: Install environment to avoid problems with environment
   template: src=templates/environment dest=/etc/environment
 
@@ -180,9 +171,6 @@
 
 - name: Install wsgi.ini template
   template: src=templates/uwsgi.ini dest={{ django_app_home }}/uwsgi.ini mode=0644
-
-# - name: Symlink to enable site
-#   file: src=/etc/nginx/sites-available/eclaim_nginx.conf dest=/etc/nginx/sites-enabled/eclaim_nginx.conf state=link
 
 - name: Copy over uwsgi_params file
   shell: cp /etc/nginx/uwsgi_params {{ django_app_home }}

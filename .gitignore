@@ -69,3 +69,6 @@ tags
 .idea/dictionaries
 .idea/vcs.xml
 .idea/jsLibraryMappings.xml
+
+# vim
+*~

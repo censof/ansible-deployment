@@ -18,20 +18,6 @@ describe "path should exist" do
 	    it { should be_executable }
 	end
 
-	# describe file("/etc/nginx/sites-enabled") do
-	#     it { should exist }
-	# end
-
-	# describe file("/etc/nginx/sites-available") do
-	#     it { should exist }
-	# end
-
-	# describe file("/etc/nginx/
-	# sites-enabled/eclaim_nginx.conf") do
-	#     it { should exist }
-  #           it { should be_symlink }
-	# end
-
 	describe file("/root/.bashrc") do
 		it { should exist }
 		it { should contain("PATH=/opt/miniconda2/bin:$PATH")}
