@@ -4,7 +4,6 @@
   yum: name={{ item }} state=present
   with_items:
     - git
-    - mercurial
     - unzip
     - tar
     - bzip2
@@ -21,16 +20,6 @@
     - uwsgi
     - logrotate
     - vim
-    - gettext
-
-# - name: Create nginx requisite directories
-#   file: path=/etc/nginx/{{ item }} state=directory
-#   with_items:
-#     - sites-available
-#     - sites-enabled
-
-# - name: Install nginx template
-#   template: src=templates/eclaim_nginx.conf dest=/etc/nginx/sites-available/eclaim_nginx.conf mode=0644
 
 - name: Install environment to avoid problems with environment
   template: src=templates/environment dest=/etc/environment
@@ -46,40 +35,6 @@
 - name: Install uwsgi.ini file
   template: src=templates/uwsgi.ini dest=/etc/uwsgi.ini mode=0644
 
-- name: Edit uwsgi.ini file for eclaim
-  lineinfile: dest=/etc/uwsgi.ini
-              regexp='wsgi-file=/opt/eclaim/eclaim/wsgi.py'
-              line='wsgi-file=/opt/eclaim/eclaim/eclaim.wsgi'
-              backrefs=yes
-              state=present
-  when: app_version == "eclaim"
-
-- name: Edit uwsgi file for eclaim
-  lineinfile:
-    dest: /etc/rc.d/init.d/uwsgi
-    regexp: "{{ item.regexp }}"
-    line: "{{ item.line }}"
-    backrefs: yes
-    state: present
-  with_items:
-    - { regexp: 'PATH=/sbin:/bin:/usr/sbin:/usr/bin', line: 'PATH=/opt/miniconda2/bin:/sbin:/bin:/usr/sbin:/usr/bin' }
-    - { regexp: 'PROG=/opt/miniconda2/bin/uwsgi', line: 'PROG=uwsgi' }
-  when: app_version == "eclaim"
-
-# - name: Enabled sites-enabled / sites-available from nginx.conf
-#   lineinfile: dest=/etc/nginx/nginx.conf
-#               line='include /etc/nginx/sites-enabled/*;'
-#               insertafter=EOF
-#               state=present
-
-- name: Rub out old eclaim_revamp folder
-  file: path=/opt/eclaim_revamp state=absent
-  when: app_version == "eclaim_revamp"
-
-#- name: Rub out old eclaim folder
-#  file: path=/opt/eclaim state=absent
-#  when: app_version == "eclaim"
-
 - include: install_conda.yml
 
 - name: Setup miniconda path
@@ -88,6 +43,49 @@
     - bashrc
     - bash_profile
 
+- name: Make sure that uwsgi is installed
+  pip: name=uwsgi virtualenv=/opt/miniconda2 version=2.0.13
+
+- include: eclaim_revamp.yml
+  when: app_version == "eclaim_revamp"
+
+- include: eclaim.yml
+  when: app_version == "eclaim"
+
+- name: Install wsgi.ini template
+  template: src=templates/uwsgi.ini dest={{ django_app_home }}/uwsgi.ini mode=0644
+
+- name: Copy over uwsgi_params file
+  shell: cp /etc/nginx/uwsgi_params {{ django_app_home }}
+  args:
+    creates: "{{ django_app_home }}-'/uwsgi_params'"
+
+- name: Copy over wsgi.py file
+  copy: src=files/wsgi.py dest={{ django_app_home }}/wsgi.py force=no
+  # args:
+  #         creates: /opt/eclaim_revamp/eclaim/wsgi.py
+
+- include: django.yml
+  when: app_version == "eclaim_revamp"
+
+- name: Restart nginx
+  service: name=nginx state=restarted
+
+# - name: Create nginx requisite directories
+#   file: path=/etc/nginx/{{ item }} state=directory
+#   with_items:
+#     - sites-available
+#     - sites-enabled
+
+# - name: Install nginx template
+#   template: src=templates/eclaim_nginx.conf dest=/etc/nginx/sites-available/eclaim_nginx.conf mode=0644
+
+# - name: Enabled sites-enabled / sites-available from nginx.conf
+#   lineinfile: dest=/etc/nginx/nginx.conf
+#               line='include /etc/nginx/sites-enabled/*;'
+#               insertafter=EOF
+#               state=present
+
   # - name: Setup miniconda path
   #   shell: grep -q miniconda2 ~/.bashrc || echo 'PATH=/opt/miniconda2/bin:$PATH' >> ~/.bashrc
   # lineinfile: dest=/etc/sysconfig/i18n regexp="LC_CTYPE" line='LC_CTYPE="en_US.UTF-8"'
@@ -95,37 +93,9 @@
   # - name: Upgrade conda
   # conda: name=conda state=latest executable=/opt/miniconda2/bin/conda
 
-- name: Make sure that uwsgi is installed
-  pip: name=uwsgi virtualenv=/opt/miniconda2 version=2.0.13
   #shell: /opt/miniconda2/bin/conda list | grep -q -i uwsgi || /opt/miniconda2/bin/conda install --yes -c travis uwsgi
   #args:
   #  creates: /opt/miniconda2/bin/uwsgi
-
-- name: Make sure pillow installed for eclaim_revamp
-  # conda: name=pillow state=latest executable=/opt/miniconda2/bin/conda
-  shell: /opt/miniconda2/bin/conda list | grep -q -i pillow || /opt/miniconda2/bin/conda install --yes -c conda-forge pillow
-  args:
-    creates: /opt/miniconda2/lib/python2.7/site-packages/PIL
-  when: app_version == "eclaim_revamp"
-
-- name: Make sure pillow installed for eclaim
-  # conda: name=pillow state=latest executable=/opt/miniconda2/bin/conda
-  shell: /opt/miniconda2/bin/conda list | grep -q -i pillow || /opt/miniconda2/bin/conda install --yes -c ryan pillow
-  args:
-    creates: /opt/miniconda2/lib/python2.7/site-packages/PIL
-  when: app_version == "eclaim"
-
-- name: Checkout eclaim_revamp source code
-  git: repo={{ deployment_url }} dest=/opt/eclaim_revamp force=yes version={{ eclaim_branch }} accept_hostkey=yes
-  when: app_version == "eclaim_revamp"
-
-- name: Checkout eclaim source code
-  hg: repo={{ deployment_url }} dest=/opt/eclaim force=yes version=default accept_hostkey=yes
-  when: app_version == "eclaim"
-
-- name: Install uwsgi.ini file
-  template: src=templates/common.py dest={{ django_app_home }}/config/modules/common.py mode=0644
-  when: app_version == "eclaim_revamp"
 
   # - name: Setup miniconda path
   #   shell: grep -q miniconda2 ~/.bashrc || echo 'PATH=/opt/miniconda2/bin:$PATH' >> ~/.bashrc
@@ -149,10 +119,6 @@
   # - name: Checkout eclaim source code
   # git: repo={{ deployment_url }} dest=/opt/eclaim_revamp force=yes
 
-- name: Downgrade pip to 6.1.1
-  shell: pip install pip==6.1.1
-  when: app_version == "eclaim"
-
   # - name: Retrieve list of pip requirement files
   # find: paths="/opt/eclaim_revamp/eclaim" patterns="req*.txt"
   # register: req_txt
@@ -167,36 +133,5 @@
   # pip: requirements={{ item }} virtualenv=/opt/miniconda2
   # with_items: "{{ req_txt.stdout_lines }}"
 
-- name: Setup pip requirements for eclaim_revamp
-  pip: requirements=/opt/eclaim_revamp/{{ item }}.txt virtualenv=/opt/miniconda2
-  with_items:
-     - requirements
-     - req_test
-  when: app_version == "eclaim_revamp"
-
-- name: Setup pip requirements for eclaim
-  pip: requirements=/opt/eclaim/eclaim/requirements.txt virtualenv=/opt/miniconda2
-  when: app_version == "eclaim"
-
-- name: Install wsgi.ini template
-  template: src=templates/uwsgi.ini dest={{ django_app_home }}/uwsgi.ini mode=0644
-
 # - name: Symlink to enable site
 #   file: src=/etc/nginx/sites-available/eclaim_nginx.conf dest=/etc/nginx/sites-enabled/eclaim_nginx.conf state=link
-
-- name: Copy over uwsgi_params file
-  shell: cp /etc/nginx/uwsgi_params {{ django_app_home }}
-  args:
-    creates: "{{ django_app_home }}-'/uwsgi_params'"
-
-- name: Copy over wsgi.py file
-  copy: src=files/wsgi.py dest={{ django_app_home }}/wsgi.py force=no
-  # args:
-  #         creates: /opt/eclaim_revamp/eclaim/wsgi.py
-
-- include: django.yml
-  when: app_version == "eclaim_revamp"
-
-- name: Restart nginx
-  service: name=nginx state=restarted 
-
