@@ -15,9 +15,12 @@ class TestClaimsLogin(unittest.TestCase):
         self.driver.find_element_by_id('id_password').send_keys("eclaim_implementer")
         self.driver.find_element_by_css_selector('button.btn.btn-primary').click()
         self.driver.implicitly_wait(30)
-        self.assertTrue(self.driver.find_element_by_id("user-greeting").is_displayed())
+        greeting = self.driver.find_element_by_id("user-greeting")
+        self.assertTrue(greeting.is_displayed())
+        self.assertEqual(greeting.text, u'Hello, Implementer ()')
 
     def tearDown(self):
+        self.driver.get('http://%s/eclaim/logout' % self.ip)
         self.driver.quit()
 
 if __name__ == '__main__':
