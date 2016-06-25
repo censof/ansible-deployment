@@ -24,5 +24,8 @@
     - initial_sql_script
     - tmp_hrms 
 
+- name: Run compilemessages
+  django_manage: command="compilemessages" app_path={{ django_app_home }} virtualenv=/opt/miniconda2
+
 - name: Run syncall
   django_manage: command=syncall app_path=/opt/eclaim_revamp/eclaim virtualenv=/opt/miniconda2
