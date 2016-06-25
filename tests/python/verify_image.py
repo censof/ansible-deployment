@@ -1,6 +1,7 @@
 import unittest
 import os
 from selenium import webdriver
+from time import sleep
 
 class TestClaimsLogin(unittest.TestCase):
 
@@ -18,6 +19,11 @@ class TestClaimsLogin(unittest.TestCase):
         greeting = self.driver.find_element_by_id("user-greeting")
         self.assertTrue(greeting.is_displayed())
         self.assertEqual(greeting.text, u'Hello, Implementer ()')
+        # import ipdb; ipdb.set_trace()
+        self.driver.execute_script("set_language('ms')")
+        sleep(5)
+        self.assertEqual(self.driver.find_element_by_id("logo").text,
+                         u'Tuntutan Kakitangan')
 
     def tearDown(self):
         self.driver.get('http://%s/eclaim/logout' % self.ip)
