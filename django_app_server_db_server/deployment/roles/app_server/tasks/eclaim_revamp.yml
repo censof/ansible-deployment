@@ -1,0 +1,29 @@
+---
+
+- name: Rub out old eclaim_revamp folder
+  file: path=/opt/eclaim_revamp state=absent
+
+- name: Setup miniconda path
+  lineinfile: dest=/root/.{{ item }} regexp="miniconda2" line="PATH=/opt/miniconda2/bin:$PATH"
+  with_items:
+    - bashrc
+    - bash_profile
+
+- name: Make sure pillow installed for eclaim_revamp
+  # conda: name=pillow state=latest executable=/opt/miniconda2/bin/conda
+  shell: /opt/miniconda2/bin/conda list | grep -q -i pillow || /opt/miniconda2/bin/conda install --yes -c conda-forge pillow
+  args:
+    creates: /opt/miniconda2/lib/python2.7/site-packages/PIL
+
+- name: Checkout eclaim_revamp source code
+  git: repo={{ deployment_url }} dest=/opt/eclaim_revamp force=yes version={{ eclaim_branch }} accept_hostkey=yes
+
+- name: Install uwsgi.ini file
+  template: src=templates/common.py dest={{ django_app_home }}/config/modules/common.py mode=0644
+
+- name: Setup pip requirements for eclaim_revamp
+  pip: requirements=/opt/eclaim_revamp/{{ item }}.txt virtualenv=/opt/miniconda2
+  with_items:
+     - requirements
+     - req_test
+
