@@ -4,9 +4,11 @@ import os.path
 from ._installed_apps import *
 from ._middleware import *
 from ._context_processors import *
-from ._i18n import *
 from ._email import *
 from ._eclaim import *
+
+_ = lambda s: s
+
 
 # Debugging mode.
 DEBUG = False
@@ -48,7 +50,7 @@ STATICFILES_DIRS = (
 )
 
 # Absolute path to the directory that holds media files.
-MEDIA_ROOT = '/opt/eclaim_revamp/media_files'
+MEDIA_ROOT = '{{ django_app_home }}/media_files'
 
 MEDIA_URL = '/media/'
 
@@ -69,6 +71,27 @@ REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 100
 }
+
+# Internationalization.
+# https://docs.djangoproject.com/en/1.8/topics/i18n/
+LANGUAGE_CODE = 'en'
+
+LANGUAGES = (
+    ('en', _('English')),
+    ('ms', _('Bahasa Malaysia')),
+)
+
+LOCALE_PATHS = (
+    os.path.join(BASE_DIR, 'locale'),
+)
+
+TIME_ZONE = 'UTC'
+
+USE_I18N = True
+
+USE_L10N = True
+
+USE_TZ = True
 
 # JavaScript Internationalization (i18n)
 JS_I18N_PACKAGES = (
