@@ -10,6 +10,7 @@
     - epel-release
     - gcc
     - glibc-common
+    - gettext
 
 # Install uwsgi for the service then overwrite with our own
 - name: Install App Dependencies
