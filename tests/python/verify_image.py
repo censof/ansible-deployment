@@ -22,8 +22,8 @@ class TestClaimsLogin(unittest.TestCase):
         # import ipdb; ipdb.set_trace()
         self.driver.execute_script("set_language('ms')")
         sleep(5)
-        self.assertEqual(self.driver.find_element_by_id("logo").text,
-                         u'Tuntutan Kakitangan')
+        self.assertEqual(self.driver.find_element_by_tag_name("h4").text,
+                         u'Paparana Utama')
 
     def tearDown(self):
         self.driver.get('http://%s/eclaim/logout' % self.ip)
