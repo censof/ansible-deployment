@@ -34,7 +34,7 @@ install:
   # - sudo docker exec -it test_centos /bin/bash -l -c "rvm install 2.1"
   # - sudo docker exec -it test_centos /bin/bash -l -c 'gem install net-ssh --version "=2.9.2" --quiet'
   # - sudo docker exec -it test_centos /bin/bash -l -c 'gem install json serverspec --quiet'
-- sudo docker exec -it test_centos /bin/bash -c "mkdir ~/.ssh && echo -e 'Host *\n\tStrictHostKeyChecking no\n' >> ~/.ssh/config"
+  # - sudo docker exec -it test_centos /bin/bash -c "mkdir ~/.ssh && echo -e 'Host *\n\tStrictHostKeyChecking no\n' >> ~/.ssh/config"
 - sudo docker exec -it test_centos /bin/bash -c "echo -e 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDF1XPR2tXoWMpywpenL6EyOn9tpGveZegVXZS7QUfUwsYowc+JdHDJv/k4sjaHzPNpFEm9SHI3nPLUcQ5cs+/uEh75AqMocqi/ov87o8+vDhLEcpmoWfA+W4HZ6KS1vzjxGw9XIw7ZvwCuPIXHorJZZCsFzanzl71Z+OHrvvU1fxVlp0bwEV42gAn5CtM7S33ZCuk2YuG5wQwrjcsdwE6a0ATgG84buXL11Vj1XRrZ+ybj679GOd/uhUJImrXFapHeob/arsCiQnPGCwCvVohd2anm1DdAm/SPQjUJFt81VAOKG2kBw8hfJgg9p1l3ZvFS0EP6v8wyAuU9Tje6xRrD lowks@lowkster-laptop' >> ~/.ssh/id_rsa.pub"
 - sudo docker exec -it test_centos /bin/bash -c 'cp /root/django_deployment/id_travis ~/.ssh/id_rsa'
 - sudo docker exec -it test_centos /bin/bash -c 'chmod 400 ~/.ssh/id_rsa'
