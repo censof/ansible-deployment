@@ -55,7 +55,7 @@ script:
   # - sudo docker exec -it test_centos /bin/bash -c "/etc/init.d/nginx restart"
   #- sudo docker exec -it test_centos /bin/bash -c "ifconfig"
 
-# notification:
-#  hipchat:
-#    rooms:
-#    - encrypt bzaJ3DQz5w6dUJNDEMJLpiuhKykNIFMkopSY1BD4@2853636
+notification:
+  hipchat:
+    rooms:
+    - encrypt bzaJ3DQz5w6dUJNDEMJLpiuhKykNIFMkopSY1BD4@2853636
