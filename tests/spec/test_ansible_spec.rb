@@ -2,7 +2,7 @@ require 'serverspec'
 
 set :backend, :exec
 
-packages = ["git", "unzip", "epel-release", "nginx"]
+packages = ["git", "unzip", "epel-release", "nginx", "postfix"]
 
 describe "Make sure base packages installed" do
 	packages.each do |base|
@@ -75,12 +75,22 @@ describe "miniconda path should be in .bashrc and .bash_profile" do
 	end
 end
 
-services = ["nginx", "postgresql", "uwsgi"]
+services = ["nginx", "postgresql", "uwsgi", "postfix"]
 
 describe "Main services that should be enabled" do	
 	services.each do |core_service|
 	    describe service(core_service) do
 	       it { should be_enabled }
 	    end
+	end
+end
+
+ports = ["80", "25"]
+
+describe "Ports that should be listening" do
+	ports.each do |port|
+		describe port(port) do
+  			it { should be_listening }
+		end
 	end
 end
