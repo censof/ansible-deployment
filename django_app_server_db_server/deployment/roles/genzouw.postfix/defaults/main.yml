@@ -1,0 +1,15 @@
+---
+# The variables file used for Postfix playbooks.
+# If not overriden in inventory or as a parameter, this is the value that will be used
+
+postfix_notify_email: false
+postfix_use_smtp: false
+postfix_relayhost: ''
+postfix_relayhost_user: false
+postfix_relayhost_pass: false
+postfix_myhostname: "{{ inventory_hostname }}"
+postfix_mydomain: "{{ inventory_hostname }}"
+postfix_mydestination: "$myhostname, localhost.$mydomain, localhost, $mydomain"
+postfix_mynetworks: ''
+postfix_message_size_limit: 10485760
+postfix_use_smtp_auth: true

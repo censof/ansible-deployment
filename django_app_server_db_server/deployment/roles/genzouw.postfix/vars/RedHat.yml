@@ -1,0 +1,10 @@
+---
+# Defines variables for Debian/Ubuntu
+
+postfix_config_dir: '/etc/postfix'
+postfix_service: 'postfix'
+postfix_packages:
+  - 'ca-certificates'
+  - 'dovecot'
+  - 'postfix'
+dovecot_config_dir: '/etc/dovecot'

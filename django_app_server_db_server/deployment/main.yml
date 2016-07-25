@@ -3,6 +3,7 @@
   roles:
     - { role: db_server, tags: db_server }
     - { role: app_server, tags: app_server }
+    - { role: genzouw.postfix, tags: postfix }
     - { role: common, tags: common }
 
   handlers:
