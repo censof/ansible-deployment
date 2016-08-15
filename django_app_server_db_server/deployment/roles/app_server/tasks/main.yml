@@ -1,7 +1,7 @@
 ---
 
 - name: Install OS Dependencies
-  yum: name={{ item }} state=present
+  package: name={{ item }} state=present
   with_items:
     - git
     - unzip
@@ -14,7 +14,7 @@
 
 # Install uwsgi for the service then overwrite with our own
 - name: Install App Dependencies
-  yum: name={{ item }} state=present
+  package: name={{ item }} state=present
   with_items:
     - postgresql-devel
     - nginx
