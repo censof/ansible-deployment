@@ -36,10 +36,10 @@ install:
 script:
 - echo $DEPLOYMENT_URL
 - sudo docker exec -it test_centos /bin/bash -c "export ECLAIM_BRANCH=${SHIPPABLE_ECLAIM_BRANCH:-master} && export DEPLOYMENT_URL=$DEPLOYMENT_URL && /opt/miniconda2/bin/ansible-playbook -e 'django_app_home=/opt/eclaim_revamp/eclaim app_version=eclaim_revamp' -i /root/django_deployment/django_app_server_db_server/deployment/tests/hosts -vv /root/django_deployment/django_app_server_db_server/deployment/main.yml"
-- CID=$(sudo docker run --privileged --detach --volume="${PWD}":/root/django_deployment:ro -p 80 --name test_centos censofdockers/centos6-miniconda sleep 300) 
+- CID=$(sudo docker run --privileged --detach --volume="${PWD}":/root/django_deployment:ro -p 80 --name test_centos2 censofdockers/centos6-miniconda sleep 300) 
 - DOCKER_IP=`docker inspect --format '{{ .NetworkSettings.IPAddress }}' ${CID}`
-- sudo docker exec -it test_centos /bin/bash -c "export ECLAIM_BRANCH=${SHIPPABLE_ECLAIM_BRANCH:-master} && export DEPLOYMENT_URL=$DEPLOYMENT_URL && /opt/miniconda2/bin/ansible-playbook -e 'django_app_home=/opt/eclaim_revamp/eclaim app_version=eclaim_revamp' -i /root/django_deployment/django_app_server_db_server/deployment/tests/hosts /root/django_deployment/django_app_server_db_server/deployment/main.yml --check --connection=local"
-- sudo docker exec -it test_centos /bin/bash -l -c "rspec /root/django_deployment/tests/spec/test_ansible_spec.rb"
+- sudo docker exec -it test_centos2 /bin/bash -c "export ECLAIM_BRANCH=${SHIPPABLE_ECLAIM_BRANCH:-master} && export DEPLOYMENT_URL=$DEPLOYMENT_URL && /opt/miniconda2/bin/ansible-playbook -e 'django_app_home=/opt/eclaim_revamp/eclaim app_version=eclaim_revamp' -i /root/django_deployment/django_app_server_db_server/deployment/tests/hosts /root/django_deployment/django_app_server_db_server/deployment/main.yml --check --connection=local"
+- sudo docker exec -it test_centos2 /bin/bash -l -c "rspec /root/django_deployment/tests/spec/test_ansible_spec.rb"
 - echo $DOCKER_IP
 - DOCKER_IP=${DOCKER_IP} nosetests -sv tests/python/verify_image.py
 
