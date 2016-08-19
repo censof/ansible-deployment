@@ -30,6 +30,10 @@ install:
 - sudo docker exec -it test_centos /bin/bash -c 'cp /root/django_deployment/id_travis ~/.ssh/id_rsa'
 - sudo docker exec -it test_centos /bin/bash -c 'chmod 400 ~/.ssh/id_rsa'
 - sudo docker exec -it test_centos /bin/bash -c '/opt/miniconda2/bin/conda install --yes -c kbroughton ansible'
+- sudo docker exec -it test_centos /bin/bash -c 'yum install -y freetype fontconfig'
+- sudo docker exec -it test_centos /bin/bash -c 'curl -O https://phantomjs.googlecode.com/files/phantomjs-1.9.1-linux-i686.tar.bz2'
+- sudo docker exec -it test_centos /bin/bash -c 'tar xvf phantomjs-1.9.1-linux-i686.tar.bz2'
+- sudo docker exec -it test_centos /bin/bash -c 'cp phantomjs-1.9.1-linux-i686/bin/phantomjs /usr/local/bin'
 - sudo apt-get install -y curl
 - pip install selenium nose
  
