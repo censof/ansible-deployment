@@ -17,7 +17,6 @@ before_install:
 - openssl aes-256-cbc -K $encrypted_4e087206a019_key -iv $encrypted_4e087206a019_iv -in id_travis.enc -out id_travis -d
 - openssl aes-256-cbc -K $encrypted_4e087206a019_key -iv $encrypted_4e087206a019_iv -in id_travis.enc -out id_travis -d
 - docker pull censofdockers/centos6-miniconda
-- docker run --privileged --detach --volume="${PWD}":/root/django_deployment:ro --name test_centos test_centos sleep 300
 - CID=$(docker run --privileged --detach --volume="${PWD}":/root/django_deployment:ro -p 80 --name test_centos censofdockers/centos6-miniconda sleep 300) 
 - DOCKER_IP=`docker inspect --format '{{ .NetworkSettings.IPAddress }}' ${CID}`
 
