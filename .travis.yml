@@ -33,7 +33,7 @@ install:
 - sudo docker exec -it test_centos /bin/bash -c 'yum install -y freetype fontconfig'
 - sudo docker exec -it test_centos /bin/bash -c 'curl -O https://phantomjs.googlecode.com/files/phantomjs-1.9.1-linux-x86_64.tar.bz2'
 - sudo docker exec -it test_centos /bin/bash -c 'tar xvf phantomjs-1.9.1-linux-x86_64.tar.bz2'
-- sudo docker exec -it test_centos /bin/bash -c 'cp phantomjs-1.9.1-linux-x86_84/bin/phantomjs /usr/local/bin'
+- sudo docker exec -it test_centos /bin/bash -c 'cp phantomjs-1.9.1-linux-x86_64/bin/phantomjs /usr/local/bin'
 - sudo apt-get install -y curl
 - pip install selenium nose
  
