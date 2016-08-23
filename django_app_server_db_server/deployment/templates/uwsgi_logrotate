@@ -1,0 +1,9 @@
+"/var/log/uwsgi.log" {
+    copytruncate
+    daily
+    dateext
+    rotate 5
+    compress
+    missingok
+    }
+
