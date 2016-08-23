@@ -84,3 +84,21 @@ describe "Main services that should be enabled" do
 	    end
 	end
 end
+
+describe "logrotate:default" do
+	describe file("/etc/logrotate.d/uwsgi") do
+		it { should be_a_file }
+		it do
+			should contain %q(
+			   "/var/log/uwsgi.log" {
+			       copytruncate
+			       daily
+			       dateext
+			       rotate 5
+			       compress
+			       missingok
+			    }
+			)
+		end
+	end
+end
