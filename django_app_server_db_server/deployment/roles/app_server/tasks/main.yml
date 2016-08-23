@@ -72,6 +72,9 @@
 - name: Restart nginx
   service: name=nginx state=restarted
 
+- name: Add logrotate uwsgi 
+  template: src=templates/uwsgi_logrotate dest=/etc/logrotate.d/uwsgi
+
 # - name: Create nginx requisite directories
 #   file: path=/etc/nginx/{{ item }} state=directory
 #   with_items:
