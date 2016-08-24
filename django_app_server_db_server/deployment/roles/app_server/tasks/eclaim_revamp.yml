@@ -2,6 +2,7 @@
 
 - name: Rub out old eclaim_revamp folder
   file: path=/opt/eclaim_revamp state=absent
+  when: maintain_source == "False"
 
 - name: Setup miniconda path
   lineinfile: dest=/root/.{{ item }} regexp="miniconda2" line="PATH=/opt/miniconda2/bin:$PATH"
@@ -17,6 +18,7 @@
 
 - name: Checkout eclaim_revamp source code
   git: repo={{ deployment_url }} dest=/opt/eclaim_revamp force=yes version={{ eclaim_branch }} accept_hostkey=yes
+  when: maintain_source == "False"
 
 - name: Install uwsgi.ini file
   template: src=templates/common.py dest={{ django_app_home }}/config/modules/common.py mode=0644
