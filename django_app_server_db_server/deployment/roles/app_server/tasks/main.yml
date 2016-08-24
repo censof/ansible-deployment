@@ -69,8 +69,11 @@
 - include: django.yml
   when: app_version == "eclaim_revamp"
 
-- name: Restart nginx
-  service: name=nginx state=restarted
+- name: Restart services
+  service: name={{ item }} state=restarted
+  with_items:
+    - nginx
+    - uwsgi
 
 - name: Add logrotate uwsgi 
   template: src=templates/uwsgi_logrotate dest=/etc/logrotate.d/uwsgi
