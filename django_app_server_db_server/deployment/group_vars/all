@@ -1,2 +1,3 @@
 deployment_url: "{{ lookup('env', 'DEPLOYMENT_URL') }}"
 eclaim_branch: "{{ lookup('env', 'ECLAIM_BRANCH') }}"
+maintain_source: "False"
