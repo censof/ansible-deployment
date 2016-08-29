@@ -20,8 +20,18 @@
   git: repo={{ deployment_url }} dest=/opt/eclaim_revamp force=yes version={{ eclaim_branch }} accept_hostkey=yes
   when: maintain_source == "False"
 
-- name: Install uwsgi.ini file
+- name: Install common.py file
   template: src=templates/common.py dest={{ django_app_home }}/config/modules/common.py mode=0644
+
+- name: Edit uwsgi.ini file for eclaim
+  lineinfile:
+    dest: /etc/uwsgi.ini
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+    backrefs: yes
+    state: present
+  with_items:
+    - { regexp: '^harakiri', line: '#harakiri=20' }
 
 - name: Setup pip requirements for eclaim_revamp
   pip: requirements=/opt/eclaim_revamp/{{ item }}.txt virtualenv=/opt/miniconda2
