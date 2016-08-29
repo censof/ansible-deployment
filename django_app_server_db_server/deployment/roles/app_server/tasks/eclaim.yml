@@ -14,7 +14,7 @@
     state: present
   with_items:
     - { regexp: 'wsgi-file=/opt/eclaim/eclaim/wsgi.py', line: 'wsgi-file=/opt/eclaim/eclaim/eclaim.wsgi' }
-    - { regexp: 'harakiri=20', line: '#harakiri=20' }
+    - { regexp: '^harakiri', line: '#harakiri=20' }
 
 - name: Edit uwsgi file for eclaim
   lineinfile:
