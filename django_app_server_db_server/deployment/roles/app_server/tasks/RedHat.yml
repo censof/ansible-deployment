@@ -6,6 +6,7 @@
     - epel-release
     - gcc
     - glibc-common
+    - uwsgi
 
 - name: Install environment to avoid problems with environment
   template: src=templates/environment dest=/etc/environment
