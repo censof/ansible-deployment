@@ -1,5 +1,7 @@
 ---
 
+- include: "{{ ansible_os_family }}.yml"
+  
 - name: Install OS Dependencies
   package: name={{ item }} state=present
   with_items:
@@ -7,42 +9,42 @@
     - unzip
     - tar
     - bzip2
-    - epel-release
-    - gcc
-    - glibc-common
+   #  - epel-release
+   #  - gcc
+   # - glibc-common
     - gettext
 
 # Install uwsgi for the service then overwrite with our own
 - name: Install App Dependencies
   package: name={{ item }} state=present
   with_items:
-    - postgresql-devel
+    # - postgresql-devel
     - nginx
-    - uwsgi
+    # - uwsgi
     - logrotate
     - vim
 
-- name: Install environment to avoid problems with environment
-  template: src=templates/environment dest=/etc/environment
+# - name: Install environment to avoid problems with environment
+#  template: src=templates/environment dest=/etc/environment
 
 - name: Install nginx template
   template: src=templates/eclaim.conf dest=/etc/nginx/conf.d/eclaim.conf
   notify: start nginx
 
-- name: Install uwsgi init file
-  template: src=templates/uwsgi dest=/etc/rc.d/init.d/uwsgi mode=0755
-  notify: start uwsgi
+# - name: Install uwsgi init file
+#   template: src=templates/uwsgi dest=/etc/rc.d/init.d/uwsgi mode=0755
+#   notify: start uwsgi
 
 - name: Install uwsgi.ini file
   template: src=templates/uwsgi.ini dest=/etc/uwsgi.ini mode=0644
 
 - include: install_conda.yml
 
-- name: Setup miniconda path
-  lineinfile: dest=/root/.{{ item }} regexp="miniconda2" line="PATH=/opt/miniconda2/bin:$PATH"
-  with_items:
-    - bashrc
-    - bash_profile
+# - name: Setup miniconda path
+#   lineinfile: dest=/root/.{{ item }} regexp="miniconda2" line="PATH=/opt/miniconda2/bin:$PATH"
+#   with_items:
+#     - bashrc
+#     - bash_profile
 
 - name: Make sure that uwsgi is installed
   pip: name=uwsgi virtualenv=/opt/miniconda2 version=2.0.13

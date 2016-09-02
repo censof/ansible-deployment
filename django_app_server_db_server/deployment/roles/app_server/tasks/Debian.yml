@@ -1,0 +1,21 @@
+---
+  
+- name: Install OS Dependencies (Debian)
+  package: name={{ item }} state=present
+  with_items:
+    - build-essential
+    - uwsgi
+    - uwsgi-plugin-python
+
+- name: Setup miniconda path (Debian)
+  lineinfile: dest=/root/.{{ item }} regexp="miniconda2" line="PATH=/opt/miniconda2/bin:$PATH"
+  with_items:
+    - bashrc
+    - profile
+
+- name: Install uwsgi.ini file
+  template: src=templates/uwsgi_ubuntu.ini dest=/etc/uwsgi/apps-available/eclaim.ini mode=0644
+
+- name: Symlink eclaim.ini file
+  file: src=/etc/uwsgi/apps-available/eclaim.ini dest=/etc/uwsgi/apps-enabled/eclaim.ini state=link
+  notify: restart uwsgi
