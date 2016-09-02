@@ -8,12 +8,6 @@
     - python-pycurl
     - python-psycopg2
 
-# - name: install postgresql package
-#   package: name="postgresql-server" state=present
-
-# - name: install contrib package
-#   package: name="postgresql-contrib" state=present
-
 - name: Run sysctl -p
   command: sysctl -p
   ignore_errors: yes
