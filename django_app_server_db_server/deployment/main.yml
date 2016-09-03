@@ -7,7 +7,7 @@
 
   handlers:
     - name: restart postgresql
-      service: name=postgresql state=restarted
+      service: name=postgresql state=started
 
     - name: start uwsgi
       service: name=uwsgi state=started

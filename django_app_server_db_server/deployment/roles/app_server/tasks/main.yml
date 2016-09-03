@@ -1,5 +1,7 @@
 ---
 
+- include: "{{ ansible_os_family }}.yml"
+  
 - name: Install OS Dependencies
   package: name={{ item }} state=present
   with_items:
@@ -7,42 +9,24 @@
     - unzip
     - tar
     - bzip2
-    - epel-release
-    - gcc
-    - glibc-common
     - gettext
 
 # Install uwsgi for the service then overwrite with our own
 - name: Install App Dependencies
   package: name={{ item }} state=present
   with_items:
-    - postgresql-devel
     - nginx
-    - uwsgi
     - logrotate
     - vim
-
-- name: Install environment to avoid problems with environment
-  template: src=templates/environment dest=/etc/environment
 
 - name: Install nginx template
   template: src=templates/eclaim.conf dest=/etc/nginx/conf.d/eclaim.conf
   notify: start nginx
 
-- name: Install uwsgi init file
-  template: src=templates/uwsgi dest=/etc/rc.d/init.d/uwsgi mode=0755
-  notify: start uwsgi
-
 - name: Install uwsgi.ini file
   template: src=templates/uwsgi.ini dest=/etc/uwsgi.ini mode=0644
 
 - include: install_conda.yml
-
-- name: Setup miniconda path
-  lineinfile: dest=/root/.{{ item }} regexp="miniconda2" line="PATH=/opt/miniconda2/bin:$PATH"
-  with_items:
-    - bashrc
-    - bash_profile
 
 - name: Make sure that uwsgi is installed
   pip: name=uwsgi virtualenv=/opt/miniconda2 version=2.0.13
@@ -78,68 +62,3 @@
 - name: Add logrotate uwsgi 
   template: src=templates/uwsgi_logrotate dest=/etc/logrotate.d/uwsgi
   notify: start uwsgi
-
-# - name: Create nginx requisite directories
-#   file: path=/etc/nginx/{{ item }} state=directory
-#   with_items:
-#     - sites-available
-#     - sites-enabled
-
-# - name: Install nginx template
-#   template: src=templates/eclaim_nginx.conf dest=/etc/nginx/sites-available/eclaim_nginx.conf mode=0644
-
-# - name: Enabled sites-enabled / sites-available from nginx.conf
-#   lineinfile: dest=/etc/nginx/nginx.conf
-#               line='include /etc/nginx/sites-enabled/*;'
-#               insertafter=EOF
-#               state=present
-
-  # - name: Setup miniconda path
-  #   shell: grep -q miniconda2 ~/.bashrc || echo 'PATH=/opt/miniconda2/bin:$PATH' >> ~/.bashrc
-  # lineinfile: dest=/etc/sysconfig/i18n regexp="LC_CTYPE" line='LC_CTYPE="en_US.UTF-8"'
-
-  # - name: Upgrade conda
-  # conda: name=conda state=latest executable=/opt/miniconda2/bin/conda
-
-  #shell: /opt/miniconda2/bin/conda list | grep -q -i uwsgi || /opt/miniconda2/bin/conda install --yes -c travis uwsgi
-  #args:
-  #  creates: /opt/miniconda2/bin/uwsgi
-
-  # - name: Setup miniconda path
-  #   shell: grep -q miniconda2 ~/.bashrc || echo 'PATH=/opt/miniconda2/bin:$PATH' >> ~/.bashrc
-  # lineinfile: dest=/etc/sysconfig/i18n regexp="LC_CTYPE" line='LC_CTYPE="en_US.UTF-8"'
-
-  # - name: Upgrade conda
-  # conda: name=conda state=latest executable=/opt/miniconda2/bin/conda
-
-  # - name: Make sure pillow installed
-  # conda: name=pillow state=latest executable=/opt/miniconda2/bin/conda
-  # shell: /opt/miniconda2/bin/conda list | grep -q -i pillow || /opt/miniconda2/bin/conda install --yes -c conda-forge pillow
-  # args:
-          # creates: /opt/miniconda2/bin/pillow
-
-  # - name: Git checkout sources
-  # git: repo=https://lowkster:{{ deployment_password }}@bitbucket.org/eclaim_revamp_team/eclaim_revamp.git dest=/opt/eclaim_revamp accept_hostkey=yes force=yes
-
-  # - name: Rename eclaim folder
-  # shell: mv /opt/eclaim_revamp_team* /opt/eclaim_revamp
-
-  # - name: Checkout eclaim source code
-  # git: repo={{ deployment_url }} dest=/opt/eclaim_revamp force=yes
-
-  # - name: Retrieve list of pip requirement files
-  # find: paths="/opt/eclaim_revamp/eclaim" patterns="req*.txt"
-  # register: req_txt
-  # when: app_version == "eclaim_revamp"
-
-  # - name: Retrieve list of pip requirement files
-  # find: paths="/opt/eclaim/eclaim" patterns="req*.txt"
-  # register: req_txt
-  # when: app_version == "eclaim"
-
-  # - name: Setup pip requirements
-  # pip: requirements={{ item }} virtualenv=/opt/miniconda2
-  # with_items: "{{ req_txt.stdout_lines }}"
-
-# - name: Symlink to enable site
-#   file: src=/etc/nginx/sites-available/eclaim_nginx.conf dest=/etc/nginx/sites-enabled/eclaim_nginx.conf state=link

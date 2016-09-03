@@ -1,0 +1,26 @@
+---
+
+- name: Install Database Prerequisites (Redhat)
+  package: name={{ item }} state=present
+  with_items:
+    - postgresql-server
+    - postgresql-contrib
+    - postgresql-devel
+
+- name: Initdb (Redhat)
+  command: /usr/bin/initdb -D /var/lib/pgsql/data creates=/var/lib/pgsql/data/pg_hba.conf 
+  become: yes
+  become_user: postgres
+  notify: restart postgresql
+
+- name: Ensure postgresql service is started   
+  service: name=postgresql state=started
+
+# Copy over pg_hba.conf file
+
+- name: Install pg_hba.conf
+  copy: src=files/pg_hba.conf dest=/var/lib/pgsql/data/pg_hba.conf
+
+- name: Configure postgresql.conf
+  template: src=templates/postgresql.conf dest=/var/lib/pgsql/postgresql.conf force=yes
+  notify: restart postgresql

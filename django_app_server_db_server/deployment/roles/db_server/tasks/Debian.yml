@@ -1,0 +1,16 @@
+---
+
+- name: Install Database Prerequisites (Debian)
+  apt: name={{ item }} state=present update_cache=yes
+  with_items:
+    - sudo
+    - postgresql
+    - postgresql-contrib
+    - libpq-dev
+
+- name: Ensure postgresql service is started
+  service: name=postgresql state=started
+
+- name: Install pg_hba.conf
+  copy: src=files/pg_hba.conf dest=/etc/postgresql/9.5/main/pg_hba.conf
+  notify: restart postgresql
