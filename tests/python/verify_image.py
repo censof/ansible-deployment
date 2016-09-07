@@ -18,7 +18,7 @@ class TestClaimsLogin(unittest.TestCase):
         self.driver.implicitly_wait(30)
         greeting = self.driver.find_element_by_id("user-greeting")
         self.assertTrue(greeting.is_displayed())
-        self.assertEqual(greeting.text, u'Hello, Implementer ()')
+        self.assertTrue('Hello, Implementer' in greeting.text)
         # import ipdb; ipdb.set_trace()
         self.driver.execute_script("set_language('ms')")
         sleep(5)
