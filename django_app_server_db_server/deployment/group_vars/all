@@ -1,3 +1,5 @@
 deployment_url: "{{ lookup('env', 'DEPLOYMENT_URL') }}"
 eclaim_branch: "{{ lookup('env', 'ECLAIM_BRANCH') }}"
 maintain_source: "False"
+db_server_ip: "172.17.0.3"
+postgresql_listen_addresses: "*"
