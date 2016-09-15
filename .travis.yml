@@ -41,7 +41,7 @@ script:
 - echo $DEPLOYMENT_URL
 - docker exec -it test_centos /bin/bash -c "export ECLAIM_BRANCH=${SHIPPABLE_ECLAIM_BRANCH:-staging} && export DEPLOYMENT_URL=$DEPLOYMENT_URL && /opt/miniconda2/bin/ansible-playbook -e 'django_app_home=/opt/eclaim_revamp/eclaim app_version=eclaim_revamp' -e 'db_server_ip='$DOCKER_IP -i /root/django_deployment/django_app_server_db_server/deployment/tests/hosts -vv /root/django_deployment/django_app_server_db_server/deployment/main.yml"
 - docker exec -it test_centos /bin/bash -c "/etc/rc.d/init.d/uwsgi stop && sleep 3 && /etc/rc.d/init.d/uwsgi start"
-- docker exec -it test_centos /bin/bash -c "/opt/miniconda2/bin/pip install selenium nose && DOCKER_IP=172.17.0.2 /opt/miniconda2/bin/nosetests -sv /root/django_deployment/tests/python/verify_image.py"
+- docker exec -it test_centos /bin/bash -c "/opt/miniconda2/bin/pip install selenium nose && ps aux | grep uwsgi && DOCKER_IP=172.17.0.2 /opt/miniconda2/bin/nosetests -sv /root/django_deployment/tests/python/verify_image.py"
 - echo $TRAVIS_JOB_ID
 - echo $DOCKER_IP
 # - DOCKER_IP=${DOCKER_IP} nosetests -sv tests/python/verify_image.py
