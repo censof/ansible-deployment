@@ -15,5 +15,9 @@
   copy: src=files/pg_hba.conf dest=/etc/postgresql/9.5/main/pg_hba.conf
   notify: restart postgresql
 
+- name: Configure postgresql.conf
+  template: src=templates/postgresql_debian.conf dest=/etc/postgresql/9.5/main/postgresql.conf force=yes
+  notify: restart postgresql
+
 - name: Restart postgresql
   service: name=postgresql state=restarted
