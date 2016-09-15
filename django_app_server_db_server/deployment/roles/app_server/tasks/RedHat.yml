@@ -6,6 +6,7 @@
     - epel-release
     - gcc
     - glibc-common
+    - postgresql-devel
     - uwsgi
 
 - name: Install environment to avoid problems with environment
