@@ -22,5 +22,9 @@
   copy: src=files/pg_hba.conf dest=/var/lib/pgsql/data/pg_hba.conf
 
 - name: Configure postgresql.conf
+  template: src=templates/postgresql.conf dest=/var/lib/pgsql/data/postgresql.conf force=yes
+  notify: restart postgresql
+
+- name: Configure postgresql.conf
   template: src=templates/postgresql.conf dest=/var/lib/pgsql/postgresql.conf force=yes
   notify: restart postgresql

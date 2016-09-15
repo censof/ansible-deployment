@@ -3,7 +3,11 @@
 - name: Install OS Dependencies (Debian)
   package: name={{ item }} state=present
   with_items:
+    - sudo
     - build-essential
+    - libpq-dev
+    - postgresql-client
+    - postgresql-client-common
     - uwsgi
     - uwsgi-plugin-python
 
