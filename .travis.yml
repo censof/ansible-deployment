@@ -20,7 +20,7 @@ before_install:
 - sudo apt-get remove docker-engine -yq
 - sudo apt-get install docker-engine="1.9.1-0~trusty" -yq --no-install-suggests --no-install-recommends --force-yes -o Dpkg::Options::="--force-confnew"
 - docker pull censofdockers/centos6-miniconda
-- CID=$(docker run --privileged --detach --volume="${PWD}":/root/django_deployment:ro -p 80 --name test_centos censofdockers/centos6-miniconda sleep 300) 
+- CID=$(docker run --privileged --detach --volume="${PWD}":/root/django_deployment:ro -p 80 --name test_centos censofdockers/centos6-miniconda) 
 - DOCKER_IP=`docker inspect --format '{{ .NetworkSettings.IPAddress }}' ${CID}`
 
 install:
