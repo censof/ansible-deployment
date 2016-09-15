@@ -1,0 +1,5 @@
+---
+-  hosts: app_server
+   roles:
+    - { role: app_server, tags: app_server }
+    - { role: common, tags: common }

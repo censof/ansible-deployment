@@ -23,6 +23,9 @@
 - name: Install common.py file
   template: src=templates/common.py dest={{ django_app_home }}/config/modules/common.py mode=0644
 
+- name: Install settings.py file
+  template: src=templates/settings.py dest={{ django_app_home }}/config/settings.py mode=0644
+
 - name: Edit uwsgi.ini file for eclaim
   lineinfile:
     dest: /etc/uwsgi.ini

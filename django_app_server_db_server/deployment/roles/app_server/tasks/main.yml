@@ -50,6 +50,8 @@
   # args:
   #         creates: /opt/eclaim_revamp/eclaim/wsgi.py
 
+- user: name=postgres comment="postgres user to run psql" state=present
+
 - include: django.yml
   when: app_version == "eclaim_revamp"
 

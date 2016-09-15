@@ -38,8 +38,12 @@
 #   template: src=templates/postgresql.conf dest=/var/lib/pgsql/postgresql.conf force=yes
 #   notify: restart postgresql
 
-# - name: Ensure postgresql service is started
-#   service: name=postgresql state=started
+- name: Configure postgresql.conf
+  template: src=templates/postgresql.conf dest=/var/lib/pgsql/data/postgresql.conf force=yes
+  notify: restart postgresql
+
+- name: Ensure postgresql service is started
+  service: name=postgresql state=started
 
 # Create db
 - name: Create eclaim db

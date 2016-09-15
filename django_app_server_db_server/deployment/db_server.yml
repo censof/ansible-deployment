@@ -1,0 +1,20 @@
+---
+-  hosts: app_server
+   roles:
+    - { role: app_server, tags: app_server }
+  #     - { role: common, tags: common }
+
+   handlers:
+    - name: restart postgresql
+      service: name=postgresql state=restarted
+
+    - name: start uwsgi
+      service: name=uwsgi state=started
+
+    - name: start nginx
+      service: name=nginx state=started
+
+    - name: Enable services for automatic start
+      service: name={{ item }} enabled=yes
+      with_items:
+        - postgresql 

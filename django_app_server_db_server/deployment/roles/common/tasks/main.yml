@@ -1,6 +1,1 @@
-- name: Enable services for automatic start
-  service: name={{ item }} enabled=yes
-  with_items:
-    - nginx
-    - postgresql
-    - uwsgi
+

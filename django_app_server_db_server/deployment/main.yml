@@ -1,16 +1,13 @@
 ---
-- hosts: all
+- hosts: dbserver
   roles:
-    - { role: db_server, tags: db_server }
-    - { role: app_server, tags: app_server }
-    - { role: common, tags: common }
+    - {role: db_server}
 
-  handlers:
-    - name: restart postgresql
-      service: name=postgresql state=started
-
-    - name: start uwsgi
-      service: name=uwsgi state=started
-
-    - name: start nginx
-      service: name=nginx state=started
+- hosts: appserver
+  roles:
+    - {role: app_server}
+  # - include: app_server.yml
+  # when: "'appserver' in group_names"
+  # roles:
+  #   - { role: db_server, tags: db_server }
+  #   - { role: common, tags: common }
