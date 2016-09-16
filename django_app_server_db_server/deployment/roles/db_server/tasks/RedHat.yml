@@ -13,9 +13,6 @@
   become_user: postgres
   notify: restart postgresql
 
-- name: Ensure postgresql service is started   
-  service: name=postgresql state=started
-
 # Copy over pg_hba.conf file
 
 - name: Install pg_hba.conf
@@ -28,3 +25,6 @@
 - name: Configure postgresql.conf
   template: src=templates/postgresql.conf dest=/var/lib/pgsql/postgresql.conf force=yes
   notify: restart postgresql
+
+- name: Ensure postgresql service is started   
+  service: name=postgresql state=started
