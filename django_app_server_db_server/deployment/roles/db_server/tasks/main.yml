@@ -84,4 +84,5 @@
   become_user: postgres 
   postgresql_privs: db=eclaim privs=ALL type=table roles=eclaim objs=ALL_IN_SCHEMA state=present
 
-
+- name: Add root as temporary sudoers
+  lineinfile: "dest=/etc/sudoers regexp='^root' line='root ALL=(ALL) NOPASSWD: ALL' state=absent"
