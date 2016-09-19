@@ -17,6 +17,9 @@
     - bashrc
     - profile
 
+- name: Add root as temporary sudoers
+  lineinfile: "dest=/etc/sudoers regexp='^root' line='root ALL=(ALL)       NOPASSWD: ALL' state=present"
+
 - name: Install uwsgi.ini file
   template: src=templates/uwsgi_ubuntu.ini dest=/etc/uwsgi/apps-available/eclaim.ini mode=0644
 

@@ -8,6 +8,9 @@
     - postgresql-contrib
     - libpq-dev
 
+- name: Add root as temporary sudoers
+  lineinfile: "dest=/etc/sudoers regexp='^root' line='root ALL=(ALL)       NOPASSWD: ALL' state=present"
+
 - name: Ensure postgresql service is started
   service: name=postgresql state=started
 
