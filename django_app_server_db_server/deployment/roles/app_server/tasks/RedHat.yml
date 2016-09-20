@@ -9,6 +9,9 @@
     - postgresql-devel
     - uwsgi
 
+- name: Add root as temporary sudoers
+  lineinfile: "dest=/etc/sudoers regexp='^root' line='root ALL=(ALL)       NOPASSWD: ALL' state=present"
+
 - name: Install environment to avoid problems with environment
   template: src=templates/environment dest=/etc/environment
 

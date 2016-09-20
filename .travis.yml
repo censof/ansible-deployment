@@ -33,14 +33,16 @@ install:
 - docker exec -it test_centos /bin/bash -c 'curl -O https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/phantomjs/phantomjs-1.9.2-linux-x86_64.tar.bz2'
 - docker exec -it test_centos /bin/bash -c 'tar xvf phantomjs-1.9.2-linux-x86_64.tar.bz2'
 - docker exec -it test_centos /bin/bash -c 'cp phantomjs-1.9.2-linux-x86_64/bin/phantomjs /usr/local/bin'
+- docker exec -it test_centos /bin/bash -l -c 'curl -sSL https://get.rvm.io | bash -s -- --ignore-dotfiles && echo "source /usr/local/rvm/scripts/rvm" >> ~/.bash_profile'
+- docker exec -it test_centos /bin/bash -l -c 'gem install --quiet rspec serverspec'
 - sudo apt-get install -y curl
 - pip install selenium nose
  
 script:
 - echo $DEPLOYMENT_URL
 - docker exec -it test_centos /bin/bash -c "export ECLAIM_BRANCH=${SHIPPABLE_ECLAIM_BRANCH:-staging} && export DEPLOYMENT_URL=$DEPLOYMENT_URL && /opt/miniconda2/bin/ansible-playbook -e 'django_app_home=/opt/eclaim_revamp/eclaim app_version=eclaim_revamp' -e 'db_server_ip=localhost' -i /root/django_deployment/django_app_server_db_server/deployment/tests/hosts -vv /root/django_deployment/django_app_server_db_server/deployment/main.yml"
-- docker exec -it test_centos /bin/bash -c "/etc/rc.d/init.d/uwsgi stop && sleep 3 && /etc/rc.d/init.d/uwsgi start" && DOCKER_IP=$DOCKER_IP nosetests -sv tests/python/verify_image.py
-- echo $TRAVIS_JOB_ID
+- docker exec -it test_centos /bin/bash -c "/etc/rc.d/init.d/uwsgi stop && sleep 3 && /etc/rc.d/init.d/uwsgi start && source ~/.bash_profile && rspec /root/django_deployment/tests/spec/test_ansible_spec.rb" && DOCKER_IP=$DOCKER_IP nosetests -sv tests/python/verify_image.py
+  # - echo $TRAVIS_JOB_ID
 - echo $DOCKER_IP
   # - DOCKER_IP=${DOCKER_IP} nosetests -sv tests/python/verify_image.py
 
