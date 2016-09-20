@@ -4,6 +4,8 @@ set :backend, :exec
 
 if os[:family] == 'redhat'
     packages = ["git", "unzip", "epel-release", "nginx"]
+elsif ['debian', 'ubuntu'].include?(os[:family])
+    packages = ["git", "unzip", "uwsgi", "nginx"]
 end
 
 describe "Make sure base packages installed" do
