@@ -7,6 +7,9 @@
     - postgresql-contrib
     - postgresql-devel
 
+- name: Add root as temporary sudoers
+  lineinfile: "dest=/etc/sudoers regexp='^root' line='root ALL=(ALL)       NOPASSWD: ALL' state=present"
+
 - name: Initdb (Redhat)
   command: /usr/bin/initdb -D /var/lib/pgsql/data creates=/var/lib/pgsql/data/pg_hba.conf 
   become: yes

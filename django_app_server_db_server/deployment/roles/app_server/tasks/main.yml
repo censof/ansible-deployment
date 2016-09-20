@@ -70,3 +70,9 @@
 
 - name: Restart uwsgi
   service: name=uwsgi state=restarted
+
+- name: Enable services for automatic start (App Server)
+  service: name={{ item }} enabled=yes
+  with_items:
+    - nginx
+    - uwsgi

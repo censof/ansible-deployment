@@ -14,7 +14,7 @@
     - name: start nginx
       service: name=nginx state=started
 
-    - name: Enable services for automatic start
+    - name: Enable services for automatic start (db_server)
       service: name={{ item }} enabled=yes
       with_items:
         - postgresql 
