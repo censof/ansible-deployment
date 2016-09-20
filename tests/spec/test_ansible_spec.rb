@@ -2,7 +2,11 @@ require 'serverspec'
 
 set :backend, :exec
 
-packages = ["git", "unzip", "epel-release", "nginx"]
+if os[:family] == 'redhat'
+    packages = ["git", "unzip", "epel-release", "nginx"]
+elsif ['debian', 'ubuntu'].include?(os[:family])
+    packages = ["git", "unzip", "uwsgi", "nginx"]
+end
 
 describe "Make sure base packages installed" do
 	packages.each do |base|
@@ -37,10 +41,17 @@ describe "path should exist" do
 		it { should contain("PATH=/opt/miniconda2/bin:$PATH")}
 	end
 
-	describe file("/root/.bash_profile") do
-		it { should exist }
-		it { should contain("PATH=/opt/miniconda2/bin:$PATH")}
-	end
+    if os[:family] == 'redhat'
+        describe file("/root/.bash_profile") do
+            it { should exist }
+            it { should contain("PATH=/opt/miniconda2/bin:$PATH")}
+        end
+    elsif ['debian', 'ubuntu'].include?(os[:family])
+        describe file("/root/.profile") do
+            it { should exist }
+            it { should contain("PATH=/opt/miniconda2/bin:$PATH")}
+        end
+    end
 
 	describe file("/etc/nginx/conf.d/eclaim.conf") do
 			it { should exist }
@@ -54,10 +65,17 @@ describe "path should exist" do
 	    it { should exist }
 	end
 
-	describe file("/etc/rc.d/init.d/uwsgi") do
-	    it { should exist }
-	    it { should be_executable }
-	end
+    if os[:family] == 'redhat'
+        describe file("/etc/rc.d/init.d/uwsgi") do
+            it { should exist }
+            it { should be_executable }
+        end
+    elsif ['debian', 'ubuntu'].include?(os[:family])
+        describe file("/etc/init.d/uwsgi") do
+            it { should exist }
+            it { should be_executable }
+        end
+    end
 
 	describe file("/opt/miniconda2/bin/uwsgi") do
 	    it { should exist }
@@ -65,15 +83,15 @@ describe "path should exist" do
 	end
 end
 
-bash_files = ["/root/.bashrc", "/root/.bash_profile"]
+# bash_files = ["/root/.bashrc", "/root/.bash_profile"]
 
-describe "miniconda path should be in .bashrc and .bash_profile" do
-	bash_files.each do |bash_file|
-	   describe file(bash_file) do
-	      it { should contain('PATH=/opt/miniconda2/bin:$PATH') }
-	   end
-	end
-end
+# describe "miniconda path should be in .bashrc and .bash_profile" do
+# 	bash_files.each do |bash_file|
+##  	   describe file(bash_file) do
+# 	      it { should contain('PATH=/opt/miniconda2/bin:$PATH') }
+# 	   end
+# 	end
+# end
 
 services = ["nginx", "postgresql", "uwsgi"]
 
