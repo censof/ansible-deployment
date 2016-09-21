@@ -1,4 +1,4 @@
-# sudo: required
+udo: required
 
 TRAVIS_SECURE_ENV_VARS: true
 
@@ -20,31 +20,27 @@ before_install:
 - sudo apt-get remove docker-engine -yq
 - sudo apt-get install docker-engine="1.9.1-0~trusty" -yq --no-install-suggests --no-install-recommends --force-yes -o Dpkg::Options::="--force-confnew"
 - docker pull censofdockers/centos6-miniconda
+- docker pull censofdockers/ubuntu-miniconda
 - CID=$(docker run --privileged --detach --volume="${PWD}":/root/django_deployment:ro -p 80 --name test_centos censofdockers/centos6-miniconda sleep 300) 
+- CID2=$(docker run --privileged --detach --volume="${PWD}":/root/django_deployment:ro -p 80 --name test_centos censofdockers/centos6-miniconda sleep 300)
 - DOCKER_IP=`docker inspect --format '{{ .NetworkSettings.IPAddress }}' ${CID}`
+- DOCKER_IP2=`docker inspect --format '{{ .NetworkSettings.IPAddress }}' ${CID2}`
 
 install:
-- docker exec -it test_centos /bin/bash -c "yum install -y sudo sshpass curl" 
-- docker exec -it test_centos /bin/bash -c "echo -e 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDF1XPR2tXoWMpywpenL6EyOn9tpGveZegVXZS7QUfUwsYowc+JdHDJv/k4sjaHzPNpFEm9SHI3nPLUcQ5cs+/uEh75AqMocqi/ov87o8+vDhLEcpmoWfA+W4HZ6KS1vzjxGw9XIw7ZvwCuPIXHorJZZCsFzanzl71Z+OHrvvU1fxVlp0bwEV42gAn5CtM7S33ZCuk2YuG5wQwrjcsdwE6a0ATgG84buXL11Vj1XRrZ+ybj679GOd/uhUJImrXFapHeob/arsCiQnPGCwCvVohd2anm1DdAm/SPQjUJFt81VAOKG2kBw8hfJgg9p1l3ZvFS0EP6v8wyAuU9Tje6xRrD lowks@lowkster-laptop' >> ~/.ssh/id_rsa.pub"
-- docker exec -it test_centos /bin/bash -c 'cp /root/django_deployment/id_travis ~/.ssh/id_rsa'
-- docker exec -it test_centos /bin/bash -c 'chmod 400 ~/.ssh/id_rsa'
-- docker exec -it test_centos /bin/bash -c '/opt/miniconda2/bin/conda install --yes -c kbroughton ansible'
-- docker exec -it test_centos /bin/bash -c 'yum install -y freetype fontconfig'
-- docker exec -it test_centos /bin/bash -c 'curl -O https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/phantomjs/phantomjs-1.9.2-linux-x86_64.tar.bz2'
-- docker exec -it test_centos /bin/bash -c 'tar xvf phantomjs-1.9.2-linux-x86_64.tar.bz2'
-- docker exec -it test_centos /bin/bash -c 'cp phantomjs-1.9.2-linux-x86_64/bin/phantomjs /usr/local/bin'
-- docker exec -it test_centos /bin/bash -l -c 'curl -sSL https://get.rvm.io | bash -s -- --ignore-dotfiles && echo "source /usr/local/rvm/scripts/rvm" >> ~/.bash_profile'
-- docker exec -it test_centos /bin/bash -l -c 'gem install --quiet rspec serverspec'
+- docker exec -it test_centos /bin/bash -c "source /root/django_deployment/installcentos.sh"
+- docker exec -it test_ubuntu /bin/bash -c "source /root/django_deployment/installubuntu.sh"
 - sudo apt-get install -y curl
 - pip install selenium nose
  
 script:
 - echo $DEPLOYMENT_URL
-- docker exec -it test_centos /bin/bash -c "export ECLAIM_BRANCH=${SHIPPABLE_ECLAIM_BRANCH:-staging} && export DEPLOYMENT_URL=$DEPLOYMENT_URL && /opt/miniconda2/bin/ansible-playbook -e 'django_app_home=/opt/eclaim_revamp/eclaim app_version=eclaim_revamp' -e 'db_server_ip=localhost' -i /root/django_deployment/django_app_server_db_server/deployment/tests/hosts -vv /root/django_deployment/django_app_server_db_server/deployment/main.yml"
+- docker exec -it test_centos /bin/bash -c "export ECLAIM_BRANCH=${SHIPPABLE_ECLAIM_BRANCH:-staging} && export DEPLOYMENT_URL=$DEPLOYMENT_URL && /opt/miniconda2/bin/ansible-playbook -e 'django_app_home=/opt/eclaim_revamp/eclaim app_version=eclaim_revamp' -e 'db_server_ip=localhost' -i /root/django_deployment/django_app_server_db_server/deployment/tests/hosts -v /root/django_deployment/django_app_server_db_server/deployment/main.yml"
 - docker exec -it test_centos /bin/bash -c "/etc/rc.d/init.d/uwsgi stop && sleep 3 && /etc/rc.d/init.d/uwsgi start && source ~/.bash_profile && rspec /root/django_deployment/tests/spec/test_ansible_spec.rb" && DOCKER_IP=$DOCKER_IP nosetests -sv tests/python/verify_image.py
   # - echo $TRAVIS_JOB_ID
 - echo $DOCKER_IP
   # - DOCKER_IP=${DOCKER_IP} nosetests -sv tests/python/verify_image.py
+- docker exec -it test_ubuntu /bin/bash -c "/etc/init.d/uwsgi stop && sleep 3 && /etc/init.d/uwsgi start && source ~/.bash_profile && rspec /root/django_deployment/tests/spec/test_ansible_spec.rb" && DOCKER_IP=$DOCKER_IP2 nosetests -sv tests/python/verify_image.py
+- echo $DOCKER_IP2
 
 notification:
   hipchat:
