@@ -41,7 +41,7 @@ script:
   # - echo $TRAVIS_JOB_ID
 #- echo $DOCKER_IP
   # - DOCKER_IP=${DOCKER_IP} nosetests -sv tests/python/verify_image.py
-- docker exec -it test_centos /bin/bash -c "ansible --version"
+- docker exec -it test_centos /bin/bash -c "/opt/miniconda2/bin/ansible --version"
 - docker exec -it test_centos /bin/bash -c "which ansible"
 - docker exec -it test_ubuntu /bin/bash -c "ansible --version"
 - docker exec -it test_ubuntu /bin/bash -c "which ansible"
