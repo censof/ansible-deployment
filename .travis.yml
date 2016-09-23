@@ -19,11 +19,11 @@ before_install:
 - sudo apt-get update
 - sudo apt-get remove docker-engine -yq
 - sudo apt-get install docker-engine="1.9.1-0~trusty" -yq --no-install-suggests --no-install-recommends --force-yes -o Dpkg::Options::="--force-confnew"
-#- docker pull censofdockers/centos6-miniconda
+- docker pull censofdockers/centos6-miniconda
 - docker pull censofdockers/ubuntu-miniconda
-#- CID=$(docker run --privileged --detach --volume="${PWD}":/root/django_deployment:rw -p 80 --name test_centos censofdockers/centos6-miniconda sleep 300) 
+- CID=$(docker run --privileged --detach --volume="${PWD}":/root/django_deployment:rw -p 80 --name test_centos censofdockers/centos6-miniconda sleep 300) 
 - CID2=$(docker run --privileged --detach --volume="${PWD}":/root/django_deployment:rw -p 80 --name test_ubuntu censofdockers/ubuntu-miniconda sleep 300)
-#- DOCKER_IP=`docker inspect --format '{{ .NetworkSettings.IPAddress }}' ${CID}`
+- DOCKER_IP=`docker inspect --format '{{ .NetworkSettings.IPAddress }}' ${CID}`
 - DOCKER_IP2=`docker inspect --format '{{ .NetworkSettings.IPAddress }}' ${CID2}`
 
 install:
@@ -39,7 +39,7 @@ script:
 #- docker exec -it test_centos /bin/bash -c "export ECLAIM_BRANCH=${SHIPPABLE_ECLAIM_BRANCH:-staging} && export DEPLOYMENT_URL=$DEPLOYMENT_URL && /opt/miniconda2/bin/ansible-playbook -e 'django_app_home=/opt/eclaim_revamp/eclaim app_version=eclaim_revamp' -e 'db_server_ip=localhost' -i /root/django_deployment/django_app_server_db_server/deployment/tests/hosts -v /root/django_deployment/django_app_server_db_server/deployment/main.yml"
 #- docker exec -it test_centos /bin/bash -c "/etc/rc.d/init.d/uwsgi stop && sleep 3 && /etc/rc.d/init.d/uwsgi start && source ~/.bash_profile && rspec /root/django_deployment/tests/spec/test_ansible_spec.rb" && DOCKER_IP=$DOCKER_IP nosetests -sv tests/python/verify_image.py
   # - echo $TRAVIS_JOB_ID
-#- echo $DOCKER_IP
+- echo $DOCKER_IP
  #  - DOCKER_IP=${DOCKER_IP} nosetests -sv tests/python/verify_image.py
 - docker exec -it test_ubuntu /bin/bash -c "export ECLAIM_BRANCH=${SHIPPABLE_ECLAIM_BRANCH:-staging} && export DEPLOYMENT_URL=$DEPLOYMENT_URL && /opt/miniconda2/bin/ansible-playbook -e 'django_app_home=/opt/eclaim_revamp/eclaim app_version=eclaim_revamp' -e 'db_server_ip=localhost' -i /root/django_deployment/django_app_server_db_server/deployment/tests/hosts -v /root/django_deployment/django_app_server_db_server/deployment/main.yml"
 - docker exec -it test_ubuntu /bin/bash -c "/etc/init.d/uwsgi stop && sleep 3 && /etc/init.d/uwsgi start && source ~/.bash_profile && rspec /root/django_deployment/tests/spec/test_ansible_spec.rb" && DOCKER_IP=$DOCKER_IP2 nosetests -sv tests/python/verify_image.py
