@@ -1,4 +1,4 @@
-udo: required
+#sudo: required
 
 TRAVIS_SECURE_ENV_VARS: true
 
