@@ -41,7 +41,7 @@ script:
 #- docker exec -it test_ubuntu /bin/bash -c "echo -e 'ssh-rsa JTGThFzfFUBNE/nfXumc8c370ubgzDGZkWPNCe+W5RQua6p50GQ2fvCMlEexc/hzGVyP3CjY8ADQQzy+K5BrxYUyINV8vbFDo0dW+ThIbzDQEvRqdo5nge74nKY5WJDhXu3pZDFXS3dnd4B0Heiz2O1j582Z55TjS3/njhwGvcFlvIABfloJ juliana@juliana-Latitude-E5510' >> ~/.ssh/id_rsa.pub"
 - docker exec -it test_centos /bin/bash -c "git clone $DEPLOYMENT_URL"
 - docker exec -it test_centos /bin/bash -c "ls -al ~/.ssh/*"
-- docker exec -it test_ubuntu /bin/bash -c "cat /root/.ssh/authorized_keys"
+- docker exec -it test_ubuntu /bin/bash -c "rm /root/.ssh/authorized_keys"
 - docker exec -it test_ubuntu /bin/bash -c "ls -al ~/.ssh/*"
 - docker exec -it test_ubuntu /bin/bash -c "echo $DEPLOYMENT_URL"
 - docker exec -it test_ubuntu /bin/bash -c "git clone $DEPLOYMENT_URL"
