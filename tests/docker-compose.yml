@@ -5,7 +5,7 @@ app_server:
     volumes:
         - ..:/root/django-deployment
     command:
-        - bash -c "top -b"
+        - bash top.sh
     expose:
         - 80
     # ports:
@@ -17,7 +17,7 @@ db_server:
     volumes:
         - ..:/root/django-deployment
     command:
-        - bash -c "top -b"
+        - bash top.sh
     expose:
         - 80
     # ports:
