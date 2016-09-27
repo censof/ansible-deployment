@@ -30,7 +30,7 @@ before_install:
 # - CID2=$(docker run --privileged --detach --volume="${PWD}":/root/django_deployment:rw -p 80 --name test_ubuntu censofdockers/ubuntu-miniconda sleep 550)
 # - DOCKER_IP=`docker inspect --format '{{ .NetworkSettings.IPAddress }}' ${CID}`
 # - DOCKER_IP2=`docker inspect --format '{{ .NetworkSettings.IPAddress }}' ${CID2}`
-- docker-compose -f tests/docker-compose.yml up -d
+- docker-compose -f tests/docker-compose.yml up --build -d
 - DOCKER_IP= `docker inspect --format '{{ .NetworkSettings.IPAddress }}' $(docker ps -aqf "name=test_centos")`
 - DOCKER_IP= `docker inspect --format '{{ .NetworkSettings.IPAddress }}' $(docker ps -aqf "name=test_ubuntu")`
 

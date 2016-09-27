@@ -4,8 +4,8 @@ app_server:
     privileged: true
     volumes:
         - ..:/root/django-deployment
-    command:
-        - sleep 300
+    # command:
+    #     - sleep 300
     expose:
         - 80
     # ports:
@@ -16,8 +16,8 @@ db_server:
     privileged: true
     volumes:
         - ..:/root/django-deployment
-    command:
-        - sleep 300
+    # command:
+    #     - sleep 300
     expose:
         - 80
     # ports:
