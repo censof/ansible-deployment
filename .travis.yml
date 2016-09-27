@@ -35,7 +35,7 @@ install:
 - pip install selenium nose
  
 script:
-- echo $DEPLOYMENT_URL
+
 - docker ps
 
 #- docker exec -it test_centos /bin/bash -c "git clone $DEPLOYMENT_URL"
