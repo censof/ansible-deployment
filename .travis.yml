@@ -44,7 +44,7 @@ install:
 - docker-compose -f tests/docker-compose.yml up -d 
 - cd tests && docker-compose ps && cd ..
 - docker ps
-- docker exec -it test_centos /bin/bash -c "ls -al /root/django-deployment/"
+- docker exec -it test_centos /bin/bash -c "ls -al /root/django_deployment/"
 - docker exec -it test_centos /bin/bash -c "chmod +x /root/django_deployment/installcentos.sh"
 - docker exec -it test_centos /bin/bash -c "./root/django_deployment/installcentos.sh"
 - docker exec -it test_ubuntu /bin/bash -c "chmod +x /root/django_deployment/installubuntu.sh"
