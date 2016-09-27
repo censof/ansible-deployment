@@ -51,8 +51,8 @@ install:
 - docker exec -it test_ubuntu /bin/bash -c "./root/django_deployment/installubuntu.sh"
 # - DOCKER_IP= `docker inspect --format '{{ .NetworkSettings.IPAddress }}' $(docker ps -aqf "name=test_centos")`
 # - DOCKER_IP= `docker inspect --format '{{ .NetworkSettings.IPAddress }}' $(docker ps -aqf "name=test_ubuntu")`
-- DOCKER_IP= `docker inspect --format '{{ .NetworkSettings.IPAddress }}' test_centos`
-- DOCKER_IP2= `docker inspect --format '{{ .NetworkSettings.IPAddress }}' test_ubuntu`
+- DOCKER_IP=`docker inspect --format '{{ .NetworkSettings.IPAddress }}' test_centos`
+- DOCKER_IP2=`docker inspect --format '{{ .NetworkSettings.IPAddress }}' test_ubuntu`
 - sudo apt-get install -y curl
 - pip install selenium nose
  
