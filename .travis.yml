@@ -39,6 +39,7 @@ before_script:
 - DOCKER_IP= `docker inspect --format '{{ .NetworkSettings.IPAddress }}' $(docker ps -aqf "name=test_ubuntu")`
 
 install:
+- docker-compose up -d -f tests/docker-compose.yml
 - cd tests && docker-compose ps && cd ..
 - docker ps
 - docker exec -it test_centos /bin/bash -c "chmod +x /root/django_deployment/installcentos.sh"
