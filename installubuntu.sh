@@ -12,7 +12,7 @@ echo -e 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDF1XPR2tXoWMpywpenL6EyOn9tpGveZeg
 cp /root/django_deployment/id_travis ~/.ssh/id_rsa
 
 #whatever
-# chmod 400 ~/.ssh/id_rsa
+chmod 400 ~/.ssh/id_rsa
 /opt/miniconda2/bin/conda install --yes -c kbroughton ansible
 
 #installl freetype fontconfig
