@@ -3,7 +3,7 @@ app_server:
     container_name: test_centos
     privileged: true
     volumes:
-        - ..:/root/django-deployment
+        - ..:/root/django_deployment
     command:
         - /sbin/init
     expose:
@@ -15,7 +15,7 @@ db_server:
     container_name: test_ubuntu
     privileged: true
     volumes:
-        - ..:/root/django-deployment
+        - ..:/root/django_deployment
     command:
         - /sbin/init
     expose:
