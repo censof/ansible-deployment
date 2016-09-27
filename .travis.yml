@@ -34,7 +34,8 @@ before_install:
 
 before_script:
 
-- docker-compose up -d -f tests/docker-compose.yml
+# - docker-compose up -d -f tests/docker-compose.yml
+- docker-compose -f tests/docker-compose.yml up -d 
 - DOCKER_IP= `docker inspect --format '{{ .NetworkSettings.IPAddress }}' $(docker ps -aqf "name=test_centos")`
 - DOCKER_IP= `docker inspect --format '{{ .NetworkSettings.IPAddress }}' $(docker ps -aqf "name=test_ubuntu")`
 
