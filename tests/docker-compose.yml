@@ -4,6 +4,10 @@ app_server:
     privileged: true
     volumes:
         - ..:/root/django-deployment
+    command:
+        - tail -f /dev/null
+    expose:
+        - 80
     # ports:
     #     - "80:80"
 db_server:
@@ -12,5 +16,9 @@ db_server:
     privileged: true
     volumes:
         - ..:/root/django-deployment
+    command:
+        - tail -f /dev/null
+    expose:
+        - 80
     # ports:
     #     - "80:80"
