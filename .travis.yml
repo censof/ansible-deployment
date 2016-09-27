@@ -35,7 +35,7 @@ before_install:
 - DOCKER_IP= `docker inspect --format '{{ .NetworkSettings.IPAddress }}' $(docker ps -aqf "name=test_ubuntu")`
 
 install:
-- docker-compose ps
+- cd tests && docker-compose ps && cd ..
 - docker exec -it test_centos /bin/bash -c "chmod +x /root/django_deployment/installcentos.sh"
 - docker exec -it test_centos /bin/bash -c "./root/django_deployment/installcentos.sh"
 - docker exec -it test_ubuntu /bin/bash -c "chmod +x /root/django_deployment/installubuntu.sh"
