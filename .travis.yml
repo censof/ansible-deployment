@@ -36,6 +36,7 @@ before_install:
 
 install:
 - cd tests && docker-compose ps && cd ..
+- docker ps
 - docker exec -it test_centos /bin/bash -c "chmod +x /root/django_deployment/installcentos.sh"
 - docker exec -it test_centos /bin/bash -c "./root/django_deployment/installcentos.sh"
 - docker exec -it test_ubuntu /bin/bash -c "chmod +x /root/django_deployment/installubuntu.sh"
