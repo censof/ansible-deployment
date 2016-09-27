@@ -21,7 +21,7 @@ before_install:
 - sudo apt-get install docker-engine="1.9.1-0~trusty" -yq --no-install-suggests --no-install-recommends --force-yes -o Dpkg::Options::="--force-confnew"
 # reinstall docker-compose at specific version
 - sudo rm -f /usr/local/bin/docker-compose
-- curl -L https://github.com/docker/compose/releases/download/1.8.1/docker-compose-`uname -s`-`uname -m` > docker-compose
+- curl -L https://github.com/docker/compose/releases/download/1.8.0/docker-compose-`uname -s`-`uname -m` > docker-compose
 - chmod +x docker-compose
 - sudo mv docker-compose /usr/local/bin
 

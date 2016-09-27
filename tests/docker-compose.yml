@@ -1,6 +1,6 @@
 app_server:
     image: censofdockers/centos6-miniconda
-    container_name: test_centos
+    container_name: test_centos4
     privileged: true
     volumes:
         - ..:/root/django-deployment
@@ -12,7 +12,7 @@ app_server:
     #     - "80:80"
 db_server:
     image: censofdockers/ubuntu-miniconda
-    container_name: test_ubuntu
+    container_name: test_ubuntu4
     privileged: true
     volumes:
         - ..:/root/django-deployment
