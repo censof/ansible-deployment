@@ -24,6 +24,7 @@ before_install:
 - curl -L https://github.com/docker/compose/releases/download/1.8.1/docker-compose-`uname -s`-`uname -m` > docker-compose
 - chmod +x docker-compose
 - sudo mv docker-compose /usr/local/bin
+
 # - docker pull censofdockers/centos6-miniconda
 # - docker pull censofdockers/ubuntu-miniconda
 # - CID=$(docker run --privileged --detach --volume="${PWD}":/root/django_deployment:rw -p 80 --name test_centos censofdockers/centos6-miniconda sleep 550) 
