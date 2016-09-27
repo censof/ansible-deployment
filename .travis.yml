@@ -19,12 +19,20 @@ before_install:
 - sudo apt-get update
 - sudo apt-get remove docker-engine -yq
 - sudo apt-get install docker-engine="1.9.1-0~trusty" -yq --no-install-suggests --no-install-recommends --force-yes -o Dpkg::Options::="--force-confnew"
-- docker pull censofdockers/centos6-miniconda
-- docker pull censofdockers/ubuntu-miniconda
-- CID=$(docker run --privileged --detach --volume="${PWD}":/root/django_deployment:rw -p 80 --name test_centos censofdockers/centos6-miniconda sleep 550) 
-- CID2=$(docker run --privileged --detach --volume="${PWD}":/root/django_deployment:rw -p 80 --name test_ubuntu censofdockers/ubuntu-miniconda sleep 550)
-- DOCKER_IP=`docker inspect --format '{{ .NetworkSettings.IPAddress }}' ${CID}`
-- DOCKER_IP2=`docker inspect --format '{{ .NetworkSettings.IPAddress }}' ${CID2}`
+# reinstall docker-compose at specific version
+- sudo rm -f /usr/local/bin/docker-compose
+- curl -L https://github.com/docker/compose/releases/download/1.8.1/docker-compose-`uname -s`-`uname -m` > docker-compose
+- chmod +x docker-compose
+- sudo mv docker-compose /usr/local/bin
+# - docker pull censofdockers/centos6-miniconda
+# - docker pull censofdockers/ubuntu-miniconda
+# - CID=$(docker run --privileged --detach --volume="${PWD}":/root/django_deployment:rw -p 80 --name test_centos censofdockers/centos6-miniconda sleep 550) 
+# - CID2=$(docker run --privileged --detach --volume="${PWD}":/root/django_deployment:rw -p 80 --name test_ubuntu censofdockers/ubuntu-miniconda sleep 550)
+# - DOCKER_IP=`docker inspect --format '{{ .NetworkSettings.IPAddress }}' ${CID}`
+# - DOCKER_IP2=`docker inspect --format '{{ .NetworkSettings.IPAddress }}' ${CID2}`
+- docker-compose -f tests/docker-compose.yml up -d
+- DOCKER_IP= `docker inspect --format '{{ .NetworkSettings.IPAddress }}' $(docker ps -aqf "name=test_centos")`
+- DOCKER_IP= `docker inspect --format '{{ .NetworkSettings.IPAddress }}' $(docker ps -aqf "name=test_ubuntu")`
 
 install:
 - docker exec -it test_centos /bin/bash -c "chmod +x /root/django_deployment/installcentos.sh"
@@ -62,6 +70,9 @@ script:
 #- docker exec -it test_centos /bin/bash -c "which ansible"
 #- docker exec -it test_ubuntu /bin/bash -c "ansible --version"
 #- docker exec -it test_ubuntu /bin/bash -c "which ansible"
+
+after_script:
+  - cd tests && docker-compose stop 
 
 notification:
   hipchat:
