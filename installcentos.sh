@@ -16,7 +16,7 @@ chmod 400 ~/.ssh/id_rsa
 #installl freetype fontconfig
 yum install -y freetype fontconfig
 
-curl -O curl -O https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/phantomjs/phantomjs-1.9.2-linux-x86_64.tar.bz2
+curl -O https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/phantomjs/phantomjs-1.9.2-linux-x86_64.tar.bz2
 
 tar xvf phantomjs-1.9.2-linux-x86_64.tar.bz2
 cp phantomjs-1.9.2-linux-x86_64/bin/phantomjs /usr/local/bin

@@ -43,8 +43,8 @@ before_install:
 install:
 - docker-compose -f tests/docker-compose.yml up -d 
 - cd tests && docker-compose ps && cd ..
-- docker ps
-- docker exec -it test_centos /bin/bash -c "ls -al /root/django_deployment/"
+# - docker ps
+# - docker exec -it test_centos /bin/bash -c "ls -al /root/django_deployment/"
 - docker exec -it test_centos /bin/bash -c "chmod +x /root/django_deployment/installcentos.sh"
 - docker exec -it test_centos /bin/bash -c "./root/django_deployment/installcentos.sh"
 - docker exec -it test_ubuntu /bin/bash -c "chmod +x /root/django_deployment/installubuntu.sh"
@@ -53,12 +53,12 @@ install:
 # - DOCKER_IP= `docker inspect --format '{{ .NetworkSettings.IPAddress }}' $(docker ps -aqf "name=test_ubuntu")`
 - DOCKER_IP=`docker inspect --format '{{ .NetworkSettings.IPAddress }}' test_centos`
 - DOCKER_IP2=`docker inspect --format '{{ .NetworkSettings.IPAddress }}' test_ubuntu`
-- sudo apt-get install -y curl
+# - sudo apt-get install -y curl
 - pip install selenium nose
  
 script:
 
-- docker ps
+# - docker ps
 
 #- docker exec -it test_centos /bin/bash -c "git clone $DEPLOYMENT_URL"
 #- docker exec -it test_centos /bin/bash -c "ls -al ~/.ssh/*"
@@ -66,24 +66,21 @@ script:
 #- docker exec -it test_ubuntu /bin/bash -c "ls -al ~/.ssh/*"
 #- docker exec -it test_ubuntu /bin/bash -c "echo $DEPLOYMENT_URL"
 #- docker exec -it test_ubuntu /bin/bash -c "git clone $DEPLOYMENT_URL"
+
+# Start redhat or centos test
 - docker exec -it test_centos /bin/bash -c "export ECLAIM_BRANCH=${SHIPPABLE_ECLAIM_BRANCH:-staging} && export DEPLOYMENT_URL=$DEPLOYMENT_URL && /opt/miniconda2/bin/ansible-playbook -e 'django_app_home=/opt/eclaim_revamp/eclaim app_version=eclaim_revamp' -e 'db_server_ip=localhost' -i /root/django_deployment/django_app_server_db_server/deployment/tests/hosts /root/django_deployment/django_app_server_db_server/deployment/main.yml" 
 # && docker exec -it test_ubuntu /bin/bash -c "export ECLAIM_BRANCH=${SHIPPABLE_ECLAIM_BRANCH:-staging} && export DEPLOYMENT_URL=$DEPLOYMENT_URL && /opt/miniconda2/bin/ansible-playbook -e 'django_app_home=/opt/eclaim_revamp/eclaim app_version=eclaim_revamp' -e 'db_server_ip=localhost' -i /root/django_deployment/django_app_server_db_server/deployment/tests/hosts -v /root/django_deployment/django_app_server_db_server/deployment/main.yml"
 - docker exec -it test_centos /bin/bash -c "/etc/rc.d/init.d/uwsgi stop && sleep 3 && /etc/rc.d/init.d/uwsgi start && source ~/.bash_profile && rspec /root/django_deployment/tests/spec/test_ansible_spec.rb" && DOCKER_IP=$DOCKER_IP nosetests -sv tests/python/verify_image.py
-  # - echo $TRAVIS_JOB_ID
 - echo $DOCKER_IP
 - DOCKER_IP=${DOCKER_IP} nosetests -sv tests/python/verify_image.py
+# - echo $TRAVIS_JOB_ID
+
 #start ubuntu test
 - docker exec -it test_ubuntu /bin/bash -c "export ECLAIM_BRANCH=${SHIPPABLE_ECLAIM_BRANCH:-staging} && export DEPLOYMENT_URL=$DEPLOYMENT_URL && /opt/miniconda2/bin/ansible-playbook -e 'django_app_home=/opt/eclaim_revamp/eclaim app_version=eclaim_revamp' -e 'db_server_ip=localhost' -i /root/django_deployment/django_app_server_db_server/deployment/tests/hosts /root/django_deployment/django_app_server_db_server/deployment/main.yml"
 
-#- docker exec -it test_ubuntu /bin/bash -c "/etc/init.d/uwsgi stop && sleep 3 && /etc/init.d/uwsgi start && source ~/.bash_profile && rspec /root/django_deployment/tests/spec/test_ansible_spec.rb" && DOCKER_IP=$DOCKER_IP2 nosetests -sv tests/python/verify_image.py
+- docker exec -it test_ubuntu /bin/bash -c "/etc/init.d/uwsgi stop && sleep 3 && /etc/init.d/uwsgi start && source ~/.bash_profile && rspec /root/django_deployment/tests/spec/test_ansible_spec.rb" && DOCKER_IP=$DOCKER_IP2 nosetests -sv tests/python/verify_image.py
 - echo $DOCKER_IP2
 - DOCKER_IP=${DOCKER_IP2} nosetests -sv tests/python/verify_image.py
-
-#for test purpose only
-#- docker exec -it test_centos /bin/bash -c "/opt/miniconda2/bin/ansible --version"
-#- docker exec -it test_centos /bin/bash -c "which ansible"
-#- docker exec -it test_ubuntu /bin/bash -c "ansible --version"
-#- docker exec -it test_ubuntu /bin/bash -c "which ansible"
 
 after_script:
   - cd tests && docker-compose stop 
