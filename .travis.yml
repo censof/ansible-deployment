@@ -28,6 +28,8 @@ before_install:
 
 install:
 - docker exec -it test_centos /bin/bash -c "chmod +x /root/django_deployment/tests/installcentos.sh"
+- docker exec -it test_centos /bin/bash -c "pwd"
+- docker exec -it test_centos /bin/bash -c "cd /root/django_deployment/tests && pwd"
 - docker exec -it test_centos /bin/bash -c "./root/django_deployment/tests/installcentos.sh"
 - docker exec -it test_ubuntu /bin/bash -c "chmod +x /root/django_deployment/tests/installubuntu.sh"
 - docker exec -it test_ubuntu /bin/bash -c "./root/django_deployment/tests/installubuntu.sh"
