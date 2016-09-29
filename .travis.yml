@@ -27,10 +27,12 @@ before_install:
 - DOCKER_IP2=`docker inspect --format '{{ .NetworkSettings.IPAddress }}' ${CID2}`
 
 install:
-- docker exec -it test_centos /bin/bash -c "chmod +x /root/django_deployment/installcentos.sh"
-- docker exec -it test_centos /bin/bash -c "./root/django_deployment/installcentos.sh"
-- docker exec -it test_ubuntu /bin/bash -c "chmod +x /root/django_deployment/installubuntu.sh"
-- docker exec -it test_ubuntu /bin/bash -c "./root/django_deployment/installubuntu.sh"
+- docker exec -it test_centos /bin/bash -c "chmod +x /root/django_deployment/tests/installcentos.sh"
+- docker exec -it test_centos /bin/bash -c "pwd"
+- docker exec -it test_centos /bin/bash -c "cd /root/django_deployment/tests && pwd"
+- docker exec -it test_centos /bin/bash -c "./root/django_deployment/tests/installcentos.sh"
+- docker exec -it test_ubuntu /bin/bash -c "chmod +x /root/django_deployment/tests/installubuntu.sh"
+- docker exec -it test_ubuntu /bin/bash -c "./root/django_deployment/tests/installubuntu.sh"
 - sudo apt-get install -y curl
 - pip install selenium nose
  
