@@ -10,8 +10,9 @@ class TestClaimsLogin(unittest.TestCase):
         self.ip = os.environ.get('DOCKER_IP', '172.17.0.1')
 
     def test_verify_main_screen_loaded(self):
-        self.driver.get('http://%s/eclaim/login/' % self.ip)
-
+        url = 'http://%s/eclaim/login/' % self.ip
+        print url
+        self.driver.get(url)
         self.driver.find_element_by_id('id_user_name').send_keys("implementer")
         self.driver.find_element_by_id('id_password').send_keys("eclaim_implementer")
         self.driver.find_element_by_css_selector('button.btn.btn-primary').click()
