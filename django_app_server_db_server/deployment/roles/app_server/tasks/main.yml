@@ -32,10 +32,11 @@
   pip: name=uwsgi virtualenv=/opt/miniconda2 version=2.0.13
 
 - include: eclaim_revamp.yml
-  when: app_version == "eclaim_revamp"
+  # when: app_version == "eclaim_revamp"
+  when: app_version is undefined
 
 - include: eclaim.yml
-  when: app_version == "eclaim"
+  when: app_version is defined and app_version == "eclaim"
 
 - name: Install wsgi.ini template
   template: src=templates/uwsgi.ini dest={{ django_app_home }}/uwsgi.ini mode=0644
@@ -53,7 +54,8 @@
 - user: name=postgres comment="postgres user to run psql" state=present
 
 - include: django.yml
-  when: app_version == "eclaim_revamp"
+  when: app_version is defined and app_version == "eclaim"
+  # when: app_version == "eclaim_revamp"
 
 - name: Restart nginx and uwsgi
   service: name={{ item }} state=started
