@@ -3,6 +3,19 @@
 # ansible-deployment
 Ansible Deployment Scripts for Django
 
+###### Prerequisite
+
+- Ansible 2.0.0.2
+
+- Miniconda (Good to have)
+
+- Both of this can be installed by using the installer script. `pre_install.sh`
+
+###### Supported platform
+
+- RedHat
+
+- Ubuntu
 
 Running ansible script
 
@@ -33,7 +46,6 @@ maintain_source=True/False
 
 `maintain_source` = used mainly for debugging. It short cuts the deletion of the eclaims source so that do not have to spend time 
 re-checking out source code (Takes long time)
-
 
 
 
