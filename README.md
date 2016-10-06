@@ -23,14 +23,14 @@ Running ansible script
 **maintain_source(-e "maintain_source=False")**
 ```
 
-export ECLAIM_BRANCH=${SHIPPABLE_ECLAIM_BRANCH:-staging} && export DEPLOYMENT_URL=git@bitbucket.org:eclaim_revamp_team/eclaim_revamp.git && ansible-playbook -e 'django_app_home=/opt/eclaim_revamp/eclaim app_version=eclaim_revamp' -i django_app_server_db_server/deployment/hosts django_app_server_db_server/deployment/main.yml --ask-pass -c paramiko -e 'db_server_ip=localhost'
+export ECLAIM_BRANCH=${SHIPPABLE_ECLAIM_BRANCH:-staging} && export DEPLOYMENT_URL=git@bitbucket.org:eclaim_revamp_team/eclaim_revamp.git && ansible-playbook -i django_app_server_db_server/deployment/hosts django_app_server_db_server/deployment/main.yml --ask-pass -c paramiko -e 'db_server_ip=localhost'
 ```
 
 ###### With paramaters
 **maintain_source(-e "maintain_source=True")**
 
 ```
-export ECLAIM_BRANCH=${SHIPPABLE_ECLAIM_BRANCH:-staging} && export DEPLOYMENT_URL=git@bitbucket.org:eclaim_revamp_team/eclaim_revamp.git && ansible-playbook -e 'django_app_home=/opt/eclaim_revamp/eclaim app_version=eclaim_revamp' -i django_app_server_db_server/deployment/hosts django_app_server_db_server/deployment/main.yml **-e "maintain_source=True"** --ask-pass -c paramiko -e 'db_server_ip=localhost'
+export ECLAIM_BRANCH=${SHIPPABLE_ECLAIM_BRANCH:-staging} && export DEPLOYMENT_URL=git@bitbucket.org:eclaim_revamp_team/eclaim_revamp.git && ansible-playbook -e 'django_app_home=/opt/eclaim_revamp/eclaim app_version=eclaim_revamp db_server_ip=localhost' -i django_app_server_db_server/deployment/hosts django_app_server_db_server/deployment/main.yml **-e "maintain_source=True"** --ask-pass -c paramiko
 ```
 
 ###### Parameters that can be set on the playbook
