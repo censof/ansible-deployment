@@ -19,6 +19,10 @@
     - logrotate
     - vim
 
+#install goss 
+- name: Install goss
+  shell: 'curl -fsSL https://goss.rocks/install | sh'
+
 - name: Install nginx template
   template: src=templates/eclaim.conf dest=/etc/nginx/conf.d/eclaim.conf
   notify: start nginx
@@ -76,3 +80,15 @@
   with_items:
     - nginx
     - uwsgi
+
+- name: place goss file
+  template: src=templates/gossUbuntu.json dest=/gossUbuntu.json
+
+- name: validate goss
+  command: 'goss --gossfile "/gossUbuntu.json" validate --format documentation'
+  
+#- name: cat goss.yaml
+#  command: 'cat /output.txt'
+  
+
+
