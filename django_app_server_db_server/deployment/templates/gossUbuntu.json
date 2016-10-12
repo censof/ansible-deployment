@@ -3,7 +3,6 @@
 		"/etc/environment": {
 			"exists": true,
 			"mode": "0644",
-			"size": 96,
 			"owner": "root",
 			"group": "root",
 			"filetype": "file",
@@ -12,7 +11,6 @@
 		"/etc/init.d/uwsgi": {
 			"exists": true,
 			"mode": "0755",
-			"size": 4505,
 			"owner": "root",
 			"group": "root",
 			"filetype": "file",
@@ -21,7 +19,6 @@
 		"/etc/logrotate.d/uwsgi": {
 			"exists": true,
 			"mode": "0644",
-			"size": 109,
 			"owner": "root",
 			"group": "root",
 			"filetype": "file",
@@ -30,7 +27,6 @@
 		"/etc/nginx/conf.d/eclaim.conf": {
 			"exists": true,
 			"mode": "0644",
-			"size": 1149,
 			"owner": "root",
 			"group": "root",
 			"filetype": "file",
@@ -39,7 +35,6 @@
 		"/etc/uwsgi.ini": {
 			"exists": true,
 			"mode": "0644",
-			"size": 367,
 			"owner": "root",
 			"group": "root",
 			"filetype": "file",
@@ -48,7 +43,6 @@
 		"/opt/miniconda2/bin/conda": {
 			"exists": true,
 			"mode": "0755",
-			"size": 124,
 			"owner": "root",
 			"group": "root",
 			"filetype": "file",
@@ -57,7 +51,6 @@
 		"/opt/miniconda2/bin/uwsgi": {
 			"exists": true,
 			"mode": "0755",
-			"size": 1182496,
 			"owner": "root",
 			"group": "root",
 			"filetype": "file",
@@ -66,7 +59,6 @@
 		"/root/.bashrc": {
 			"exists": true,
 			"mode": "0644",
-			"size": 3137,
 			"owner": "root",
 			"group": "root",
 			"filetype": "file"
@@ -74,7 +66,6 @@
 		"/root/.profile": {
 			"exists": true,
 			"mode": "0644",
-			"size": 180,
 			"owner": "root",
 			"group": "root",
 			"filetype": "file"
