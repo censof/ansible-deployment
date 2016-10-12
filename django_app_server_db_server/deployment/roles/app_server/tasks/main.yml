@@ -92,8 +92,8 @@
 - name: validate goss
   command: 'goss --gossfile "/goss.json" validate --format documentation'
   
-#- name: cat goss.yaml
-#  command: 'cat /output.txt'
+- name: cat goss.yaml
+  command: 'cat /goss.json'
   
 
 
