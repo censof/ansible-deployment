@@ -85,27 +85,27 @@
 	"package": {
 		"git": {
 			"installed": true,
-			"versions": [
-				"1:2.7.4-0ubuntu1"
-			]
+			// "versions": [
+			// 	"1:2.7.4-0ubuntu1"
+			// ]
 		},
 		"nginx": {
 			"installed": true,
-			"versions": [
-				"1.10.0-0ubuntu0.16.04.2"
-			]
+			// "versions": [
+			// 	"1.10.0-0ubuntu0.16.04.2"
+			// ]
 		},
 		"unzip": {
 			"installed": true,
-			"versions": [
-				"6.0-20ubuntu1"
-			]
+			// "versions": [
+			// 	"6.0-20ubuntu1"
+			// ]
 		},
 		"uwsgi": {
 			"installed": true,
-			"versions": [
-				"2.0.12-5ubuntu3"
-			]
+			// "versions": [
+			// 	"2.0.12-5ubuntu3"
+			// ]
 		}
 	},
 	"port": {
