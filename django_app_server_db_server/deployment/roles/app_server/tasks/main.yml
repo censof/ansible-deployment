@@ -82,12 +82,12 @@
     - uwsgi
 
 - name: place goss file
-  template: src=templates/gossUbuntu.json dest=/goss.json
-  when: ansible_os_family == "Debian"
+  template: src=templates/gossTemplate.json dest=/goss.json
+  # when: ansible_os_family == "Debian"
 
-- name: place goss file
-  template: src=templates/gossRedHat.json dest=/goss.json
-  when: ansible_os_family == "RedHat"
+  # - name: place goss file
+  # template: src=templates/gossRedHat.json dest=/goss.json
+  # when: ansible_os_family == "RedHat"
 
 - name: validate goss
   command: 'goss --gossfile "/goss.json" validate --format documentation'
