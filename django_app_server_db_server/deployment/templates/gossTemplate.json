@@ -116,5 +116,11 @@
 			"enabled": true,
 			"running": true
 		},
+        {% if db_server_ip == "localhost" %}
+        "postgresql": {
+			"enabled": true,
+			"running": true
+		},
+        {% endif %}
 	}
 }
