@@ -71,7 +71,15 @@
 			"group": "root",
 			"filetype": "file",
             "contains": ["/opt/miniconda2/bin"]
-		}
+		},
+        "{{ django_app_home }}": {
+			"exists": true,
+			"mode": "0755",
+			"owner": "root",
+			"group": "root",
+			"filetype": "directory",
+			"contains": []
+		},
 	},
 	"package": {
 		"git": {
