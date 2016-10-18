@@ -80,7 +80,7 @@
 			"group": "root",
 			"filetype": "file",
 			"contains": []
-		}
+		},
 		{% if ansible_os_family == "Debian" %}"/root/.profile"{% else %}"/root/.bash_profile"{% endif %}: {
 			"exists": true,
 			"mode": "0644",
