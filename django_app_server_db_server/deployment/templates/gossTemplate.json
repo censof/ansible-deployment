@@ -62,8 +62,25 @@
 			"owner": "root",
 			"group": "root",
 			"filetype": "file",
-            "contains": ["/opt/miniconda2/bin"]
+            		"contains": ["/opt/miniconda2/bin"]
 		},
+		"{{ django_app_home }}/uwsgi.ini": {
+			"exists": true,
+			"mode": "0644",
+			"owner": "root",
+			"group": "root",
+			"filetype": "file",
+			"contains": []
+		},
+		"{{ django_app_home }}/wsgi.py": {
+			"exists": true,
+			"mode": "0644",
+			"size": 388,
+			"owner": "root",
+			"group": "root",
+			"filetype": "file",
+			"contains": []
+		}
 		{% if ansible_os_family == "Debian" %}"/root/.profile"{% else %}"/root/.bash_profile"{% endif %}: {
 			"exists": true,
 			"mode": "0644",
