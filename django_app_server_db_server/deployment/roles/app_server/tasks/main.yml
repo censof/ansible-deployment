@@ -1,9 +1,9 @@
 ---
 
-- name: debug specified user's home dir through lookup on env
-  debug: var "{{ lookup('env','HOME') }}"
-  become: true
-  become_user: "{{ user }}"
+# - name: debug specified user's home dir through lookup on env
+#   debug: var "{{ lookup('env','HOME') }}"
+#   become: true
+#   become_user: "{{ user }}"
 
 - include: "{{ ansible_os_family }}.yml"
   
