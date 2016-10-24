@@ -1,10 +1,4 @@
 ---
-
-# - name: debug specified user's home dir through lookup on env
-#   debug: var "{{ lookup('env','HOME') }}"
-#   become: true
-#   become_user: "{{ user }}"
-
 - include: "{{ ansible_os_family }}.yml"
 
 - name: Install Prerequisites
@@ -27,25 +21,6 @@
     - { name: "kernel.shmall", value: "{{ (0.8 * ansible_memory_mb.real.total)|int }}" }
     - { name: "kernel.shmmin", value: 1 }
       # - { name: "kernel.shmall", value: ansible_memory_mb }
-
-# - name: Initdb 
-#   command: /usr/bin/initdb -D /var/lib/pgsql/data creates=/var/lib/pgsql/data/pg_hba.conf 
-#   become: yes
-#   become_user: postgres
-#   notify: restart postgresql
-
-# # Copy over pg_hba.conf file
-
-# - name: Install pg_hba.conf
-#   copy: src=files/pg_hba.conf dest=/var/lib/pgsql/data/pg_hba.conf
-
-# - name: Configure postgresql.conf
-#   template: src=templates/postgresql.conf dest=/var/lib/pgsql/postgresql.conf force=yes
-#   notify: restart postgresql
-
-# - name: Configure postgresql.conf
-#   template: src=templates/postgresql.conf dest=/var/lib/pgsql/data/postgresql.conf force=yes
-#   notify: restart postgresql
 
 - name: Ensure postgresql service is started
   service: name=postgresql state=started
