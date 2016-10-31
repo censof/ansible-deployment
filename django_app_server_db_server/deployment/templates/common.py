@@ -15,6 +15,11 @@ DEBUG = False
 
 TEMPLATE_DEBUG = False
 
+if DEMO_MODE:
+    SEND_NOTIF_EMAILS = False
+else:
+    SEND_NOTIF_EMAILS = True
+
 # Project root directory.
 _path = os.path.join(os.path.dirname(__file__), os.pardir)
 BASE_DIR = os.path.abspath(os.path.join(_path, os.pardir))
@@ -28,9 +33,10 @@ SECRET_KEY = 'wk9&6^ns(71^*i#8&=v#j53-cv#85csvl53zu4dp$w0x(k%zsz'
 
 ALLOWED_HOSTS = ['{{ ansible_eth0.ipv4.address }}']
 
-HOST_URL = 'http://{{ ansible_eth0.ipv4.address }}/'
-
-COMPANY_CODE = 'LHDNM'
+if DEMO_MODE:
+    HOST_URL = 'http://{{ ansible_eth0.ipv4.address }}:{}/'.format(DEMO_PORT)
+else:
+    HOST_URL = 'http://{{ ansible_eth0.ipv4.address }}/'
 
 LOGIN_URL = '/eclaim/login/'
 
@@ -48,6 +54,15 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
+
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'compressor.finders.CompressorFinder',
+)
+
+# Compress static files.
+COMPRESS_ENABLED = True
 
 # Absolute path to the directory that holds media files.
 MEDIA_ROOT = '{{ django_app_home }}/media_files'
@@ -72,6 +87,11 @@ REST_FRAMEWORK = {
     'PAGE_SIZE': 100
 }
 MINI_PAGE_SIZE = 20
+
+# Sphinx documentation.
+DOCS_ROOT = os.path.join(BASE_DIR, 'docs/_build/html')
+
+DOCS_ACCESS = 'login_required'  # public/login_required/staff/superuser
 
 # Internationalization.
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
@@ -99,6 +119,17 @@ JS_I18N_PACKAGES = (
     'eclaim.masterfiles',
     'eclaim.settings'
 )
+
+# Caching.
+CACHE_TIMEOUT = 7 * 86400  # 7 days
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
+        'LOCATION': os.path.join(BASE_DIR, 'cache'),
+        'TIMEOUT': CACHE_TIMEOUT
+    },
+}
 
 # Logging.
 LOGGING = {
