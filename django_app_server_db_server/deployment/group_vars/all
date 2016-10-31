@@ -5,3 +5,4 @@ db_server_ip: "172.17.0.3"
 postgresql_listen_addresses: "*"
 app_version: "eclaim_revamp"
 django_app_home: /opt/{{ app_version }}/eclaim
+test_mode: "False"
