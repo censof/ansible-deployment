@@ -21,8 +21,8 @@ before_install:
 - sudo apt-get install docker-engine="1.9.1-0~trusty" -yq --no-install-suggests --no-install-recommends --force-yes -o Dpkg::Options::="--force-confnew"
 - docker pull censofdockers/centos6-miniconda
 - docker pull censofdockers/ubuntu-miniconda
-- CID=$(docker run --privileged --detach --volume="${PWD}":/root/django_deployment:rw -p 80 --name test_centos censofdockers/centos6-miniconda sleep 550) 
-- CID2=$(docker run --privileged --detach --volume="${PWD}":/root/django_deployment:rw -p 80 --name test_ubuntu censofdockers/ubuntu-miniconda sleep 550)
+- CID=$(docker run --privileged -dit --volume="${PWD}":/root/django_deployment:rw -p 80 --name test_centos censofdockers/centos6-miniconda sleep 550) 
+- CID2=$(docker run --privileged -dit --volume="${PWD}":/root/django_deployment:rw -p 80 --name test_ubuntu censofdockers/ubuntu-miniconda sleep 550)
 - DOCKER_IP=`docker inspect --format '{{ .NetworkSettings.IPAddress }}' ${CID}`
 - DOCKER_IP2=`docker inspect --format '{{ .NetworkSettings.IPAddress }}' ${CID2}`
 
@@ -33,6 +33,8 @@ install:
 - docker exec -it test_centos /bin/bash -c "./root/django_deployment/tests/installcentos.sh"
 - docker exec -it test_ubuntu /bin/bash -c "chmod +x /root/django_deployment/tests/installubuntu.sh"
 - docker exec -it test_ubuntu /bin/bash -c "./root/django_deployment/tests/installubuntu.sh"
+- docker exec -it test_centos /bin/bash -c "/etc/init.d/sshd start"
+- docker exec -it test_ubuntu /bin/bash -c "/etc/init.d/sshd start"
 - sudo apt-get install -y curl
 - pip install selenium nose
  
