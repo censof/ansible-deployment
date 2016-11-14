@@ -24,7 +24,7 @@ class TestClaimsLogin(unittest.TestCase):
         self.driver.execute_script("set_language('ms')")
         sleep(5)
         self.assertEqual(self.driver.find_element_by_id("logo").text,
-                         u'Staff Claims')
+                         u'Tuntutan Staf')
 
     def tearDown(self):
         self.driver.get('http://%s/eclaim/logout' % self.ip)
