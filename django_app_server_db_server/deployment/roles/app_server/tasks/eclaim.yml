@@ -46,3 +46,8 @@
 
 - name: Setup pip requirements for eclaim
   pip: requirements=/opt/eclaim/eclaim/requirements.txt virtualenv=/opt/miniconda2
+  when: test_mode == "False"
+
+- name: Setup pip requirements for eclaim (Test Mode)
+  pip: requirements=/opt/eclaim/eclaim/travis.txt virtualenv=/opt/miniconda2
+  when: test_mode == "True"

@@ -1,9 +1,11 @@
 ---
+- name: Install epel-release first
+  package: name=epel-release state=present
 
 - name: Install OS Dependencies (Redhat)
   package: name={{ item }} state=present
   with_items:
-    - epel-release
+#    - epel-release
     - gcc
     - glibc-common
     - postgresql-devel

@@ -41,4 +41,13 @@
   with_items:
      - requirements
      - req_test
+  when: travis_mode == "False"
+
+- name: Setup pip requirements for eclaim_revamp
+  pip: requirements=/opt/eclaim_revamp/{{ item }}.txt virtualenv=/opt/miniconda2
+  with_items:
+     - travis
+     - req_test
+  when: travis_mode == "True"
+
 
