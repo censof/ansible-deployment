@@ -48,6 +48,13 @@
   args:
     creates: "{{ django_app_home }}-'/uwsgi_params'"
 
+- name: Install eclaim informix shared path settings
+  copy: src=files/eclaim_informix.conf dest=/etc/ld.so.conf.d/eclaim.conf mode=0644
+
+- name: reset ldconfig
+  shell: 'ldconfig'
+
+
 - name: Copy over wsgi.py file
   copy: src=files/wsgi.py dest={{ django_app_home }}/wsgi.py force=no
   # args:
