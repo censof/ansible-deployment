@@ -34,6 +34,12 @@
 - name: Make sure that uwsgi is installed
   pip: name=uwsgi virtualenv=/opt/miniconda2 version=2.0.13
 
+- name: Install eclaim informix shared path settings
+  copy: src=files/eclaim_informix.conf dest=/etc/ld.so.conf.d/eclaim.conf mode=0644
+
+- name: reset ldconfig
+  shell: 'ldconfig'
+
 - include: eclaim_revamp.yml
   when: app_version == "eclaim_revamp"
 
@@ -47,13 +53,6 @@
   shell: cp /etc/nginx/uwsgi_params {{ django_app_home }}
   args:
     creates: "{{ django_app_home }}-'/uwsgi_params'"
-
-- name: Install eclaim informix shared path settings
-  copy: src=files/eclaim_informix.conf dest=/etc/ld.so.conf.d/eclaim.conf mode=0644
-
-- name: reset ldconfig
-  shell: 'ldconfig'
-
 
 - name: Copy over wsgi.py file
   copy: src=files/wsgi.py dest={{ django_app_home }}/wsgi.py force=no
