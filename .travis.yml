@@ -23,7 +23,7 @@ before_install:
   # - docker pull censofdockers/centos6-miniconda:informix
   # - docker pull censofdockers/ubuntu-miniconda:informix
 - CID=$(docker run --privileged -dit --volume="${PWD}":/root/django_deployment:rw -p 80 --name test_centos censofdockers/centos6-miniconda:informix sleep 550) 
-- CID2=$(docker run --privileged -dit --volume="${PWD}":/root/django_deployment:rw -p 80 --name test_ubuntu censofdockers/ubuntu-miniconda:informix sleep 550)
+- CID2=$(docker run --privileged -dit --volume="${PWD}":/root/django_deployment:rw -p 80 --name test_ubuntu censofdockers/ubuntu-miniconda:informix2 sleep 550)
 - DOCKER_IP=`docker inspect --format '{{ .NetworkSettings.IPAddress }}' ${CID}`
 - DOCKER_IP2=`docker inspect --format '{{ .NetworkSettings.IPAddress }}' ${CID2}`
 
