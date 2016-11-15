@@ -10,6 +10,7 @@
     - glibc-common
     - postgresql-devel
     - uwsgi
+    - vixie-cron
 
 - name: Add root as temporary sudoers
   lineinfile: "dest=/etc/sudoers regexp='^root' line='root ALL=(ALL)       NOPASSWD: ALL' state=present"
@@ -29,3 +30,6 @@
 
 - name: Add root as temporary sudoers
   lineinfile: "dest=/etc/sudoers regexp='^root' line='root ALL=(ALL)       NOPASSWD: ALL' state=present"
+
+- name: Enable services for RedHat Server
+  service: name=crond enabled=yes

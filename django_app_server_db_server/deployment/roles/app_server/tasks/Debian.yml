@@ -10,6 +10,7 @@
     - postgresql-client-common
     - uwsgi
     - uwsgi-plugin-python
+    - cron
 
 - name: Setup miniconda path (Debian)
   lineinfile: dest=/root/.{{ item }} regexp="miniconda2" line="PATH=/opt/miniconda2/bin:$PATH"

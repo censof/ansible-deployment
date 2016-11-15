@@ -1,0 +1,14 @@
+---
+
+- name: Install SAGA scripts
+  template: src=templates/{{ item }} dest=/usr/local/bin/{{ item }} mode=0755
+  with_items:
+    - UpldCFBudgetSSH.sh
+    - UpldCFEmploySSH.sh
+
+- name: Install cronjobs for scripts above.
+  cron: name="Cronjob for saga - {{ item }}" minute=0 hour=7 job=/usr/local/bin/{{ item }}
+  with_items:
+    - UpldCFBudgetSSH.sh
+    - UpldCFEmploySSH.sh
+
