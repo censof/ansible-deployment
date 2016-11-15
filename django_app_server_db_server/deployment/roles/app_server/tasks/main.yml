@@ -36,6 +36,12 @@
 - name: Make sure that uwsgi is installed
   pip: name=uwsgi virtualenv=/opt/miniconda2 version=2.0.13
 
+- name: Install eclaim informix shared path settings
+  copy: src=files/eclaim_informix.conf dest=/etc/ld.so.conf.d/eclaim.conf mode=0644
+
+- name: reset ldconfig
+  shell: 'ldconfig'
+
 - include: eclaim_revamp.yml
   when: app_version == "eclaim_revamp"
 
