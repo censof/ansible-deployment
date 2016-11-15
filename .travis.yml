@@ -55,8 +55,8 @@ script:
 # - docker exec -it test_centos /bin/bash -c "/etc/rc.d/init.d/uwsgi stop && sleep 5 && /etc/rc.d/init.d/uwsgi start && source ~/.bash_profile && rspec /root/django_deployment/tests/spec/test_ansible_spec.rb" && DOCKER_IP=$DOCKER_IP nosetests -sv tests/python/verify_image.py
 - docker ps 
 - docker exec -it test_centos /bin/bash -c "/etc/rc.d/init.d/uwsgi stop && sleep 5 && /etc/rc.d/init.d/uwsgi start && source ~/.bash_profile" && DOCKER_IP=$DOCKER_IP nosetests -sv tests/python/verify_image.py
+- docker stop test_centos
   # - echo $TRAVIS_JOB_ID
-- echo $DOCKER_IP
   # - DOCKER_IP=${DOCKER_IP} nosetests -sv tests/python/verify_image.py
 #start ubuntu test
 # - docker exec -it test_ubuntu /bin/bash -c "echo $INFORMIXDIR"
