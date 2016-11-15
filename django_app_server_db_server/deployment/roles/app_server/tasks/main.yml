@@ -21,6 +21,8 @@
 #install goss 
 - name: Install goss
   shell: 'curl -fsSL https://goss.rocks/install | sh'
+  args:
+    creates: "/usr/local/bin/goss"
 
 - name: Install nginx template
   template: src=templates/eclaim.conf dest=/etc/nginx/conf.d/eclaim.conf
@@ -53,6 +55,12 @@
   shell: cp /etc/nginx/uwsgi_params {{ django_app_home }}
   args:
     creates: "{{ django_app_home }}-'/uwsgi_params'"
+
+- name: Install eclaim informix shared path settings
+  copy: src=files/eclaim_informix.conf dest=/etc/ld.so.conf.d/eclaim.conf mode=0644
+
+- name: reset ldconfig
+  shell: 'ldconfig'
 
 - name: Copy over wsgi.py file
   copy: src=files/wsgi.py dest={{ django_app_home }}/wsgi.py force=no
@@ -88,6 +96,8 @@
 
 - name: place goss file
   template: src=templates/gossTemplate.json dest=/goss.json
+
+- include: cron.yml
 
 - name: validate goss
   command: 'goss --gossfile "/goss.json" validate --format documentation'
