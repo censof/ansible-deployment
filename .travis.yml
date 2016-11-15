@@ -36,7 +36,7 @@ install:
 - docker exec -it test_centos /bin/bash -c "/etc/init.d/sshd start"
 - docker exec -it test_ubuntu /bin/bash -c "/etc/init.d/ssh start"
   # - sudo apt-get install -y curl
-- pip install -y selenium nose
+- pip install selenium nose
  
 script:
 
