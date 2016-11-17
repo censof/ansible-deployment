@@ -138,7 +138,7 @@ if %w(debian ubuntu fedora redhat).include?(os[:family])
 
   describe service(service_name) do
     it { should be_enabled }
-    # it { should be_running }
+    it { should be_running }
   end
 
   describe package(package_name) do
