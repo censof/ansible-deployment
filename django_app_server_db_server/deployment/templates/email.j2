@@ -1,0 +1,22 @@
+"""Email settings."""
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+EMAIL_USE_TLS = True
+
+EMAIL_HOST = '{{ email_host }}'
+
+EMAIL_HOST_USER = '{{ email_host_user }}'
+
+EMAIL_HOST_PASSWORD = '{{ email_host_pass }}'
+
+EMAIL_PORT = {{ email_port }}
+
+SERVER_EMAIL = '{{ server_email }}'
+
+ADMINS = (
+    ('Aldash Bibosunoff', 'aldash@censof.com'),
+    ('Mohamed Fauzi Abdul Malik', 'mohamedfauzi@censof.com'),
+    ('Mohammad Masoudimoghaddam', 'mohammad@censof.com'),
+    ('Ahmad Danial', 'ahmad.danial@censof.com'),
+    )
