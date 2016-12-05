@@ -47,9 +47,8 @@ maintain_source=True/False
 `maintain_source` = used mainly for debugging. It short cuts the deletion of the eclaims source so that do not have to spend time 
 re-checking out source code (Takes long time)
 
-############## Parameters for email notification
+###### Parameters for email notification
 
-```
 `email_host` = email host
 
 `email_host_user` = Client email host user
@@ -59,14 +58,18 @@ re-checking out source code (Takes long time)
 `server_email` = Client server mail
 
 `email_port` = Client server mail port number
-```
+
+**to override default email notification settings**
 
 ```
-to override default setting
-
-`roles:
-    - {role: app_server,email_host: smtp.google.com, email_host_user: test, email_host_pass: test, server_email: test@test.com , email_port: 5678 }
-`
+roles:
+    - {role: app_server,
+      email_host: smtp.google.com,
+      email_host_user: test, 
+      email_host_pass: test, 
+      server_email: test@test.com , 
+      email_port: 5678 }
+```
 
 
 
