@@ -6,3 +6,9 @@ postgresql_listen_addresses: "*"
 app_version: "eclaim_revamp"
 django_app_home: /opt/{{ app_version }}/eclaim
 travis_mode: "False"
+
+email_host: smtp.gmail.com
+email_host_user: eclaimCensof@gmail.com
+email_host_pass: eclaim123
+email_port: 587
+server_email: eclaimCensof@gmail.com

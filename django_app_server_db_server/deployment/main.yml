@@ -5,7 +5,7 @@
 
 - hosts: appserver
   roles:
-    - {role: app_server}
+    - {role: app_server }
   # - include: app_server.yml
   # when: "'appserver' in group_names"
   # roles:
