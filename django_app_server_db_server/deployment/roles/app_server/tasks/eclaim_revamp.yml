@@ -23,8 +23,8 @@
 - name: Install common.py file
   template: src=templates/common.py dest={{ django_app_home }}/config/modules/common.py mode=0644
 
-- name: Istall _email.py file
-  template: src=templates/_email.j2 dest={{ django_app_home }}/config/modules/_email.py mode=0644
+- name: Install _email.py file
+  template: src=templates/email.j2 dest={{ django_app_home }}/config/modules/_email.py mode=0644
 
 - name: Install settings.py file
   template: src=templates/settings.py dest={{ django_app_home }}/config/settings.py mode=0644
