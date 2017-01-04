@@ -128,7 +128,7 @@
 		"tcp:5432": {
 			"listening": true,
 			"ip": [
-                {% if db_server_ip == "localhost" %}"127.0.0.1"{% else %}"{{ ansible_eth0.ipv4.address }}"{% endif %}
+                {% if db_server_ip == "localhost" %}"127.0.0.1"{% else %}"{{ postgresql_listen_addresses }}"{% endif %}
 			]
 		}
 	},
