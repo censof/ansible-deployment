@@ -22,8 +22,10 @@
   copy: src=files/pg_hba.conf dest=/var/lib/pgsql/data/pg_hba.conf
 
 - name: Find and register postgresql.conf file
-  find: paths="/" patterns="postgresql.conf"
+  find: paths="/var" patterns="post*.conf" recurse=True
   register: postgresql_conf_path
+  tags:
+    - find
 
 - name: Configure postgresql.conf
   template: src=templates/postgresql.conf dest="{{ item.path }}" force=yes

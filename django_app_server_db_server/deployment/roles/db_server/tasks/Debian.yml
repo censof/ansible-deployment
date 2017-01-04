@@ -19,7 +19,7 @@
   notify: restart postgresql
 
 - name: Find and register postgresql.conf file
-  find: paths="/" patterns="postgresql.conf"
+  find: paths="/etc" patterns="post*.conf" recurse=True
   register: postgresql_conf_path
 
 - name: Configure postgresql.conf
