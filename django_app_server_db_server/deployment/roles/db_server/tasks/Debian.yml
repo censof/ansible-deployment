@@ -18,9 +18,14 @@
   copy: src=files/pg_hba.conf dest=/etc/postgresql/9.5/main/pg_hba.conf
   notify: restart postgresql
 
+- name: Find and register postgresql.conf file
+  find: paths="/" patterns="postgresql.conf"
+  register: postgresql_conf_path
+
 - name: Configure postgresql.conf
-  template: src=templates/postgresql_debian.conf dest=/etc/postgresql/9.5/main/postgresql.conf force=yes
+  template: src=templates/postgresql_debian.conf dest="{{ item.path }}" force=yes
   notify: restart postgresql
+  with_items: postgresql_conf_path.files
 
 - name: Restart postgresql
   service: name=postgresql state=restarted

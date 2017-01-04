@@ -128,7 +128,7 @@
 		"tcp:5432": {
 			"listening": true,
 			"ip": [
-				"0.0.0.0"
+                {% if db_server_ip == "localhost" %}"127.0.0.1"{% else %}"0.0.0.0"{% endif %}
 			]
 		}
 	},
