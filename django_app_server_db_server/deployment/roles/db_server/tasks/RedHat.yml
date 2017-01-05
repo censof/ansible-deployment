@@ -21,13 +21,13 @@
 - name: Install pg_hba.conf
   copy: src=files/pg_hba.conf dest=/var/lib/pgsql/data/pg_hba.conf
 
-- name: Configure postgresql.conf
-  template: src=templates/postgresql.conf dest=/var/lib/pgsql/data/postgresql.conf force=yes
-  notify: restart postgresql
+- name: Find and register postgresql.conf file
+  find: paths="/var" patterns="post*.conf" recurse=True
+  register: postgresql_conf_path
+  tags:
+    - finding
 
 - name: Configure postgresql.conf
-  template: src=templates/postgresql.conf dest=/var/lib/pgsql/postgresql.conf force=yes
+  template: src=templates/postgresql.conf dest="{{ item.path }}" force=yes
   notify: restart postgresql
-
-- name: Ensure postgresql service is started   
-  service: name=postgresql state=started
+  with_items: postgresql_conf_path.files

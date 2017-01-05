@@ -126,10 +126,7 @@
 			]
 		},
 		"tcp:5432": {
-			"listening": true,
-			"ip": [
-				"0.0.0.0"
-			]
+			"listening": true
 		}
 	},
 	"service": {
