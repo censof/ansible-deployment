@@ -25,7 +25,7 @@
   find: paths="/var" patterns="post*.conf" recurse=True
   register: postgresql_conf_path
   tags:
-    - find
+    - finding
 
 - name: Configure postgresql.conf
   template: src=templates/postgresql.conf dest="{{ item.path }}" force=yes
