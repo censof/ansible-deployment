@@ -13,8 +13,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'eclaim',
-        'USER': 'postgres',
-        'PASSWORD': 'postgres',
+        'USER': 'eclaim',
+        'PASSWORD': 'eclaim',
         'HOST': '{{ db_server_ip }}',
         'PORT': '',
     }
