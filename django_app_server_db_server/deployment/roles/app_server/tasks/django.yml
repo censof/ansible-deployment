@@ -18,7 +18,7 @@
   become_method: sudo
   become: yes
   become_user: postgres 
-  shell: PGPASSWORD=eclaim psql -U postgres -h {{ db_server_ip }} -w eclaim < /opt/eclaim_revamp/sql_scripts/{{ item }}.sql
+  shell: PGPASSWORD=eclaim psql -U eclaim -h {{ db_server_ip }} -w eclaim < /opt/eclaim_revamp/sql_scripts/{{ item }}.sql
   with_items:
     - initial_config
     - initial_sql_script
