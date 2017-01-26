@@ -19,3 +19,6 @@ DATABASES = {
         'PORT': '',
     }
 }
+
+# Disable logging.
+LOGGING = {}
