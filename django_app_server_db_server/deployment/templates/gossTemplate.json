@@ -96,7 +96,7 @@
 			"group": "root",
 			"filetype": "directory",
 			"contains": []
-		},
+		}
 	},
 	"package": {
 		"git": {
@@ -142,7 +142,7 @@
         "postgresql": {
 			"enabled": true,
 			"running": true
-		},
+		}
         {% endif %}
 	}
 }
