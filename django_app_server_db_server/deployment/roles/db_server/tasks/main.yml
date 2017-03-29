@@ -18,7 +18,7 @@
           #- { name: "kernel.shmmin", value: "1400000" }
     - { name: "kernel.shmmax", value: "{{ (0.5 * ansible_memory_mb.real.total * (1024 * 1024)|round)|int }}" }
       #- { name: "kernel.shmmax", value: ansible_memory_mb['real'] }
-    - { name: "kernel.shmall", value: "{{ (0.8 * ansible_memory_mb.real.total)|int }}" }
+    - { name: "kernel.shmall", value: "{{ (0.8 * ansible_memory_mb.real.total * 1024)|int }}" }
     - { name: "kernel.shmmin", value: 1 }
       # - { name: "kernel.shmall", value: ansible_memory_mb }
 
