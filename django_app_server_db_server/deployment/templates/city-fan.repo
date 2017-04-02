@@ -1,0 +1,6 @@
+[CityFan]
+name=City Fan Repo
+baseurl=http://nervion.us.es/city-fan/yum-repo/rhel$releasever/$basearch/
+enabled=1
+gpgcheck=0
+
