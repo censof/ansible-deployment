@@ -26,10 +26,16 @@
   notify: start uwsgi
 
 - name: Setup miniconda path
-  lineinfile: dest=/root/.{{ item }} regexp="miniconda2" line="PATH=/opt/miniconda2/bin:$PATH"
+  lineinfile: dest=/root/.{{ item }} regexp="miniconda2" line="PATH=/opt/miniconda2/bin:/opt/IBM/informix/bin:$PATH"
   with_items:
     - bashrc
     - bash_profile
+
+- name: source bashrc
+  shell: source {{ item }}
+  with_items:
+       - ~/.bashrc
+       - ~/.bash_profile
 
 - name: Add root as temporary sudoers
   lineinfile: "dest=/etc/sudoers regexp='^root' line='root ALL=(ALL)       NOPASSWD: ALL' state=present"
