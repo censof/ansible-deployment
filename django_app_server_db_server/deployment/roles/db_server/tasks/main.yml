@@ -27,6 +27,7 @@
 
 - name : print status postgresql
   command: service postgresql status warn=false
+
  
 # Create db
 - name: Create eclaim db
