@@ -25,6 +25,9 @@
 - name: Ensure postgresql service is started
   service: name=postgresql state=started
 
+- name : print status postgresql
+  command: service postgresql status
+
 # Create db
 - name: Create eclaim db
   # become_method: sudo
