@@ -33,7 +33,7 @@
   notify: start uwsgi
 
 - name: Setup miniconda path
-  lineinfile: dest=/root/.{{ item }} regexp="miniconda2" line="PATH=/opt/miniconda2/bin:/opt/IBM/informix/bin:$PATH"
+  lineinfile: dest=/root/.{{ item }} regexp="miniconda2" line="PATH=/opt/miniconda2/bin:$PATH"
   with_items:
     - bashrc
     - bash_profile
