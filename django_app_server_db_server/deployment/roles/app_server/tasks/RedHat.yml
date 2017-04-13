@@ -16,7 +16,8 @@
   template: src=templates/city-fan.repo dest=/etc/yum.repos.d/city-fan.repo
 
 - name: run yum clean and install libcurl /upgrade curl
-  shell: yum upgrade libcurl -y
+  yum : name=libcurl state=latest
+#  shell: yum upgrade libcurl -y
 
 - name: Start up cron
   service: name=crond state=started
