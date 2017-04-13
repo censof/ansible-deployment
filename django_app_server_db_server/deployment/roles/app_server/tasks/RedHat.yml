@@ -12,6 +12,13 @@
     - uwsgi
     - vixie-cron
 
+- name: Upgrade curl by adding city-fan.repo
+  template: src=templates/city-fan.repo dest=/etc/yum.repos.d/city-fan.repo
+
+- name: run yum clean and install libcurl /upgrade curl
+  yum : name=libcurl state=latest
+#  shell: yum upgrade libcurl -y
+
 - name: Start up cron
   service: name=crond state=started
 
@@ -30,6 +37,12 @@
   with_items:
     - bashrc
     - bash_profile
+
+- name: source bashrc
+  shell: source {{ item }}
+  with_items:
+       - ~/.bashrc
+       - ~/.bash_profile
 
 - name: Add root as temporary sudoers
   lineinfile: "dest=/etc/sudoers regexp='^root' line='root ALL=(ALL)       NOPASSWD: ALL' state=present"

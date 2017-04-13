@@ -39,6 +39,12 @@
   with_items:
     - { regexp: '^harakiri', line: '#harakiri=20' }
 
+- name: copy informix.sh
+  copy: src=templates/informix.sh dest=~/informix.sh mode=0777
+
+- name: running informix.sh
+  command: sh ~/informix.sh
+
 - name: Setup pip requirements for eclaim_revamp
   pip: requirements=/opt/eclaim_revamp/{{ item }}.txt virtualenv=/opt/miniconda2
   with_items:

@@ -10,9 +10,6 @@
     - bzip2
     - gettext
 
-- name: Upgrade curl by adding city-fan.repo
-  template: src=templates/city-fan.repo dest=/etc/yum.repos.d/city-fan.repo
-
 # Install uwsgi for the service then overwrite with our own
 - name: Install App Dependencies
   package: name={{ item }} state=present
