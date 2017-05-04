@@ -102,6 +102,8 @@
 
 - name: validate goss
   command: 'goss --gossfile "/goss.json" validate --format documentation'
+
+- include: karma_jasmine.yml
   
 
 

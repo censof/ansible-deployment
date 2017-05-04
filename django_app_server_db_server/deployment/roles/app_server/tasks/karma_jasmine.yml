@@ -1,0 +1,62 @@
+---
+
+ - name: Node.js 
+   shell: curl --silent --location https://rpm.nodesource.com/setup_6.x | bash -
+#   shell: curl --silent --location https://rpm.nodesource.com/setup | bash -
+
+ - name: Install prequisite
+   package: name={{ item }} state=latest
+   with_items:
+      - nodejs
+      - gcc-c++
+      - make
+ 
+ - name: get PhantomJs installed
+   command: wget https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-2.1.1-linux-x86_64.tar.bz2
+
+# - name: create /opt/phantomjs
+#   command: mkdir -p /opt/phantomjs/
+
+# - name: extract PhantomJs
+#   command: tar -xjvf phantomjs-2.1.1-linux-x86_64.tar.bz2 --strip-components 1 -C /opt/phantomjs
+
+# - name: create symlink
+#   command: ln -s /opt/phantomjs/bin/phantomjs /usr/bin/phantomjs
+
+# - name: remove Phantomjs tar file
+#   command: rm phantomjs-2.1.1-linux-x86_64.tar.bz2
+
+ - name: Update packages based on package.json to their latest version.
+   npm:
+    path: "{{ django_app_home }}/angular_test/"
+    state: latest
+
+ - name: Install karma-cli and karma-phantomjs-launcher
+   shell: "{{ item }}"
+   args:
+     chdir: "{{ django_app_home }}/angular_test/"
+   with_items:
+     - npm install karma-cli -g
+     - npm install karma-phantomjs-launcher --save-dev
+#   args:
+#    creates: "{{ django_app_home }}/angular_test/node_modules"
+
+# - name: npm install
+#   command: npm install chdir="{{ django_app_home }}/angular_test/"
+#   args:
+#     creates: "{{ django_app_home }}/angular_test/node_modules"
+
+ - name: chmod +x karma.run.sh
+   shell: "{{ item }}"
+   args:
+    chdir: "{{ django_app_home }}/angular_test/"
+   with_items:
+      - chmod +x karma.run.sh
+      - ./karma.run.sh
+
+
+
+
+# - name: run karma.run.sh
+#   command: ./karma.run.sh
+
